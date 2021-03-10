@@ -5,12 +5,12 @@ using API.Models;
 
 namespace API.Services.AuthService
 {
-  public interface IAuthService
-  {
-    string GenerateSecurityToken(GetUserDTO user);
-    Task<ResponseServiceModel<UserLoginDTO>> Login(string username, string password);
-    Task<ResponseServiceModel<UserRegisterDTO>> Register();
-    bool UserExists(string username);
-    bool ComparePassowrd(string hashedPassword, string curPassword);
-  }
+    public interface IAuthService
+    {
+        string GenerateSecurityToken(GetUserDTO user);
+        Task<ResponseServiceModel<GetUserDTO>> Login(string username, string password);
+        Task<ResponseServiceModel<UserRegisterDTO>> Register();
+        bool UserExists(string username);
+        bool ComparePassowrd(string hashedPassword, string curPassword);
+    }
 }

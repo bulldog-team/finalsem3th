@@ -15,87 +15,89 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services.AuthService
 {
-  public class AuthService : IAuthService
-  {
-    private readonly string _expDate;
-    private readonly string _secret;
-    private readonly DataContext _context;
-    public IMapper _mapper;
-
-    public AuthService(IConfiguration config, DataContext context, IMapper mapper)
+    public class AuthService : IAuthService
     {
-      _mapper = mapper;
-      _secret = config.GetSection("JwtConfig").GetSection("secret").Value;
-      _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
-      _context = context;
-    }
+        private readonly string _expDate;
+        private readonly string _secret;
+        private readonly DataContext _context;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-    public bool ComparePassowrd(string hashedPassword, string curPassword)
-    {
-      var passwordVerificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, hashedPassword, curPassword);
-      switch (passwordVerificationResult)
-      {
-        case PasswordVerificationResult.Failed:
-          return false;
-
-        case PasswordVerificationResult.Success:
-          return true;
-
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
-    }
-
-    public string GenerateSecurityToken(GetUserDTO user)
-    {
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(_secret);
-      var tokenDescriptor = new SecurityTokenDescriptor
-      {
-        Subject = new ClaimsIdentity(new[]
+        public AuthService(IConfiguration config, DataContext context, IMapper mapper)
         {
-          new Claim(ClaimTypes.NameIdentifier, user.Username),
-          new Claim(ClaimTypes.Email, user.Email),
-          new Claim(ClaimTypes.Role, user.RoleName)
-        }),
-        Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-      };
+            _context = context;
+            _mapper = mapper;
+            _config = config;
+            _secret = config.GetSection("JwtConfig").GetSection("secret").Value;
+            _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
+        }
 
-      var token = tokenHandler.CreateToken(tokenDescriptor);
+        public bool ComparePassowrd(string hashedPassword, string curPassword)
+        {
+            var passwordVerificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, hashedPassword, curPassword);
+            switch (passwordVerificationResult)
+            {
+                case PasswordVerificationResult.Failed:
+                    return false;
 
-      return tokenHandler.WriteToken(token);
+                case PasswordVerificationResult.Success:
+                    return true;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public string GenerateSecurityToken(GetUserDTO user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+            {
+      new Claim(ClaimTypes.NameIdentifier, user.Username),
+      new Claim(ClaimTypes.Email, user.Email),
+      new Claim(ClaimTypes.Role, user.RoleName)
+    }),
+                Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<ResponseServiceModel<GetUserDTO>> Login(string username, string password)
+        {
+            var response = new ResponseServiceModel<GetUserDTO>();
+            var user = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(x => x.Username.Equals(username));
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "Invalid user credentials!";
+            }
+            else if (!ComparePassowrd(user.Password, password))
+            {
+                response.Success = false;
+                response.Message = "Invalid user credentials!";
+            }
+            else
+            {
+                response.Data = _mapper.Map<GetUserDTO>(user);
+            }
+            return response;
+        }
+
+        public Task<ResponseServiceModel<UserRegisterDTO>> Register()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UserExists(string username)
+        {
+            throw new NotImplementedException();
+        }
     }
-
-    public async Task<ResponseServiceModel<UserLoginDTO>> Login(string username, string password)
-    {
-      var response = new ResponseServiceModel<GetUserDTO>();
-      var user = await _context.UserModels.FirstOrDefaultAsync(x => x.Username == username);
-      if (user == null)
-      {
-        response.Success = false;
-        response.Message = "Invalid user credentials!";
-      }
-      else if (!ComparePassowrd(user.Password, password))
-      {
-        response.Success = false;
-        response.Message = "Invalid user credentials!";
-      }
-      else
-      {
-        response.Data = _mapper.Map<GetUserDTO>(user);
-      }
-      throw new NotImplementedException();
-    }
-
-    public Task<ResponseServiceModel<UserRegisterDTO>> Register()
-    {
-      throw new NotImplementedException();
-    }
-
-    public bool UserExists(string username)
-    {
-      throw new NotImplementedException();
-    }
-  }
 }
