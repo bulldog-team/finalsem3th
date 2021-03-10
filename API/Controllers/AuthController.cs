@@ -18,7 +18,18 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
-            var response = await _authRepo.Login(request.Username, request.Password);
+            var response = await _authRepo.Login(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            else return Ok(response);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserRegisterDTO request)
+        {
+            var response = await _authRepo.Register(request);
             if (!response.Success)
             {
                 return BadRequest(response);

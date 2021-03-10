@@ -23,7 +23,7 @@ namespace BackEnd.Data
             new RoleDetailModel
             {
                 RoleId = Guid.Parse("b90d1426-8014-11eb-9439-0242ac130002"),
-                RoleName = "Admin"
+                RoleName = "User"
             }
             );
 

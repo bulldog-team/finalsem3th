@@ -69,16 +69,16 @@ namespace API.Services.AuthService
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<ResponseServiceModel<GetUserDTO>> Login(string username, string password)
+        public async Task<ResponseServiceModel<GetUserDTO>> Login(UserLoginDTO request)
         {
             var response = new ResponseServiceModel<GetUserDTO>();
-            var user = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(x => x.Username.Equals(username));
+            var user = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
             if (user == null)
             {
                 response.Success = false;
                 response.Message = "Invalid user credentials!";
             }
-            else if (!ComparePassowrd(user.Password, password))
+            else if (!ComparePassowrd(user.Password, request.Password))
             {
                 response.Success = false;
                 response.Message = "Invalid user credentials!";
@@ -86,15 +86,34 @@ namespace API.Services.AuthService
             else
             {
                 var userDTO = _mapper.Map<GetUserDTO>(user);
+                userDTO.Token = GenerateSecurityToken(userDTO);
                 response.Data = userDTO;
-                response.Data.Token = GenerateSecurityToken(userDTO);
             }
             return response;
         }
 
-        public Task<ResponseServiceModel<UserRegisterDTO>> Register()
+        public async Task<ResponseServiceModel<GetUserDTO>> Register(UserRegisterDTO request)
         {
-            throw new NotImplementedException();
+            var userExists = await UserExists(request.Username);
+            var response = new ResponseServiceModel<GetUserDTO>();
+            if (!userExists)
+            {
+                var mappedToUserModel = _mapper.Map<UserModel>(request);
+                mappedToUserModel.Password = new PasswordHasher<object>().HashPassword(null, request.Password);
+
+                _context.UserModels.Add(mappedToUserModel);
+                await _context.SaveChangesAsync();
+
+                var savedUser = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(c => c.Username == request.Username);
+                var mapSaveUserToGetUserDTO = _mapper.Map<GetUserDTO>(savedUser);
+                mapSaveUserToGetUserDTO.Token = GenerateSecurityToken(mapSaveUserToGetUserDTO);
+
+                response.Data = mapSaveUserToGetUserDTO;
+                return response;
+            }
+            response.Success = false;
+            response.Message = "User already exists!";
+            return response;
         }
 
         public async Task<bool> UserExists(string username)

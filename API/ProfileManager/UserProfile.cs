@@ -1,4 +1,5 @@
 using API.DTO;
+using API.DTO.User;
 using API.Models;
 using AutoMapper;
 
@@ -9,6 +10,7 @@ namespace API.ProfileManager
         public UserProfile()
         {
             CreateMap<UserModel, GetUserDTO>().ForMember(itemInGetUserDTO => itemInGetUserDTO.RoleName, itemInUserModel => itemInUserModel.MapFrom(item => item.Role.RoleName));
+            CreateMap<UserRegisterDTO, UserModel>();
         }
     }
 }

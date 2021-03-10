@@ -16,6 +16,6 @@ namespace API.Models
 
         [ForeignKey("RoleId")]
         public RoleDetailModel Role { get; set; }
-        public Guid RoleId { get; set; }
+        public Guid RoleId { get; set; } = Guid.Parse("b90d1426-8014-11eb-9439-0242ac130002");
     }
 }
