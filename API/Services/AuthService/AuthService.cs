@@ -97,9 +97,9 @@ namespace API.Services.AuthService
             throw new NotImplementedException();
         }
 
-        public bool UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            throw new NotImplementedException();
+            return await _context.UserModels.AnyAsync(c => c.Username == username);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace API.Services.AuthService
         string GenerateSecurityToken(GetUserDTO user);
         Task<ResponseServiceModel<GetUserDTO>> Login(string username, string password);
         Task<ResponseServiceModel<UserRegisterDTO>> Register();
-        bool UserExists(string username);
+        Task<bool> UserExists(string username);
         bool ComparePassowrd(string hashedPassword, string curPassword);
     }
 }
