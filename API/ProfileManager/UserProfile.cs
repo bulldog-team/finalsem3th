@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace API.ProfileManager
 {
-  public class UserProfile : Profile
-  {
-    public UserProfile()
+    public class UserProfile : Profile
     {
-      CreateMap<UserModel, GetUserDTO>();
+        public UserProfile()
+        {
+            CreateMap<UserModel, GetUserDTO>().ForMember(itemInGetUserDTO => itemInGetUserDTO.RoleName, itemInUserModel => itemInUserModel.MapFrom(item => item.Role.RoleName));
+        }
     }
-  }
 }

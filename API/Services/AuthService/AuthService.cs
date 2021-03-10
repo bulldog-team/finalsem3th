@@ -85,7 +85,9 @@ namespace API.Services.AuthService
             }
             else
             {
-                response.Data = _mapper.Map<GetUserDTO>(user);
+                var userDTO = _mapper.Map<GetUserDTO>(user);
+                response.Data = userDTO;
+                response.Data.Token = GenerateSecurityToken(userDTO);
             }
             return response;
         }

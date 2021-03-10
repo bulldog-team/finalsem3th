@@ -8,5 +8,6 @@ namespace API.DTO
         public Guid UserId { get; set; }
         public string RoleName { get; set; }
         public string Email { get; set; }
+        public string Token { get; set; } = null;
     }
 }
