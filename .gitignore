@@ -351,3 +351,4 @@ MigrationBackup/
 .ionide/
 API/Migrations/*.*
 API/appsettings.json
+appsettings.json
