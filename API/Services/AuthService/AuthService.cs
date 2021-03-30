@@ -72,7 +72,7 @@ namespace API.Services.AuthService
         public async Task<ResponseServiceModel<GetUserDTO>> Login(UserLoginDTO request)
         {
             var response = new ResponseServiceModel<GetUserDTO>();
-            var user = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
+            var user = await _context.UserModels.FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
             if (user == null)
             {
                 response.Success = false;
@@ -104,7 +104,7 @@ namespace API.Services.AuthService
                 _context.UserModels.Add(mappedToUserModel);
                 await _context.SaveChangesAsync();
 
-                var savedUser = await _context.UserModels.Include(c => c.Role).FirstOrDefaultAsync(c => c.Username == request.Username);
+                var savedUser = await _context.UserModels.FirstOrDefaultAsync(c => c.Username == request.Username);
                 var mapSaveUserToGetUserDTO = _mapper.Map<GetUserDTO>(savedUser);
                 mapSaveUserToGetUserDTO.Token = GenerateSecurityToken(mapSaveUserToGetUserDTO);
 

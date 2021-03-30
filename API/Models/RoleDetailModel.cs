@@ -2,17 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
     public class RoleDetailModel
     {
         [Key]
-        public Guid RoleId { get; set; }
-        [Required]
-        public string RoleName { get; set; }
+        public int Id { get; set; }
 
-        public ICollection<UserModel> Users { get; set; } = new List<UserModel>();
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public UserModel User { get; set; }
+
+        public int RoleId { get; set; }
+        [ForeignKey("RoleId")]
+        public RoleModel RoleModel { get; set; }
 
     }
 }
