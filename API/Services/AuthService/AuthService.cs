@@ -72,7 +72,7 @@ namespace API.Services.AuthService
         public async Task<ResponseServiceModel<GetUserDTO>> Login(UserLoginDTO request)
         {
             var response = new ResponseServiceModel<GetUserDTO>();
-            var user = await _context.UserModels.FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
+            var user = await _context.UserModels.Include(c => c.RoleDetailModels).ThenInclude(c => c.RoleId).FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
             if (user == null)
             {
                 response.Success = false;
