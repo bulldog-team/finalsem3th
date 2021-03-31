@@ -217,11 +217,17 @@ namespace API.Migrations
                         {
                             Id = 2,
                             RoleId = 2,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             Id = 3,
+                            RoleId = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
                             RoleId = 3,
                             UserId = 3
                         });
@@ -240,7 +246,7 @@ namespace API.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("RoleModel");
+                    b.ToTable("RoleModels");
 
                     b.HasData(
                         new
@@ -287,21 +293,21 @@ namespace API.Migrations
                         {
                             UserId = 1,
                             Email = "admin001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEO/vnoj+MJZCvgYk3JBDbhm7bnhrucJXKO4I73crIKXtBxkvoG8mKiHNJC+sgEL4RQ==",
+                            Password = "AQAAAAEAACcQAAAAECE7RyR8szfW6QRSN2NCZ+t4imcCKeliBiF8HrBD6pAynk8R/wW5lyv4go0Rr/gsjQ==",
                             Username = "admin001"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "user001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEBYVaYur+4KawIaAMGJmhmU7l5OsmT6tB5uC6ZwtT5snMdFY/prKXwhE7DDuykroZQ==",
+                            Password = "AQAAAAEAACcQAAAAED1UGiViG0ViXnvbYB78Q/ZzxhTmzKSHPrPweanFIkxQ/bvneHTdQLqpxGT+h0P3kQ==",
                             Username = "user001"
                         },
                         new
                         {
                             UserId = 3,
                             Email = "cus001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEPr7x1Qj+gZc0CZS2+2REBQOZp0f4Wxy1+MjM6/3aZUctDwOV7h4An2sfwYDSi7mPA==",
+                            Password = "AQAAAAEAACcQAAAAEI+crJMN3vCXssNt0x3j+f9Ngvv/iBn7boZZWBxDKrCpX6AeJy37lGPatrqRFv7DQg==",
                             Username = "cus001"
                         });
                 });

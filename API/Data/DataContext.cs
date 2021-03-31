@@ -11,6 +11,7 @@ namespace BackEnd.Data
 
         public DbSet<RoleDetailModel> RoleDetailModels { get; set; }
         public DbSet<UserModel> UserModels { get; set; }
+        public DbSet<RoleModel> RoleModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,15 +65,21 @@ namespace BackEnd.Data
                     RoleId = 1,
                     UserId = 1,
                 },
+                 new RoleDetailModel
+                 {
+                     Id = 2,
+                     RoleId = 2,
+                     UserId = 1,
+                 },
                 new RoleDetailModel
                 {
-                    Id = 2,
+                    Id = 3,
                     RoleId = 2,
                     UserId = 2,
                 },
                 new RoleDetailModel
                 {
-                    Id = 3,
+                    Id = 4,
                     RoleId = 3,
                     UserId = 3,
                 }

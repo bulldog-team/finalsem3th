@@ -20,7 +20,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleModel",
+                name: "RoleModels",
                 columns: table => new
                 {
                     RoleId = table.Column<int>(type: "int", nullable: false)
@@ -29,7 +29,7 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleModel", x => x.RoleId);
+                    table.PrimaryKey("PK_RoleModels", x => x.RoleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,9 +83,9 @@ namespace API.Migrations
                 {
                     table.PrimaryKey("PK_RoleDetailModels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleDetailModels_RoleModel_RoleId",
+                        name: "FK_RoleDetailModels_RoleModels_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "RoleModel",
+                        principalTable: "RoleModels",
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -108,7 +108,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "RoleModel",
+                table: "RoleModels",
                 columns: new[] { "RoleId", "RoleName" },
                 values: new object[,]
                 {
@@ -122,9 +122,9 @@ namespace API.Migrations
                 columns: new[] { "UserId", "Email", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAEO/vnoj+MJZCvgYk3JBDbhm7bnhrucJXKO4I73crIKXtBxkvoG8mKiHNJC+sgEL4RQ==", "admin001" },
-                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAEBYVaYur+4KawIaAMGJmhmU7l5OsmT6tB5uC6ZwtT5snMdFY/prKXwhE7DDuykroZQ==", "user001" },
-                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAEPr7x1Qj+gZc0CZS2+2REBQOZp0f4Wxy1+MjM6/3aZUctDwOV7h4An2sfwYDSi7mPA==", "cus001" }
+                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAECE7RyR8szfW6QRSN2NCZ+t4imcCKeliBiF8HrBD6pAynk8R/wW5lyv4go0Rr/gsjQ==", "admin001" },
+                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAED1UGiViG0ViXnvbYB78Q/ZzxhTmzKSHPrPweanFIkxQ/bvneHTdQLqpxGT+h0P3kQ==", "user001" },
+                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAEI+crJMN3vCXssNt0x3j+f9Ngvv/iBn7boZZWBxDKrCpX6AeJy37lGPatrqRFv7DQg==", "cus001" }
                 });
 
             migrationBuilder.InsertData(
@@ -151,8 +151,9 @@ namespace API.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 2, 2, 2 },
-                    { 3, 3, 3 }
+                    { 2, 2, 1 },
+                    { 3, 2, 2 },
+                    { 4, 3, 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -183,7 +184,7 @@ namespace API.Migrations
                 name: "CategoryModel");
 
             migrationBuilder.DropTable(
-                name: "RoleModel");
+                name: "RoleModels");
 
             migrationBuilder.DropTable(
                 name: "UserModels");
