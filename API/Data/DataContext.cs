@@ -12,6 +12,7 @@ namespace BackEnd.Data
         public DbSet<RoleDetailModel> RoleDetailModels { get; set; }
         public DbSet<UserModel> UserModels { get; set; }
         public DbSet<RoleModel> RoleModels { get; set; }
+        public DbSet<BookModel> BookModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -116,7 +117,7 @@ namespace BackEnd.Data
                     BookName = "Book 1",
                     CategoryId = 1,
                     Description = "Description 1",
-                    thumbnail = "https://randomuser.me/api/portraits/men/4.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/4.jpg"
                 },
                 new BookModel
                 {
@@ -125,7 +126,7 @@ namespace BackEnd.Data
                     BookName = "Book 2",
                     CategoryId = 1,
                     Description = "Description 2",
-                    thumbnail = "https://randomuser.me/api/portraits/men/5.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/5.jpg"
                 },
                 new BookModel
                 {
@@ -134,7 +135,7 @@ namespace BackEnd.Data
                     BookName = "Book 3",
                     CategoryId = 1,
                     Description = "Description 3",
-                    thumbnail = "https://randomuser.me/api/portraits/men/6.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/6.jpg"
                 },
                 new BookModel
                 {
@@ -143,7 +144,7 @@ namespace BackEnd.Data
                     BookName = "Book 4",
                     CategoryId = 1,
                     Description = "Description 4",
-                    thumbnail = "https://randomuser.me/api/portraits/men/7.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/7.jpg"
                 },
                 new BookModel
                 {
@@ -152,7 +153,7 @@ namespace BackEnd.Data
                     BookName = "Book 5",
                     CategoryId = 2,
                     Description = "Description 5",
-                    thumbnail = "https://randomuser.me/api/portraits/men/8.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/8.jpg"
                 },
                 new BookModel
                 {
@@ -161,7 +162,7 @@ namespace BackEnd.Data
                     BookName = "Book 6",
                     CategoryId = 2,
                     Description = "Description 6",
-                    thumbnail = "https://randomuser.me/api/portraits/men/9.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/9.jpg"
                 },
                 new BookModel
                 {
@@ -170,7 +171,7 @@ namespace BackEnd.Data
                     BookName = "Book 7",
                     CategoryId = 1,
                     Description = "Description 7",
-                    thumbnail = "https://randomuser.me/api/portraits/men/10.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/10.jpg"
                 },
                 new BookModel
                 {
@@ -179,7 +180,7 @@ namespace BackEnd.Data
                     BookName = "Book 8",
                     CategoryId = 2,
                     Description = "Description 8",
-                    thumbnail = "https://randomuser.me/api/portraits/men/11.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/11.jpg"
                 },
                 new BookModel
                 {
@@ -188,7 +189,7 @@ namespace BackEnd.Data
                     BookName = "Book 9",
                     CategoryId = 3,
                     Description = "Description 1",
-                    thumbnail = "https://randomuser.me/api/portraits/men/12.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/12.jpg"
                 },
                 new BookModel
                 {
@@ -197,7 +198,7 @@ namespace BackEnd.Data
                     BookName = "Book 10",
                     CategoryId = 3,
                     Description = "Description 10",
-                    thumbnail = "https://randomuser.me/api/portraits/men/13.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/13.jpg"
                 },
                 new BookModel
                 {
@@ -206,7 +207,7 @@ namespace BackEnd.Data
                     BookName = "Book 11",
                     CategoryId = 3,
                     Description = "Description 11",
-                    thumbnail = "https://randomuser.me/api/portraits/men/14.jpg"
+                    Thumbnail = "https://randomuser.me/api/portraits/men/14.jpg"
                 }
             );
             base.OnModelCreating(modelBuilder);

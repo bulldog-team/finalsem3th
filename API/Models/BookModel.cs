@@ -16,6 +16,6 @@ namespace API.Models
 
         public string Description { get; set; }
         public string Author { get; set; }
-        public string thumbnail { get; set; }
+        public string Thumbnail { get; set; }
     }
 }
