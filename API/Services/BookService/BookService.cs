@@ -49,6 +49,23 @@ namespace API.Services.BookService
             return response;
         }
 
+        public async Task<ResponseServiceModel<UpdateBookDTO>> DeleteBook(int bookId)
+        {
+            var response = new ResponseServiceModel<UpdateBookDTO>();
+            var book = await _context.BookModels.FirstOrDefaultAsync(c => c.BookId == bookId);
+            if (book == null)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            _context.BookModels.Remove(book);
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<UpdateBookDTO>(book);
+            return response;
+        }
+
         public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks()
         {
             var response = new ResponseServiceModel<IEnumerable<GetBookDTO>>();
@@ -96,7 +113,7 @@ namespace API.Services.BookService
             await _context.SaveChangesAsync();
             response.Data = _mapper.Map<UpdateBookDTO>(bookInDatabase);
             return response;
-
         }
+
     }
 }

@@ -14,5 +14,7 @@ namespace API.Services.BookService
         Task<ResponseServiceModel<AddNewBookDTO>> AddNewBook(AddNewBookDTO book);
 
         Task<ResponseServiceModel<UpdateBookDTO>> UpdateBook(UpdateBookDTO updateBook, int bookId);
+
+        Task<ResponseServiceModel<UpdateBookDTO>> DeleteBook(int bookId);
     }
 }

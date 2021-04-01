@@ -47,6 +47,17 @@ namespace API.Controllers
             }
             return Ok(response);
         }
+
+        [HttpDelete("{bookId}")]
+        public async Task<IActionResult> DeleteBook(int bookId)
+        {
+            var response = await _bookService.DeleteBook(bookId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
     }
 
 }
