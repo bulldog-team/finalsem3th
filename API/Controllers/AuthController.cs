@@ -26,15 +26,15 @@ namespace API.Controllers
             else return Ok(response);
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterDTO request)
-        {
-            var response = await _authRepo.Register(request);
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            else return Ok(response);
-        }
+        // [HttpPost("register")]
+        // public async Task<IActionResult> Register(UserRegisterDTO request)
+        // {
+        //     var response = await _authRepo.Register(request);
+        //     if (!response.Success)
+        //     {
+        //         return BadRequest(response);
+        //     }
+        //     else return Ok(response);
+        // }
     }
 }

@@ -116,8 +116,25 @@ namespace API.Services.AuthService
                 _context.UserModels.Add(mappedToUserModel);
                 await _context.SaveChangesAsync();
 
-                var savedUser = await _context.UserModels.FirstOrDefaultAsync(c => c.Username == request.Username);
+                await _context.RoleDetailModels.AddAsync(new RoleDetailModel
+                {
+                    RoleId = 3,
+                    UserId = mappedToUserModel.UserId
+                });
+
+                await _context.SaveChangesAsync();
+
+                var savedUser = await _context.UserModels.Include(c => c.RoleDetailModels).ThenInclude(c => c.RoleModel).FirstOrDefaultAsync(c => c.Username == request.Username);
+
+                var role = new List<string>();
+                foreach (var item in savedUser.RoleDetailModels)
+                {
+                    role.Add(item.RoleModel.RoleName);
+                }
+
                 var mapSaveUserToGetUserDTO = _mapper.Map<GetUserDTO>(savedUser);
+
+                mapSaveUserToGetUserDTO.Role = role.ToArray();
                 mapSaveUserToGetUserDTO.Token = GenerateSecurityToken(mapSaveUserToGetUserDTO);
 
                 response.Data = mapSaveUserToGetUserDTO;
