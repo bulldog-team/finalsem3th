@@ -12,5 +12,6 @@ namespace API.Services.UserService
         Task<ResponseServiceModel<UpdateUserDTO>> UpdateUser(UpdateUserDTO user, int userId);
 
         Task<ResponseServiceModel<UserModel>> DeleteUser(int id);
+
     }
 }

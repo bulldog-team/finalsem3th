@@ -7,6 +7,10 @@ using BackEnd.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Services.UserService
 {
