@@ -37,6 +37,26 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpPatch("{accountId}")]
+        public async Task<IActionResult> UpdateAccount(UpdateUserDTO newUser, int accountId)
+        {
+            var response = await _userService.UpdateUser(newUser, accountId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
 
+        [HttpDelete("{accountId}")]
+        public async Task<IActionResult> DeleteAccount(int accountId)
+        {
+            var response = await _userService.DeleteUser(accountId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
     }
 }
