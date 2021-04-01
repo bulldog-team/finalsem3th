@@ -13,6 +13,7 @@ namespace BackEnd.Data
         public DbSet<UserModel> UserModels { get; set; }
         public DbSet<RoleModel> RoleModels { get; set; }
         public DbSet<BookModel> BookModels { get; set; }
+        public DbSet<CategoryModel> categoryModels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -94,7 +95,7 @@ namespace BackEnd.Data
                 },
                 new CategoryModel
                 {
-                    Category = "Programinh",
+                    Category = "Programing",
                     CategoryId = 2,
                 },
                 new CategoryModel

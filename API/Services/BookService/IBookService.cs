@@ -10,5 +10,7 @@ namespace API.Services.BookService
         Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks();
 
         Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetBooksByCategory(string categoryName);
+
+        Task<ResponseServiceModel<AddNewBookDTO>> AddNewBook(AddNewBookDTO book);
     }
 }

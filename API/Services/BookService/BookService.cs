@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,33 @@ namespace API.Services.BookService
             _mapper = mapper;
             _config = config;
         }
+
+        public async Task<ResponseServiceModel<AddNewBookDTO>> AddNewBook(AddNewBookDTO book)
+        {
+            var response = new ResponseServiceModel<AddNewBookDTO>();
+            var categoryModel = await _context.categoryModels.FirstOrDefaultAsync(x => x.Category.Equals(book.Category));
+            if (categoryModel == null)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            var newBook = new BookModel
+            {
+                Author = book.Author,
+                BookName = book.BookName,
+                CategoryId = categoryModel.CategoryId,
+                Description = book.Description,
+                Thumbnail = book.Thumbnail
+            };
+            await _context.BookModels.AddAsync(newBook);
+            await _context.SaveChangesAsync();
+            response.Data = book;
+
+            return response;
+        }
+
         public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks()
         {
             var response = new ResponseServiceModel<IEnumerable<GetBookDTO>>();

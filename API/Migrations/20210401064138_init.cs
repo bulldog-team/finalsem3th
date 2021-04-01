@@ -7,7 +7,7 @@ namespace API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CategoryModel",
+                name: "categoryModels",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -16,7 +16,7 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryModel", x => x.CategoryId);
+                    table.PrimaryKey("PK_categoryModels", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,9 +63,9 @@ namespace API.Migrations
                 {
                     table.PrimaryKey("PK_BookModels", x => x.BookId);
                     table.ForeignKey(
-                        name: "FK_BookModels_CategoryModel_CategoryId",
+                        name: "FK_BookModels_categoryModels_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "CategoryModel",
+                        principalTable: "categoryModels",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -97,17 +97,6 @@ namespace API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "CategoryModel",
-                columns: new[] { "CategoryId", "Category" },
-                values: new object[,]
-                {
-                    { 1, "Comic" },
-                    { 2, "Programinh" },
-                    { 3, "Fantasy" },
-                    { 4, "Romance" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "RoleModels",
                 columns: new[] { "RoleId", "RoleName" },
                 values: new object[,]
@@ -122,9 +111,20 @@ namespace API.Migrations
                 columns: new[] { "UserId", "Email", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAEJDPNehvOOuQcrtUJ0jsPuKkimdlKPG9KMFFYzkOKPxwvGYbf6opx3TXlPW9vhM/kw==", "admin001" },
-                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAEHhZdkOs3GWQzZvF0+n+WtlclJBET10vwaMIZi6WFyBZoo7wEktilk88VA0JKteGww==", "user001" },
-                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAEOZCf0iLBbd3+Z3QRLp8orhMjmmM9CW8q7nqLSMNFC9Q84YMEbu2zdaSbiwMvXn0pw==", "cus001" }
+                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAEGooytMiCP0GRTY4ykCKHcdLNyP9U9+cyp2bdj3rkaWOAkJ864oLukBmpjcPagACYQ==", "admin001" },
+                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAENB9EmI7/bwV7m6afI2FZJmsXYiHaIoP1IOm7tT1BFRtQ5eKKsIj6PqFkeQHOqtHhg==", "user001" },
+                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAENYT1yvczxOhiAl4DEkMDmg2CVyuv/LfELcmdXmpumkzRfV16pyqLwwyUAlsO2zqkQ==", "cus001" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "categoryModels",
+                columns: new[] { "CategoryId", "Category" },
+                values: new object[,]
+                {
+                    { 1, "Comic" },
+                    { 2, "Programing" },
+                    { 3, "Fantasy" },
+                    { 4, "Romance" }
                 });
 
             migrationBuilder.InsertData(
@@ -181,7 +181,7 @@ namespace API.Migrations
                 name: "RoleDetailModels");
 
             migrationBuilder.DropTable(
-                name: "CategoryModel");
+                name: "categoryModels");
 
             migrationBuilder.DropTable(
                 name: "RoleModels");

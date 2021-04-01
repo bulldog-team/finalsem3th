@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210401022409_init")]
+    [Migration("20210401064138_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,7 @@ namespace API.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("CategoryModel");
+                    b.ToTable("categoryModels");
 
                     b.HasData(
                         new
@@ -173,7 +173,7 @@ namespace API.Migrations
                         new
                         {
                             CategoryId = 2,
-                            Category = "Programinh"
+                            Category = "Programing"
                         },
                         new
                         {
@@ -295,21 +295,21 @@ namespace API.Migrations
                         {
                             UserId = 1,
                             Email = "admin001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEJDPNehvOOuQcrtUJ0jsPuKkimdlKPG9KMFFYzkOKPxwvGYbf6opx3TXlPW9vhM/kw==",
+                            Password = "AQAAAAEAACcQAAAAEGooytMiCP0GRTY4ykCKHcdLNyP9U9+cyp2bdj3rkaWOAkJ864oLukBmpjcPagACYQ==",
                             Username = "admin001"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "user001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEHhZdkOs3GWQzZvF0+n+WtlclJBET10vwaMIZi6WFyBZoo7wEktilk88VA0JKteGww==",
+                            Password = "AQAAAAEAACcQAAAAENB9EmI7/bwV7m6afI2FZJmsXYiHaIoP1IOm7tT1BFRtQ5eKKsIj6PqFkeQHOqtHhg==",
                             Username = "user001"
                         },
                         new
                         {
                             UserId = 3,
                             Email = "cus001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEOZCf0iLBbd3+Z3QRLp8orhMjmmM9CW8q7nqLSMNFC9Q84YMEbu2zdaSbiwMvXn0pw==",
+                            Password = "AQAAAAEAACcQAAAAENYT1yvczxOhiAl4DEkMDmg2CVyuv/LfELcmdXmpumkzRfV16pyqLwwyUAlsO2zqkQ==",
                             Username = "cus001"
                         });
                 });
