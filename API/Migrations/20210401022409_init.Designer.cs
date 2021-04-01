@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210331090558_init")]
+    [Migration("20210401022409_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,14 +39,14 @@ namespace API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("thumbnail")
+                    b.Property<string>("Thumbnail")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookId");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BookModel");
+                    b.ToTable("BookModels");
 
                     b.HasData(
                         new
@@ -56,7 +56,7 @@ namespace API.Migrations
                             BookName = "Book 1",
                             CategoryId = 1,
                             Description = "Description 1",
-                            thumbnail = "https://randomuser.me/api/portraits/men/4.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/4.jpg"
                         },
                         new
                         {
@@ -65,7 +65,7 @@ namespace API.Migrations
                             BookName = "Book 2",
                             CategoryId = 1,
                             Description = "Description 2",
-                            thumbnail = "https://randomuser.me/api/portraits/men/5.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/5.jpg"
                         },
                         new
                         {
@@ -74,7 +74,7 @@ namespace API.Migrations
                             BookName = "Book 3",
                             CategoryId = 1,
                             Description = "Description 3",
-                            thumbnail = "https://randomuser.me/api/portraits/men/6.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/6.jpg"
                         },
                         new
                         {
@@ -83,7 +83,7 @@ namespace API.Migrations
                             BookName = "Book 4",
                             CategoryId = 1,
                             Description = "Description 4",
-                            thumbnail = "https://randomuser.me/api/portraits/men/7.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/7.jpg"
                         },
                         new
                         {
@@ -92,7 +92,7 @@ namespace API.Migrations
                             BookName = "Book 5",
                             CategoryId = 2,
                             Description = "Description 5",
-                            thumbnail = "https://randomuser.me/api/portraits/men/8.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/8.jpg"
                         },
                         new
                         {
@@ -101,7 +101,7 @@ namespace API.Migrations
                             BookName = "Book 6",
                             CategoryId = 2,
                             Description = "Description 6",
-                            thumbnail = "https://randomuser.me/api/portraits/men/9.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/9.jpg"
                         },
                         new
                         {
@@ -110,7 +110,7 @@ namespace API.Migrations
                             BookName = "Book 7",
                             CategoryId = 1,
                             Description = "Description 7",
-                            thumbnail = "https://randomuser.me/api/portraits/men/10.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/10.jpg"
                         },
                         new
                         {
@@ -119,7 +119,7 @@ namespace API.Migrations
                             BookName = "Book 8",
                             CategoryId = 2,
                             Description = "Description 8",
-                            thumbnail = "https://randomuser.me/api/portraits/men/11.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/11.jpg"
                         },
                         new
                         {
@@ -128,7 +128,7 @@ namespace API.Migrations
                             BookName = "Book 9",
                             CategoryId = 3,
                             Description = "Description 1",
-                            thumbnail = "https://randomuser.me/api/portraits/men/12.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/12.jpg"
                         },
                         new
                         {
@@ -137,7 +137,7 @@ namespace API.Migrations
                             BookName = "Book 10",
                             CategoryId = 3,
                             Description = "Description 10",
-                            thumbnail = "https://randomuser.me/api/portraits/men/13.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/13.jpg"
                         },
                         new
                         {
@@ -146,7 +146,7 @@ namespace API.Migrations
                             BookName = "Book 11",
                             CategoryId = 3,
                             Description = "Description 11",
-                            thumbnail = "https://randomuser.me/api/portraits/men/14.jpg"
+                            Thumbnail = "https://randomuser.me/api/portraits/men/14.jpg"
                         });
                 });
 
@@ -295,21 +295,21 @@ namespace API.Migrations
                         {
                             UserId = 1,
                             Email = "admin001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAECE7RyR8szfW6QRSN2NCZ+t4imcCKeliBiF8HrBD6pAynk8R/wW5lyv4go0Rr/gsjQ==",
+                            Password = "AQAAAAEAACcQAAAAEJDPNehvOOuQcrtUJ0jsPuKkimdlKPG9KMFFYzkOKPxwvGYbf6opx3TXlPW9vhM/kw==",
                             Username = "admin001"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "user001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAED1UGiViG0ViXnvbYB78Q/ZzxhTmzKSHPrPweanFIkxQ/bvneHTdQLqpxGT+h0P3kQ==",
+                            Password = "AQAAAAEAACcQAAAAEHhZdkOs3GWQzZvF0+n+WtlclJBET10vwaMIZi6WFyBZoo7wEktilk88VA0JKteGww==",
                             Username = "user001"
                         },
                         new
                         {
                             UserId = 3,
                             Email = "cus001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEI+crJMN3vCXssNt0x3j+f9Ngvv/iBn7boZZWBxDKrCpX6AeJy37lGPatrqRFv7DQg==",
+                            Password = "AQAAAAEAACcQAAAAEOZCf0iLBbd3+Z3QRLp8orhMjmmM9CW8q7nqLSMNFC9Q84YMEbu2zdaSbiwMvXn0pw==",
                             Username = "cus001"
                         });
                 });

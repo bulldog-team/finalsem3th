@@ -7,6 +7,6 @@ namespace API.Services.BookService
 {
     public interface IBookService
     {
-        Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBook();
+        Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks();
     }
 }

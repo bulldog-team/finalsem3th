@@ -21,9 +21,9 @@ namespace API.Services.BookService
             _mapper = mapper;
             _config = config;
         }
-        public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBook()
+        public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks()
         {
-            var response = new ResponseServiceModel<GetBookDTO>();
+            var response = new ResponseServiceModel<IEnumerable<GetBookDTO>>();
             var books = await _context.BookModels.Include(c => c.categoryModel).Select(x => new GetBookDTO
             {
                 Author = x.Author,
@@ -33,8 +33,7 @@ namespace API.Services.BookService
                 Thumbnail = x.Thumbnail
             }).ToListAsync<GetBookDTO>();
             response.Data = _mapper.Map<IEnumerable<GetBookDTO>>(books);
-
-
+            return response;
         }
     }
 }

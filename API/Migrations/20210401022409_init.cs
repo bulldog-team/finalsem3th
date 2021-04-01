@@ -48,7 +48,7 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookModel",
+                name: "BookModels",
                 columns: table => new
                 {
                     BookId = table.Column<int>(type: "int", nullable: false)
@@ -57,13 +57,13 @@ namespace API.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookModel", x => x.BookId);
+                    table.PrimaryKey("PK_BookModels", x => x.BookId);
                     table.ForeignKey(
-                        name: "FK_BookModel_CategoryModel_CategoryId",
+                        name: "FK_BookModels_CategoryModel_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "CategoryModel",
                         principalColumn: "CategoryId",
@@ -122,14 +122,14 @@ namespace API.Migrations
                 columns: new[] { "UserId", "Email", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAECE7RyR8szfW6QRSN2NCZ+t4imcCKeliBiF8HrBD6pAynk8R/wW5lyv4go0Rr/gsjQ==", "admin001" },
-                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAED1UGiViG0ViXnvbYB78Q/ZzxhTmzKSHPrPweanFIkxQ/bvneHTdQLqpxGT+h0P3kQ==", "user001" },
-                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAEI+crJMN3vCXssNt0x3j+f9Ngvv/iBn7boZZWBxDKrCpX6AeJy37lGPatrqRFv7DQg==", "cus001" }
+                    { 1, "admin001@mail.com", "AQAAAAEAACcQAAAAEJDPNehvOOuQcrtUJ0jsPuKkimdlKPG9KMFFYzkOKPxwvGYbf6opx3TXlPW9vhM/kw==", "admin001" },
+                    { 2, "user001@mail.com", "AQAAAAEAACcQAAAAEHhZdkOs3GWQzZvF0+n+WtlclJBET10vwaMIZi6WFyBZoo7wEktilk88VA0JKteGww==", "user001" },
+                    { 3, "cus001@mail.com", "AQAAAAEAACcQAAAAEOZCf0iLBbd3+Z3QRLp8orhMjmmM9CW8q7nqLSMNFC9Q84YMEbu2zdaSbiwMvXn0pw==", "cus001" }
                 });
 
             migrationBuilder.InsertData(
-                table: "BookModel",
-                columns: new[] { "BookId", "Author", "BookName", "CategoryId", "Description", "thumbnail" },
+                table: "BookModels",
+                columns: new[] { "BookId", "Author", "BookName", "CategoryId", "Description", "Thumbnail" },
                 values: new object[,]
                 {
                     { 1, "author 1", "Book 1", 1, "Description 1", "https://randomuser.me/api/portraits/men/4.jpg" },
@@ -157,8 +157,8 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookModel_CategoryId",
-                table: "BookModel",
+                name: "IX_BookModels_CategoryId",
+                table: "BookModels",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -175,7 +175,7 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookModel");
+                name: "BookModels");
 
             migrationBuilder.DropTable(
                 name: "RoleDetailModels");
