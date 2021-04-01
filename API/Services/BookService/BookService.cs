@@ -73,5 +73,30 @@ namespace API.Services.BookService
             response.Data = _mapper.Map<IEnumerable<GetBookDTO>>(books);
             return response;
         }
+
+        public async Task<ResponseServiceModel<UpdateBookDTO>> UpdateBook(UpdateBookDTO updateBook, int bookId)
+        {
+            var response = new ResponseServiceModel<UpdateBookDTO>();
+            var category = await _context.categoryModels.FirstOrDefaultAsync(c => c.Category.Equals(updateBook.Category));
+            var bookInDatabase = await _context.BookModels.FirstOrDefaultAsync(c => c.BookId == bookId);
+            if (bookInDatabase == null || category == null)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            bookInDatabase.Author = updateBook.Author;
+            bookInDatabase.BookName = updateBook.BookName;
+            bookInDatabase.CategoryId = category.CategoryId;
+            bookInDatabase.Description = updateBook.Description;
+            bookInDatabase.Thumbnail = updateBook.Thumbnail;
+
+            _context.BookModels.Update(bookInDatabase);
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<UpdateBookDTO>(bookInDatabase);
+            return response;
+
+        }
     }
 }

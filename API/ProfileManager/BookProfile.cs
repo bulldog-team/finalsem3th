@@ -11,6 +11,7 @@ namespace API.ProfileManager
             CreateMap<BookModel, GetBookDTO>().ForMember(item => item.Category, itemInGetBookDTO => itemInGetBookDTO.MapFrom(item => item.categoryModel.Category));
 
             CreateMap<AddNewBookDTO, BookModel>();
+            CreateMap<BookModel, UpdateBookDTO>().ReverseMap();
         }
     }
 }

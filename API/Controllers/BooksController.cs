@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using API.DTO.Book;
+using API.Models;
 using API.Services.BookService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,8 +37,16 @@ namespace API.Controllers
             return Ok(response);
         }
 
-
-
+        [HttpPost("{bookId}")]
+        public async Task<IActionResult> UpdateBook(UpdateBookDTO updateBook, int bookId)
+        {
+            var response = await _bookService.UpdateBook(updateBook, bookId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
     }
 
 }
