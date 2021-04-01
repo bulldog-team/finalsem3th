@@ -8,7 +8,7 @@ namespace API.ProfileManager
     {
         public BookProfile()
         {
-            CreateMap<GetBookDTO, BookModel>();
+            CreateMap<BookModel, GetBookDTO>().ForMember(item => item.Category, itemInGetBookDTO => itemInGetBookDTO.MapFrom(item => item.categoryModel.Category));
         }
     }
 }

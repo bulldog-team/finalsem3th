@@ -35,5 +35,15 @@ namespace API.Services.BookService
             response.Data = _mapper.Map<IEnumerable<GetBookDTO>>(books);
             return response;
         }
+
+        public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetBooksByCategory(string categoryName)
+        {
+            var response = new ResponseServiceModel<IEnumerable<GetBookDTO>>();
+
+            var books = await _context.BookModels.Include(c => c.categoryModel).Where(c => c.categoryModel.Category.Equals(categoryName)).ToListAsync();
+
+            response.Data = _mapper.Map<IEnumerable<GetBookDTO>>(books);
+            return response;
+        }
     }
 }

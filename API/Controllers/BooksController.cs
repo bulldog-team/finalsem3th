@@ -20,6 +20,14 @@ namespace API.Controllers
             var response = await _bookService.GetAllBooks();
             return Ok(response);
         }
+
+        [HttpGet("{category}")]
+        public async Task<IActionResult> GetBooksByCategory(string category)
+        {
+            var response = await _bookService.GetBooksByCategory(category);
+            return Ok(response);
+        }
+
     }
 
 }

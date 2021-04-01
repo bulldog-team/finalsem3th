@@ -20,5 +20,7 @@ namespace API.Controllers
             var response = await _userService.GetAllUsers();
             return Ok(response);
         }
+
+
     }
 }

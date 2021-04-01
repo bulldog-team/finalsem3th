@@ -8,5 +8,7 @@ namespace API.Services.BookService
     public interface IBookService
     {
         Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks();
+
+        Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetBooksByCategory(string categoryName);
     }
 }

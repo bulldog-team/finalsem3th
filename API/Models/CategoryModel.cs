@@ -8,7 +8,6 @@ namespace API.Models
         [Key]
         public int CategoryId { get; set; }
         public string Category { get; set; }
-
         public ICollection<BookModel> BookModels { get; set; }
     }
 }
