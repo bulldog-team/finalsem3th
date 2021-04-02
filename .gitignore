@@ -352,3 +352,4 @@ MigrationBackup/
 API/Migrations/*.*
 API/appsettings.json
 appsettings.json
+API/appsettings.json
