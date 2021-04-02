@@ -55,7 +55,7 @@ namespace API.Services.AuthService
             var key = Encoding.ASCII.GetBytes(_secret);
 
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Username));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
             foreach (var item in user.Role)
             {

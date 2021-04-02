@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace API.Services.UserService
 {
@@ -19,13 +20,19 @@ namespace API.Services.UserService
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IConfiguration config, DataContext context, IMapper mapper)
+        public UserService(IConfiguration config, DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _context = context;
             _mapper = mapper;
             _config = config;
         }
+
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        private IEnumerable<System.Security.Claims.Claim> GetUserRole() => _httpContextAccessor.HttpContext.User.FindAll(ClaimTypes.Role);
 
         public async Task<ResponseServiceModel<UserModel>> DeleteUser(int id)
         {
@@ -62,6 +69,33 @@ namespace API.Services.UserService
             {
                 response.Success = false;
                 response.Message = "Something wrongs!";
+                return response;
+            }
+
+            var userRole = GetUserRole();
+
+            var isAuth = false;
+            foreach (var role in userRole)
+            {
+                if (role.Value == "Admin")
+                {
+                    isAuth = true;
+                }
+                else
+                {
+                    var id = GetUserId();
+                    if (id == userId)
+                    {
+                        isAuth = true;
+                    }
+
+                }
+            }
+
+            if (!isAuth)
+            {
+                response.Message = "Something Wrongs!";
+                response.Success = false;
                 return response;
             }
 

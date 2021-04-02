@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using API.DTO.User;
 using API.Services.AuthService;
 using API.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -37,6 +38,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPatch("{accountId}")]
         public async Task<IActionResult> UpdateAccount(UpdateUserDTO newUser, int accountId)
         {
@@ -48,6 +50,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{accountId}")]
         public async Task<IActionResult> DeleteAccount(int accountId)
         {
