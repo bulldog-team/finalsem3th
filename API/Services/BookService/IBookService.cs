@@ -19,5 +19,7 @@ namespace API.Services.BookService
         Task<ResponseServiceModel<UpdateBookDTO>> DeleteBook(int bookId);
 
         Task<ResponseServiceModel<UpdateBookDTO>> AddPhoto(int bookId, IFormFile file);
+
+        Task<ResponseServiceModel<UpdateBookDTO>> DeletePhoto(int bookId, string publicId);
     }
 }

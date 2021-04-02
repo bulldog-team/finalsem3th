@@ -43,7 +43,8 @@ namespace API.Controllers
             var response = await _bookService.GetBooksByCategory(category);
             return Ok(response);
         }
-        [Authorize(Roles = "Admin, User")]
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("add-photo/{bookId}")]
         public async Task<IActionResult> AddPhoto(int bookId, IFormFile file)
         {
@@ -55,7 +56,17 @@ namespace API.Controllers
             return Ok(response);
         }
 
-
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("add-photo/{bookId}")]
+        public async Task<IActionResult> DeletePhoto(int bookId, string publicId)
+        {
+            var response = await _bookService.DeletePhoto(bookId, publicId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost("{bookId}")]

@@ -91,6 +91,24 @@ namespace API.Services.BookService
             return response;
         }
 
+        public async Task<ResponseServiceModel<UpdateBookDTO>> DeletePhoto(int bookId, string publicId)
+        {
+            var response = new ResponseServiceModel<UpdateBookDTO>();
+            var book = await _context.BookModels.FirstOrDefaultAsync(c => c.BookId == bookId);
+            if (book == null || book.ThumnailId != publicId)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+            var result = await _photoService.DeletePhotoAsync(publicId);
+            book.Thumbnail = "";
+            book.ThumnailId = "";
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<UpdateBookDTO>(book);
+            return response;
+        }
+
         public async Task<ResponseServiceModel<IEnumerable<GetBookDTO>>> GetAllBooks()
         {
             var response = new ResponseServiceModel<IEnumerable<GetBookDTO>>();
