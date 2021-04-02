@@ -1,6 +1,8 @@
+using API.Helper;
 using API.Middleware;
 using API.Services.AuthService;
 using API.Services.BookService;
+using API.Services.PhotoService;
 using API.Services.UserService;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +35,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySetting"));
             services.AddTokenAuthentication(Configuration);
             services.AddControllers(setupAction =>
             {
@@ -44,6 +47,7 @@ namespace API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPhotoService, PhotoService>();
 
             services.AddDbContext<DataContext>(option =>
             {
