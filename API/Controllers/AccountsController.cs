@@ -18,7 +18,7 @@ namespace API.Controllers
             _userService = userService;
             _authService = authService;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using API.DTO.Book;
 using API.Models;
 using API.Services.BookService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -23,6 +24,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<IActionResult> AddNewBook(AddNewBookDTO newBookDTO)
         {
@@ -37,6 +39,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("{bookId}")]
         public async Task<IActionResult> UpdateBook(UpdateBookDTO updateBook, int bookId)
         {
@@ -48,6 +51,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpDelete("{bookId}")]
         public async Task<IActionResult> DeleteBook(int bookId)
         {
