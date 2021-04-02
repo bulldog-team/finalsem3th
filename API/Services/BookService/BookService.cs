@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTO.Book;
 using API.Models;
+using API.Services.PhotoService;
 using AutoMapper;
 using BackEnd.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -15,11 +17,13 @@ namespace API.Services.BookService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
         private readonly IConfiguration _config;
-        public BookService(IConfiguration config, DataContext context, IMapper mapper)
+        public BookService(IConfiguration config, DataContext context, IMapper mapper, IPhotoService photoService)
         {
             _context = context;
             _mapper = mapper;
+            _photoService = photoService;
             _config = config;
         }
 
@@ -46,6 +50,27 @@ namespace API.Services.BookService
             await _context.SaveChangesAsync();
             response.Data = book;
 
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<UpdateBookDTO>> AddPhoto(int bookId, IFormFile file)
+        {
+            var response = new ResponseServiceModel<UpdateBookDTO>();
+            var result = await _photoService.AddPhotoAsync(file);
+
+            var book = await _context.BookModels.FirstOrDefaultAsync(c => c.BookId == bookId);
+
+            if (result.Error != null || book == null)
+            {
+                response.Success = false;
+                response.Message = "Something wrong!";
+                return response;
+            }
+
+            book.Thumbnail = result.SecureUrl.AbsoluteUri;
+            book.ThumnailId = result.PublicId;
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<UpdateBookDTO>(book);
             return response;
         }
 

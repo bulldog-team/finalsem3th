@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTO.Book;
 using API.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Services.BookService
 {
@@ -16,5 +17,7 @@ namespace API.Services.BookService
         Task<ResponseServiceModel<UpdateBookDTO>> UpdateBook(UpdateBookDTO updateBook, int bookId);
 
         Task<ResponseServiceModel<UpdateBookDTO>> DeleteBook(int bookId);
+
+        Task<ResponseServiceModel<UpdateBookDTO>> AddPhoto(int bookId, IFormFile file);
     }
 }

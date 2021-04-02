@@ -2,7 +2,9 @@ using System.Threading.Tasks;
 using API.DTO.Book;
 using API.Models;
 using API.Services.BookService;
+using API.Services.PhotoService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,9 +14,12 @@ namespace API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
-        public BooksController(IBookService bookService)
+        private readonly IPhotoService _photoService;
+
+        public BooksController(IBookService bookService, IPhotoService photoService)
         {
             _bookService = bookService;
+            _photoService = photoService;
         }
 
         [HttpGet]
@@ -38,6 +43,19 @@ namespace API.Controllers
             var response = await _bookService.GetBooksByCategory(category);
             return Ok(response);
         }
+        [Authorize(Roles = "Admin, User")]
+        [HttpPost("add-photo/{bookId}")]
+        public async Task<IActionResult> AddPhoto(int bookId, IFormFile file)
+        {
+            var response = await _bookService.AddPhoto(bookId, file);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
+
+
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost("{bookId}")]

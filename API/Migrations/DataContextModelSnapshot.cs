@@ -40,6 +40,9 @@ namespace API.Migrations
                     b.Property<string>("Thumbnail")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ThumnailId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("BookId");
 
                     b.HasIndex("CategoryId");
@@ -293,21 +296,21 @@ namespace API.Migrations
                         {
                             UserId = 1,
                             Email = "admin001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAEGooytMiCP0GRTY4ykCKHcdLNyP9U9+cyp2bdj3rkaWOAkJ864oLukBmpjcPagACYQ==",
+                            Password = "AQAAAAEAACcQAAAAELfT7CRM59XUd9e8oJGZMdeRJEiEqDFXUQ+iXvPSli08f1nNXGNCEpx/jq5tNNd/cQ==",
                             Username = "admin001"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "user001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAENB9EmI7/bwV7m6afI2FZJmsXYiHaIoP1IOm7tT1BFRtQ5eKKsIj6PqFkeQHOqtHhg==",
+                            Password = "AQAAAAEAACcQAAAAEG1zJT8DCR/Kg88mohP62oTQZct4m71Ez68YYqbYpXUr9H6vFLz/umLePbZMXLiKRQ==",
                             Username = "user001"
                         },
                         new
                         {
                             UserId = 3,
                             Email = "cus001@mail.com",
-                            Password = "AQAAAAEAACcQAAAAENYT1yvczxOhiAl4DEkMDmg2CVyuv/LfELcmdXmpumkzRfV16pyqLwwyUAlsO2zqkQ==",
+                            Password = "AQAAAAEAACcQAAAAEGmO99cYAn33DKDytugtxo1YBtDtXz1E4AsMVHyK9CDzmQ5pPK7m6buGETld29RTwg==",
                             Username = "cus001"
                         });
                 });
