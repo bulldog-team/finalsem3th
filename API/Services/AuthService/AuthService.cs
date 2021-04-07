@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -52,14 +53,19 @@ namespace API.Services.AuthService
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            foreach (var item in user.Role)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, item));
+            }
+            var subject = claims.ToArray();
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.RoleName)
-                }),
+                Subject = new ClaimsIdentity(subject),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
@@ -72,7 +78,7 @@ namespace API.Services.AuthService
         public async Task<ResponseServiceModel<GetUserDTO>> Login(UserLoginDTO request)
         {
             var response = new ResponseServiceModel<GetUserDTO>();
-            var user = await _context.UserModels.FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
+            var user = await _context.UserModels.Include(c => c.RoleDetailModels).ThenInclude(c => c.RoleModel).FirstOrDefaultAsync(x => x.Username.Equals(request.Username));
             if (user == null)
             {
                 response.Success = false;
@@ -86,10 +92,21 @@ namespace API.Services.AuthService
             else
             {
                 var userDTO = _mapper.Map<GetUserDTO>(user);
+                var role = new List<string>();
+                foreach (var item in user.RoleDetailModels)
+                {
+                    role.Add(item.RoleModel.RoleName);
+                }
+                userDTO.Role = role.ToArray();
                 userDTO.Token = GenerateSecurityToken(userDTO);
                 response.Data = userDTO;
             }
             return response;
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            return await _context.UserModels.AnyAsync(c => c.Username == username);
         }
 
         public async Task<ResponseServiceModel<GetUserDTO>> Register(UserRegisterDTO request)
@@ -116,9 +133,5 @@ namespace API.Services.AuthService
             return response;
         }
 
-        public async Task<bool> UserExists(string username)
-        {
-            return await _context.UserModels.AnyAsync(c => c.Username == username);
-        }
     }
 }

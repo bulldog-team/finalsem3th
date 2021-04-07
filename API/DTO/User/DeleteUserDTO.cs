@@ -1,8 +1,8 @@
 namespace API.DTO.User
 {
-    public class UserRegisterDTO
+    public class DeleteUserDTO
     {
         public string Username { get; set; }
-        public string Password { get; set; }
+        public int UserId { get; set; }
     }
 }

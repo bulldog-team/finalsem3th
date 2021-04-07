@@ -1,33 +1,26 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using API.Models;
 
-namespace API.Models
+namespace API.DTO.User
 {
-    public class UserModel
+    public class UpdateUserDTO
     {
-        [Key]
-        public int UserId { get; set; }
-
-        [Required]
         public string Username { get; set; }
 
-        [Required]
         public string Password { get; set; }
         public string Email { get; set; }
         public Boolean Gender { get; set; }
-        public ICollection<RoleDetailModel> RoleDetailModels { get; set; }
+        public string[] Role { get; set; }
 
         public int Age { get; set; }
 
-        public String Address { get; set; }
+        public string Address { get; set; }
 
         public DateTime DoB { get; set; }
 
-        public String Image { get; set; }
+        public string Image { get; set; }
 
-        [ForeignKey("BranchId")]
         public BranchModel Branch { get; set; }
         public int BranchId { get; set; }
 
