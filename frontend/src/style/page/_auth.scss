@@ -1,0 +1,39 @@
+.auth {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-color: $auth-bg;
+
+  &__wrapper {
+    width: 390px;
+    background-color: $main-bg-color;
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 77px 55px 33px 55px;
+    @extend .border-radius;
+  }
+
+  &__logo {
+    margin: 2rem auto;
+    justify-content: center;
+  }
+
+  &__changeMode {
+    line-height: 1.5;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    padding-top: 110px;
+  }
+
+  &__change {
+    transition: all 0.4s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      color: $primary-color;
+    }
+  }
+}
