@@ -2,7 +2,6 @@ import { Button, Form, Row } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useTranslation } from "react-i18next";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import CustomField from "../../Component/Field/Field";
@@ -18,14 +17,12 @@ interface IloginProps {
 }
 
 const LoginPage: FC<IloginProps> = () => {
-  const { t } = useTranslation();
-
   const LoginSchema = yup.object().shape({
-    username: yup.string().required(t("Error.required")),
+    username: yup.string().required("Error.required"),
     password: yup
       .string()
-      .required(t("Error.required"))
-      .min(6, t("Error.needMoreCharacter")),
+      .required("Error.required")
+      .min(6, "Error.needMoreCharacter"),
   });
 
   const defaultValues: ILoginForm = {
@@ -70,7 +67,7 @@ const LoginPage: FC<IloginProps> = () => {
           Login
         </Button>
       </Form>
-      <Row className="login__recover">{t("Auth.forgotPassword")}</Row>
+      <Row className="login__recover">{"Auth.forgotPassword"}</Row>
     </div>
   );
 };

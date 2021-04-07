@@ -2,12 +2,11 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import "./helper/i18n";
 
 import "./style/main.scss";
 import store from "./store/store";
 import Loading from "./Component/Loading/Loading";
+import { Provider } from "react-redux";
 
 ReactDOM.render(
   // <React.StrictMode>

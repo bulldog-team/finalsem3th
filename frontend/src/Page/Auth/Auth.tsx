@@ -3,7 +3,6 @@ import { Row, Typography } from "antd";
 
 import LoginPage from "./Login";
 import RegisterPage from "./Register";
-import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store/store";
 import { RedirectProps, Redirect } from "react-router-dom";
@@ -18,7 +17,6 @@ type ExtendRouteProps = RedirectProps & {
 
 const AuthPage: FC<ExtendRouteProps> = (props) => {
   const { Title } = Typography;
-  const { t } = useTranslation();
 
   const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
   const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
@@ -49,10 +47,10 @@ const AuthPage: FC<ExtendRouteProps> = (props) => {
           )}
         </div>
         <Row className="auth__changeMode">
-          {isLoginMode ? t("Auth.dontHaveAccout") : t("Auth.haveAccount")}
+          {isLoginMode ? "Auth.dontHaveAccout" : "Auth.haveAccount"}
           <span className="auth__change" onClick={handleChangeMode}>
             &ensp;
-            {isLoginMode ? t("Auth.signUp") : t("Auth.login")}
+            {isLoginMode ? "Auth.signUp" : "Auth.login"}
           </span>
         </Row>
       </div>

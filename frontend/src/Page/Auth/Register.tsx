@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, Button } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 
@@ -16,8 +15,6 @@ type IRegisterForm = {
 };
 
 const RegisterPage = () => {
-  const { t } = useTranslation();
-
   const defaultValues: IRegisterForm = {
     username: "",
     confirmPassword: "",
@@ -26,20 +23,17 @@ const RegisterPage = () => {
   };
 
   const RegisterSchema = yup.object().shape({
-    username: yup.string().required(t("Error.required")),
+    username: yup.string().required("Error.required"),
     password: yup
       .string()
-      .required(t("Error.required"))
-      .min(6, t("Error.needMoreCharacter")),
+      .required("Error.required")
+      .min(6, "Error.needMoreCharacter"),
     confirmPassword: yup
       .string()
-      .required(t("Error.required"))
-      .oneOf([yup.ref("password")], t("Error.mustMatch"))
-      .min(6, t("Error.needMoreCharacter")),
-    email: yup
-      .string()
-      .email(t("Error.validEmail"))
-      .required(t("Error.required")),
+      .required("Error.required")
+      .oneOf([yup.ref("password")], "Error.mustMatch")
+      .min(6, "Error.needMoreCharacter"),
+    email: yup.string().email("Error.validEmail").required("Error.required"),
   });
 
   const { handleSubmit, control, errors, reset } = useForm<IRegisterForm>({
@@ -69,7 +63,7 @@ const RegisterPage = () => {
           name="password"
           control={control}
           errors={errors}
-          placeholder={t("RegisterPage.passwordPlaceholder")}
+          placeholder={"RegisterPage.passwordPlaceholder"}
           type="password"
           prefix={<LockOutlined />}
         />

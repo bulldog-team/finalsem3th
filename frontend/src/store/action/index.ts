@@ -6,10 +6,3 @@ export {
   authSuccess,
   handleAutoLogin,
 } from "./authAction";
-
-export {
-  changeLanguageFailed,
-  changeLanguageStart,
-  changeLanguageSuccess,
-  handleChangeLanguage,
-} from "./langAction";

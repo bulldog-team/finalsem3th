@@ -6,8 +6,3 @@ export interface IAuthReducer {
   error: string | null;
   loading: boolean;
 }
-
-export interface IChangeLanguageReducer {
-  error: string | null;
-  loading: boolean;
-}
