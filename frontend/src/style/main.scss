@@ -1,0 +1,20 @@
+@import "~antd/dist/antd.min.css";
+
+@import "./abstract/variable";
+@import "./abstract/extend";
+@import "./abstract/custom";
+
+@import "./base/base";
+@import "./base/wrapper";
+
+@import "./compoment/navbar";
+@import "./compoment/sidebar";
+@import "./compoment/counter";
+@import "./compoment/table";
+@import "./compoment/btnUpload";
+
+@import "./page//loading";
+@import "./page/auth";
+@import "./page/login";
+
+@import "./abstract/responsive";
