@@ -8,19 +8,18 @@ import ErrorPage from "../Error/ErrorPage";
 
 const Dashboard: FC = () => {
   const match = useRouteMatch();
-  console.log(match.path);
   const routes = (
     <Switch>
       <PrivateRoute
-        path="/intro"
+        path={`${match.path}/intro`}
         component={Intro1}
         exact
         requiredRole={[Role.USER]}
       />
       <PrivateRoute
-        path="/"
+        path={`${match.path}/`}
         exact
-        requiredRole={[Role.USER]}
+        requiredRole={[Role.ADMIN, Role.USER]}
         component={Intro}
       />
       <Route path="/error" exact component={ErrorPage} />

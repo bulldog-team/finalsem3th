@@ -20,7 +20,7 @@ export const authStart = (): AppAction => ({
 
 export const authSuccess = (userData: IUserData): AppAction => {
   const array = userData.role?.map((item) => item);
-  const newState: AppAction = {
+  return {
     type: AUTH_SUCCESS,
     username: userData.username,
     token: userData.token,
@@ -30,8 +30,6 @@ export const authSuccess = (userData: IUserData): AppAction => {
     loading: false,
     error: null,
   };
-  console.log(newState);
-  return newState;
 };
 
 export const authFailed = (err: string): AppAction => ({
@@ -55,7 +53,6 @@ export const handleAutoLogin = () => {
       return dispatch(authLogout());
     }
     const userData: IUserData = localStorageService.getUserData();
-    console.log(userData);
     dispatch(authSuccess(userData));
   };
 };
@@ -65,7 +62,6 @@ export const handleLogin = (username: string, password: string) => {
     try {
       dispatch(authStart());
       const userResponse = await authApi.login(username, password);
-      console.log(userResponse);
       const user: IUserData = userResponse.data;
       localStorageService.setUserData(user);
       dispatch(authSuccess(user));
