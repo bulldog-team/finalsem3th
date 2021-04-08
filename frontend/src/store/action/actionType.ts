@@ -1,3 +1,5 @@
+import { IAuthReducer } from "../reducer/reducerType";
+
 export const AUTH_START = "AUTH_START";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_FAILED = "AUTH_FAILED";
@@ -12,14 +14,8 @@ export interface IAuthStart {
   loading: boolean;
 }
 
-export interface IAuthSucess {
+export interface IAuthSucess extends IAuthReducer {
   type: typeof AUTH_SUCCESS;
-  username: string | null;
-  email: string | null;
-  acToken: string | null;
-  rfToken: string | null;
-  loading: boolean;
-  error: null;
 }
 
 export interface IAuthFailed {

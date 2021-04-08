@@ -19,15 +19,19 @@ export const authStart = (): AppAction => ({
 });
 
 export const authSuccess = (userData: IUserData): AppAction => {
-  return {
+  const array = userData.role?.map((item) => item);
+  const newState: AppAction = {
     type: AUTH_SUCCESS,
     username: userData.username,
-    acToken: userData.acToken,
+    token: userData.token,
     email: userData.email,
-    rfToken: userData.rfToken,
+    userId: userData.userId,
+    role: array,
     loading: false,
     error: null,
   };
+  console.log(newState);
+  return newState;
 };
 
 export const authFailed = (err: string): AppAction => ({
@@ -46,11 +50,12 @@ export const authLogout = (): AppAction => {
 
 export const handleAutoLogin = () => {
   return (dispatch: Dispatch<AppAction>) => {
-    const acToken = localStorageService.getAcToken();
-    if (!acToken) {
+    const token = localStorageService.getToken();
+    if (!token) {
       return dispatch(authLogout());
     }
     const userData: IUserData = localStorageService.getUserData();
+    console.log(userData);
     dispatch(authSuccess(userData));
   };
 };
@@ -60,6 +65,7 @@ export const handleLogin = (username: string, password: string) => {
     try {
       dispatch(authStart());
       const userResponse = await authApi.login(username, password);
+      console.log(userResponse);
       const user: IUserData = userResponse.data;
       localStorageService.setUserData(user);
       dispatch(authSuccess(user));

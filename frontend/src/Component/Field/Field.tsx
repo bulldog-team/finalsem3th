@@ -3,6 +3,7 @@ import { FC } from "react";
 import {
   Control,
   Controller,
+  ControllerFieldState,
   ControllerRenderProps,
   FieldErrors,
 } from "react-hook-form";
@@ -15,7 +16,7 @@ interface IField {
   name: string;
   placeholder?: string;
   errors: FieldErrors;
-  control: Control;
+  control: Control<any>;
   hasFeedback?: boolean;
   type: InputType;
   prefix?: React.ReactElement;
@@ -27,32 +28,29 @@ const CustomField: FC<IField> = (props: IField) => {
 
   const InputStyle = (
     type: string,
-    props: ControllerRenderProps
+    props: {
+      field: ControllerRenderProps;
+      fieldState: ControllerFieldState;
+    }
   ): React.ReactElement => {
-    const { onChange, onBlur, value, name, ...restProps } = props;
+    const { field, fieldState } = props;
     switch (type) {
       case "text":
         return (
           <Input
-            name={name}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-            autoComplete={name}
+            {...field}
+            {...fieldState}
             {...rest}
-            {...restProps}
+            autoComplete={field.name}
           />
         );
       case "password":
         return (
           <Input.Password
-            name={name}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-            autoComplete="current-password"
+            {...field}
+            {...fieldState}
             {...rest}
-            {...restProps}
+            autoComplete="current-password"
           />
         );
     }
@@ -69,7 +67,7 @@ const CustomField: FC<IField> = (props: IField) => {
       <Controller
         control={control}
         name={name}
-        render={(props: ControllerRenderProps) => InputStyle(type, props)}
+        render={(props) => InputStyle(type, props)}
       />
     </Form.Item>
   );

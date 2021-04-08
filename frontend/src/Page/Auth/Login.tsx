@@ -1,11 +1,13 @@
-import { Button, Form, Row } from "antd";
+import { Button, Form } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { Dispatch, FC, SetStateAction } from "react";
 
 import CustomField from "../../Component/Field/Field";
-import { Dispatch, FC, SetStateAction } from "react";
+import * as actionCreator from "../../store/action/index";
 
 type ILoginForm = {
   username: string;
@@ -30,13 +32,22 @@ const LoginPage: FC<IloginProps> = () => {
     password: "",
   };
 
-  const { handleSubmit, control, errors, reset } = useForm<ILoginForm>({
+  const dispatch = useDispatch();
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<ILoginForm>({
     defaultValues,
     resolver: yupResolver(LoginSchema),
   });
 
-  const handleLoginForm: SubmitHandler<ILoginForm> = (data: ILoginForm) => {
-    console.log(data);
+  const handleLoginForm: SubmitHandler<ILoginForm> = async (
+    data: ILoginForm
+  ) => {
+    dispatch(actionCreator.handleLogin(data.username, data.username));
     reset(defaultValues);
   };
 
@@ -63,11 +74,15 @@ const LoginPage: FC<IloginProps> = () => {
             prefix={<LockOutlined />}
           />
         </div>
-        <Button type="primary" htmlType="submit" block>
+        <Button
+          type="primary"
+          htmlType="submit"
+          block
+          style={{ marginTop: "1rem" }}
+        >
           Login
         </Button>
       </Form>
-      <Row className="login__recover">{"Auth.forgotPassword"}</Row>
     </div>
   );
 };

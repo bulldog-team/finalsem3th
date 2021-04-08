@@ -12,9 +12,8 @@ import * as actionCreator from "./store/action/index";
 const App = () => {
   const dispatch = useDispatch();
 
-  console.log("check");
   useEffect(() => {
-    if (!localStorageService.getAcToken()) {
+    if (!localStorageService.getToken()) {
       return localStorageService.clearAll();
     }
     dispatch(actionCreator.handleAutoLogin());

@@ -14,7 +14,7 @@ const authApi: IAuthApi = {
     username: string,
     password: string
   ): Promise<AxiosResponse<IUserData>> => {
-    const url: string = `${process.env.REACT_APP_API_URL}`;
+    const url: string = `${process.env.REACT_APP_API_URL}/auth/login`;
     const data: object = { username, password };
     return axiosClient.post(url, data);
   },

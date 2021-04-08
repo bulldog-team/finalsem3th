@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { Row, Typography } from "antd";
 
 import LoginPage from "./Login";
-import RegisterPage from "./Register";
 import { useSelector } from "react-redux";
 import { AppState } from "../../store/store";
 import { RedirectProps, Redirect } from "react-router-dom";
@@ -19,20 +18,17 @@ const AuthPage: FC<ExtendRouteProps> = (props) => {
   const { Title } = Typography;
 
   const [redirectToReferrer, setRedirectToReferrer] = useState<boolean>(false);
-  const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
 
   const { from } = props.location.state || {
     from: { pathname: "/" },
   };
 
   const auth = useSelector((state: AppState) => state.auth);
-  const isAuthenticate = auth.acToken ? true : false;
+  const isAuthenticate = auth.token ? true : false;
 
   if (redirectToReferrer || isAuthenticate) {
     return <Redirect to={from} />;
   }
-
-  const handleChangeMode = () => setIsLoginMode((pre) => !pre);
 
   return (
     <div className="auth">
@@ -40,19 +36,8 @@ const AuthPage: FC<ExtendRouteProps> = (props) => {
         <Title style={{ textAlign: "center" }}> Welcome</Title>
         <Row className="auth__logo">Logo</Row>
         <div className="auth__form">
-          {isLoginMode ? (
-            <LoginPage setRedirectToReferrer={setRedirectToReferrer} />
-          ) : (
-            <RegisterPage />
-          )}
+          <LoginPage setRedirectToReferrer={setRedirectToReferrer} />
         </div>
-        <Row className="auth__changeMode">
-          {isLoginMode ? "Auth.dontHaveAccout" : "Auth.haveAccount"}
-          <span className="auth__change" onClick={handleChangeMode}>
-            &ensp;
-            {isLoginMode ? "Auth.signUp" : "Auth.login"}
-          </span>
-        </Row>
       </div>
     </div>
   );

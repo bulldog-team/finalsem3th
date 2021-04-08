@@ -1,23 +1,18 @@
 import * as actionType from "../action/actionType";
 import { IAuthReducer } from "./reducerType";
 
-type AuthAction = {
+type AuthAction = IAuthReducer & {
   type: string;
-  username: string;
-  email: string;
-  acToken: string;
-  rfToken: string;
-  error: string;
-  loading: boolean;
 };
 
 const initState: IAuthReducer = {
   username: null,
   email: null,
-  acToken: null,
-  rfToken: null,
+  token: null,
   error: null,
   loading: false,
+  role: [],
+  userId: null,
 };
 
 const authStart = (state: IAuthReducer, action: AuthAction): IAuthReducer => ({
@@ -33,8 +28,9 @@ const authSuccess = (
   ...state,
   username: action.username,
   email: action.email,
-  acToken: action.acToken,
-  rfToken: action.rfToken,
+  token: action.token,
+  userId: action.userId,
+  role: action.role,
   error: null,
   loading: false,
 });
