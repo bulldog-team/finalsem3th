@@ -20,16 +20,16 @@ const MENU: MenuTypes[] = [
     role: [Role.ADMIN, Role.USER],
     sub: [
       {
+        key: "userInfo",
+        title: "User Info",
+        link: "/user-info",
+        role: [Role.ADMIN, Role.USER],
+      },
+      {
         key: "allUser",
         title: "User List",
         link: "/user-list",
         role: [Role.ADMIN],
-      },
-      {
-        key: "userInfo",
-        title: "User Info",
-        link: "/",
-        role: [Role.ADMIN, Role.USER],
       },
     ],
   },

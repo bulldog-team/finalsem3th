@@ -1,5 +1,11 @@
 import { FC, useCallback, useState } from "react";
-import { Switch, Route, Redirect, useRouteMatch } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  useLocation,
+} from "react-router-dom";
 
 import UserInfo from "../../Component/UserInfo/UserInfo";
 import UserList from "../../Component/UserList/UserList";
@@ -12,8 +18,6 @@ import MENU from "../../Component/Navbar/Menu";
 import PackageList from "../../Component/PackageList/PackageList";
 
 const Dashboard: FC = () => {
-  const match = useRouteMatch();
-
   const [isSidebarOpen, SetIsSidebarOpen] = useState<boolean>(false);
 
   const toggleSidebar = useCallback(() => {
@@ -35,13 +39,13 @@ const Dashboard: FC = () => {
         component={PackageList}
       />
       <PrivateRoute
-        path={`/`}
+        path={"/user-info"}
         exact
         requiredRole={[Role.ADMIN, Role.USER]}
         component={UserInfo}
       />
       <Route path="/error" exact component={ErrorPage} />
-      <Redirect to="/error" />
+      <Redirect to="/user-info" />
     </Switch>
   );
 
