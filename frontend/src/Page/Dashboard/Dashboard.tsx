@@ -23,22 +23,22 @@ const Dashboard: FC = () => {
   const routes = (
     <Switch>
       <PrivateRoute
-        path={`${match.path}/user-list`}
+        path={`/user-list`}
         component={UserList}
         exact
         requiredRole={[Role.ADMIN]}
       />
       <PrivateRoute
-        path={`${match.path}/`}
-        exact
-        requiredRole={[Role.ADMIN, Role.USER]}
-        component={UserInfo}
-      />
-      <PrivateRoute
-        path={`${match.path}/package-list`}
+        path={`/package-list`}
         exact
         requiredRole={[Role.ADMIN, Role.USER]}
         component={PackageList}
+      />
+      <PrivateRoute
+        path={`/`}
+        exact
+        requiredRole={[Role.ADMIN, Role.USER]}
+        component={UserInfo}
       />
       <Route path="/error" exact component={ErrorPage} />
       <Redirect to="/error" />
