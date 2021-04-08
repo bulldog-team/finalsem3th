@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { Row, Typography } from "antd";
+import { ThunderboltOutlined } from "@ant-design/icons";
 
 import LoginPage from "./Login";
 import { useSelector } from "react-redux";
@@ -34,7 +35,9 @@ const AuthPage: FC<ExtendRouteProps> = (props) => {
     <div className="auth">
       <div className="auth__wrapper">
         <Title style={{ textAlign: "center" }}> Welcome</Title>
-        <Row className="auth__logo">Logo</Row>
+        <Row className="auth__logo">
+          <ThunderboltOutlined style={{ fontSize: "80px" }} />
+        </Row>
         <div className="auth__form">
           <LoginPage setRedirectToReferrer={setRedirectToReferrer} />
         </div>

@@ -32,7 +32,7 @@ export const localStorageService: ILocalStorageService = {
       localStorage.setItem("userId", userData.userId.toString());
     }
     if (userData.role) {
-      localStorage.setItem("role", ["Admin", "User"].toString());
+      localStorage.setItem("role", userData.role.toString());
     }
   },
 
