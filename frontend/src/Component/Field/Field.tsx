@@ -63,6 +63,7 @@ const CustomField: FC<IField> = (props: IField) => {
       validateStatus={errors && errors[name] ? "error" : ""}
       help={errors[name]?.message}
       hasFeedback={hasFeedback}
+      // wrapperCol={{ span: 5, offset: 3 }}
     >
       <Controller
         control={control}
