@@ -18,12 +18,9 @@ namespace API.Models
         public string Email { get; set; }
         public Boolean Gender { get; set; }
         public ICollection<RoleDetailModel> RoleDetailModels { get; set; }
-
-        public int Age { get; set; }
-
         public String Address { get; set; }
 
-        public DateTime DoB { get; set; }
+        public DateTime Dob { get; set; }
 
         public String Image { get; set; }
 
