@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useCallback } from "react";
-import { Link, NavLink, useRouteMatch } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import { localStorageService } from "../../helper/localStorage/localStorageService";
 import MENU, { MenuType, MenuTypes } from "../Navbar/Menu";
@@ -62,7 +62,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
                   <div className="sidebar-nav--link sidebar-nav--dropdown">
                     <Link to="#" onClick={() => handleDropdown(index)}>
                       <div>
-                        <i className="material-icons">dashboard</i>
+                        <i className="material-icons">{item.icon}</i>
                       </div>
                       <span>{item.title}</span>
                       <span

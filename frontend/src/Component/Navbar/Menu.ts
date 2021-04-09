@@ -16,7 +16,7 @@ const MENU: MenuTypes[] = [
   {
     key: "info",
     title: "Information",
-    icon: "dashboard",
+    icon: "assignment",
     role: [Role.ADMIN, Role.USER],
     sub: [
       {
@@ -36,7 +36,7 @@ const MENU: MenuTypes[] = [
   {
     key: "package",
     title: "Package",
-    icon: "dashboard",
+    icon: "card_travel",
     role: [Role.ADMIN, Role.USER],
     sub: [
       {

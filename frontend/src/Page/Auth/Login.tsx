@@ -75,7 +75,7 @@ const LoginPage: FC<IloginProps> = () => {
           type="primary"
           htmlType="submit"
           block
-          style={{ marginTop: "1rem" }}
+          style={{ margin: "3rem 0" }}
         >
           Login
         </Button>

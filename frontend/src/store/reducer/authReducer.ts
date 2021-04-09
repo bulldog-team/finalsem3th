@@ -35,18 +35,17 @@ const authSuccess = (
   loading: false,
 });
 
-const authFailed = (state: IAuthReducer, action: AuthAction) => ({
+const authFailed = (state: IAuthReducer, action: AuthAction): IAuthReducer => ({
   ...state,
   error: action.error,
   loading: false,
 });
 
-const authLogout = (state: IAuthReducer, action: AuthAction) => ({
+const authLogout = (state: IAuthReducer, action: AuthAction): IAuthReducer => ({
   ...state,
   username: null,
   email: null,
-  acToken: null,
-  rfToken: null,
+  token: null,
   error: null,
   loading: false,
 });

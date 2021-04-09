@@ -1,11 +1,5 @@
 import { FC, useCallback, useState } from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  useRouteMatch,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import UserInfo from "../../Component/UserInfo/UserInfo";
 import UserList from "../../Component/UserList/UserList";
@@ -57,7 +51,9 @@ const Dashboard: FC = () => {
     >
       <Navbar toggleSidebar={toggleSidebar} />
       <Sidebar menu={MENU} />
-      <div className="wrapper">{routes}</div>
+      <div className="wrapper">
+        <div className="table">{routes}</div>
+      </div>
     </div>
   );
 };
