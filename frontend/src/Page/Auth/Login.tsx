@@ -19,7 +19,7 @@ interface IloginProps {
 }
 
 const LoginPage: FC<IloginProps> = () => {
-  const LoginSchema = yup.object().shape({
+  const LoginSchema: yup.SchemaOf<ILoginForm> = yup.object({
     username: yup.string().required("This field is required"),
     password: yup.string().required("This field is required"),
   });

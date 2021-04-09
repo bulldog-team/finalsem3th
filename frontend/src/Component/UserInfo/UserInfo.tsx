@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
-import { Col, Row, Form } from "antd";
+import { Col, Row, Form, DatePicker, Button } from "antd";
 
 type UserInfoForm = {
   username: string;
@@ -12,7 +12,6 @@ type UserInfoForm = {
   age: number;
   address: string;
   dob: any;
-  image: any;
   phone: string;
   branchId: number;
 };
@@ -22,11 +21,10 @@ const UserInfo = () => {
     username: "",
     email: "",
     gender: true,
-    age: 0,
+    age: 1,
     address: "",
     branchId: 1,
-    dob: "11/01/1994",
-    image: "",
+    dob: "",
     phone: "",
   };
 
@@ -37,7 +35,6 @@ const UserInfo = () => {
     dob: yup.string().defined(),
     email: yup.string().email().defined(),
     gender: yup.boolean().defined(),
-    image: yup.string().defined(),
     phone: yup.string().defined(),
     username: yup.string().defined(),
   });
@@ -48,7 +45,7 @@ const UserInfo = () => {
       offset: 1,
     },
     wrapperCol: {
-      span: 12,
+      span: 10,
     },
   };
 
@@ -64,7 +61,7 @@ const UserInfo = () => {
     control,
   } = useForm<UserInfoForm>({
     defaultValues: initForm,
-    resolver: yupResolver(UserInfoSchema),
+    // resolver: yupResolver(UserInfoSchema),
   });
 
   return (
@@ -82,7 +79,20 @@ const UserInfo = () => {
                   errors={errors}
                   type="text"
                 />
-
+                <CustomField
+                  name="address"
+                  label="Address"
+                  control={control}
+                  errors={errors}
+                  type="text"
+                />
+                <CustomField
+                  name="phone"
+                  label="Phone"
+                  control={control}
+                  errors={errors}
+                  type="text"
+                />
                 <CustomField
                   name="email"
                   label="Email"
@@ -90,7 +100,41 @@ const UserInfo = () => {
                   errors={errors}
                   type="text"
                 />
+                <CustomField
+                  name="gender"
+                  label="Gender"
+                  control={control}
+                  errors={errors}
+                  type="select"
+                  options={[
+                    { value: "true", name: "Male" },
+                    { value: "false", name: "Female" },
+                  ]}
+                />
+                <CustomField
+                  name="branch"
+                  label="Branch"
+                  control={control}
+                  errors={errors}
+                  type="select"
+                  options={[
+                    { value: "1", name: "1" },
+                    { value: "2", name: "2" },
+                  ]}
+                />
+                <CustomField
+                  name="dob"
+                  label="Date of Birth"
+                  control={control}
+                  errors={errors}
+                  type="datePicker"
+                />
               </Col>
+            </Row>
+            <Row justify="center" style={{ margin: "2rem 0" }}>
+              <Button type="primary" htmlType="submit">
+                Send
+              </Button>
             </Row>
           </Form>
         </div>

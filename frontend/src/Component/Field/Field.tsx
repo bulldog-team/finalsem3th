@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { FC } from "react";
 import {
   Control,
@@ -8,7 +8,13 @@ import {
   FieldErrors,
 } from "react-hook-form";
 
-export declare const InputTypes: ["text", "password"];
+export declare const InputTypes: [
+  "text",
+  "password",
+  "datePicker",
+  "select",
+  "number"
+];
 export declare type InputType = typeof InputTypes[number];
 
 interface IField {
@@ -21,10 +27,28 @@ interface IField {
   type: InputType;
   prefix?: React.ReactElement;
   className?: string;
+  options?: { value: string; name: string }[];
+  defaultValue?: any;
 }
 
-const CustomField: FC<IField> = (props: IField) => {
-  const { label, name, errors, control, type, hasFeedback, ...rest } = props;
+const CustomField: FC<IField> = (propsField: IField) => {
+  const {
+    label,
+    name,
+    errors,
+    control,
+    type,
+    hasFeedback,
+    ...rest
+  } = propsField;
+
+  const onDatePickerChange = (
+    date: moment.Moment | null,
+    dateString: string,
+    field: ControllerRenderProps
+  ) => {
+    field.onChange(dateString);
+  };
 
   const InputStyle = (
     type: string,
@@ -53,6 +77,34 @@ const CustomField: FC<IField> = (props: IField) => {
             autoComplete="current-password"
           />
         );
+      case "datePicker":
+        return (
+          <DatePicker
+            onChange={(date, dateString) =>
+              onDatePickerChange(date, dateString, field)
+            }
+          />
+        );
+      case "select":
+        const { Option } = Select;
+        return (
+          <Select defaultValue={propsField.defaultValue} {...field}>
+            {propsField.options?.map((item) => (
+              <Option key={item.name} value={item.value}>
+                {item.name}
+              </Option>
+            ))}
+          </Select>
+        );
+      case "number":
+        return (
+          <InputNumber
+            min={1}
+            max={200}
+            defaultValue={propsField.defaultValue || 1}
+            {...field}
+          />
+        );
     }
     return <></>;
   };
@@ -63,7 +115,6 @@ const CustomField: FC<IField> = (props: IField) => {
       validateStatus={errors && errors[name] ? "error" : ""}
       help={errors[name]?.message}
       hasFeedback={hasFeedback}
-      // wrapperCol={{ span: 5, offset: 3 }}
     >
       <Controller
         control={control}
