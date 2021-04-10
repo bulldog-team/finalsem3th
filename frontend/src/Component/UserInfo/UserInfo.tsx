@@ -3,25 +3,32 @@ import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
-import { Col, Row, Form, DatePicker, Button } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Col, Row, Form, Button, Image, Upload } from "antd";
+import { useRef, useState } from "react";
+import { string } from "yup/lib/locale";
 
 type UserInfoForm = {
   username: string;
   email: string;
   gender: boolean;
-  age: number;
   address: string;
   dob: any;
   phone: string;
   branchId: number;
 };
 
+interface IFileState {
+  imgName: string;
+  imgSrc: string;
+  imgFile: string | Blob | null;
+}
+
 const UserInfo = () => {
   const initForm: UserInfoForm = {
     username: "",
     email: "",
     gender: true,
-    age: 1,
     address: "",
     branchId: 1,
     dob: "",
@@ -39,6 +46,12 @@ const UserInfo = () => {
     username: yup.string().defined(),
   });
 
+  const [imgFile, setImgFile] = useState<IFileState>({
+    imgName: "",
+    imgSrc: "",
+    imgFile: null,
+  });
+
   const layout = {
     labelCol: {
       span: 6,
@@ -52,7 +65,15 @@ const UserInfo = () => {
   const handleSubmitForm: SubmitHandler<UserInfoForm> = (
     data: UserInfoForm
   ) => {
-    console.log(data);
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+      formData.append(key, value);
+    }
+    formData.append("imgName", imgFile.imgName);
+    formData.append("imgSrc", imgFile.imgSrc);
+    if (imgFile.imgFile) {
+      formData.append("imgFile", imgFile.imgFile);
+    }
   };
 
   const {
@@ -64,6 +85,38 @@ const UserInfo = () => {
     // resolver: yupResolver(UserInfoSchema),
   });
 
+  const loadFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      let imgFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (x) => {
+        if (x.target && typeof x.target.result === "string") {
+          setImgFile({
+            imgFile,
+            imgSrc: x.target.result,
+            imgName: imgFile.name,
+          });
+        } else {
+          setImgFile({
+            imgFile: null,
+            imgSrc: "",
+            imgName: "",
+          });
+        }
+      };
+      reader.readAsDataURL(imgFile);
+    }
+  };
+
+  const fileUpload = useRef<HTMLInputElement>(null);
+
+  const showFileUpload = () => {
+    if (fileUpload.current) {
+      fileUpload.current.click();
+    }
+  };
+
   return (
     <>
       <div className="px-1 py-1 table userInfo">
@@ -71,7 +124,7 @@ const UserInfo = () => {
         <div className="userInfo__body">
           <Form {...layout} onFinish={handleSubmit(handleSubmitForm)}>
             <Row>
-              <Col xs={16}>
+              <Col sm={16}>
                 <CustomField
                   name="username"
                   label="Username"
@@ -112,7 +165,7 @@ const UserInfo = () => {
                   ]}
                 />
                 <CustomField
-                  name="branch"
+                  name="branchId"
                   label="Branch"
                   control={control}
                   errors={errors}
@@ -129,6 +182,27 @@ const UserInfo = () => {
                   errors={errors}
                   type="datePicker"
                 />
+              </Col>
+              <Col sm={8}>
+                <Row justify="center" style={{ margin: "1rem 0" }}>
+                  <Image
+                    src={imgFile.imgSrc}
+                    width={200}
+                    height={200}
+                    fallback="https://via.placeholder.com/200"
+                  />
+                  <input
+                    type="file"
+                    onChange={loadFileChange}
+                    style={{ display: "none" }}
+                    ref={fileUpload}
+                  />
+                </Row>
+                <Row justify="center">
+                  <Button icon={<UploadOutlined />} onClick={showFileUpload}>
+                    Click to upload
+                  </Button>
+                </Row>
               </Col>
             </Row>
             <Row justify="center" style={{ margin: "2rem 0" }}>
