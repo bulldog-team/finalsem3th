@@ -6,10 +6,6 @@ namespace API.Services.UserService
 {
     public interface IUserService
     {
-        Task<ResponseServiceModel<UserRegisterDTO>> AdminCreateUser(UserRegisterDTO user);
-
-        Task<ResponseServiceModel<UpdateUserDTO>> AdminUpdateUser(UpdateUserDTO user);
-
-        Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUser(DeleteUserDTO user);
+        Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO user);
     }
 }

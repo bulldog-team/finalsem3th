@@ -6,9 +6,9 @@ import CustomField from "../Field/Field";
 import { UploadOutlined } from "@ant-design/icons";
 import { Col, Row, Form, Button, Image, Upload } from "antd";
 import { useRef, useState } from "react";
-import { string } from "yup/lib/locale";
+import UserApi from "../../helper/axios/userApi";
 
-type UserInfoForm = {
+export type UserInfoForm = {
   username: string;
   email: string;
   gender: boolean;
@@ -18,7 +18,7 @@ type UserInfoForm = {
   branchId: number;
 };
 
-interface IFileState {
+export interface IFileState {
   imgName: string;
   imgSrc: string;
   imgFile: string | Blob | null;
@@ -62,7 +62,7 @@ const UserInfo = () => {
     },
   };
 
-  const handleSubmitForm: SubmitHandler<UserInfoForm> = (
+  const handleSubmitForm: SubmitHandler<UserInfoForm> = async (
     data: UserInfoForm
   ) => {
     const formData = new FormData();
@@ -73,6 +73,12 @@ const UserInfo = () => {
     formData.append("imgSrc", imgFile.imgSrc);
     if (imgFile.imgFile) {
       formData.append("imgFile", imgFile.imgFile);
+    }
+    try {
+      const response = await UserApi.updateUserInfo(formData);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
   };
 
