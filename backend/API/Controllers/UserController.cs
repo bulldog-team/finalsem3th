@@ -15,10 +15,10 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> UserUpdateInfo([FromForm] UserUpdateInfoDTO user)
+        [HttpPatch("{userRequestId}")]
+        public async Task<IActionResult> UserUpdateInfo([FromForm] UserUpdateInfoDTO user, int userRequestId)
         {
-            var response = await _userService.UserUpdateInfo(user);
+            var response = await _userService.UserUpdateInfo(user, userRequestId);
             if (!response.Success)
             {
                 return BadRequest(response);

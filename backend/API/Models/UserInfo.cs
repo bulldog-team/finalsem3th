@@ -14,16 +14,14 @@ namespace API.Models
 
         public DateTime Dob { get; set; }
 
-        public string ImageSrc { get; set; }
-
-        public string ImageName { get; set; }
+        public string ImgName { get; set; }
 
         [ForeignKey("BranchId")]
         public BranchModel Branch { get; set; }
         public int BranchId { get; set; }
         public bool IsAdminAccept { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("UserId")]
         public UserModel UserModel { get; set; }
         public int UserId { get; set; }
 

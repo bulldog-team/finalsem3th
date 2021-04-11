@@ -8,6 +8,6 @@ namespace API.Services.UserService
 {
     public interface IUserService
     {
-        Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO user);
+        Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO user, int userRequestId);
     }
 }

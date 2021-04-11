@@ -26,7 +26,7 @@ const UserApi: IUserApi = {
     form: FormData
   ): Promise<AxiosResponse<UserInfoType>> => {
     const userId = localStorageService.getUserId();
-    const url: string = `${process.env.REACT_APP_API_URL}/users/${userId}`;
+    const url: string = `${process.env.REACT_APP_API_URL}/user/${userId}`;
     return axiosClient.patch(url, form);
   },
 };

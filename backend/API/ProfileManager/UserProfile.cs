@@ -12,6 +12,7 @@ namespace API.ProfileManager
             // CreateMap<UserModel, GetUserDTO>().ForMember(itemInGetUserDTO => itemInGetUserDTO.RoleName, itemInUserModel => itemInUserModel.MapFrom(item => item.Role.RoleName));
             // CreateMap<UserRegisterDTO, UserModel>();
             CreateMap<UserModel, GetUserDTO>();
+            CreateMap<UserUpdateInfoDTO, UserInfo>();
         }
     }
 }

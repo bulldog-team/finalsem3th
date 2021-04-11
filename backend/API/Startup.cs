@@ -1,5 +1,6 @@
 using API.Middleware;
 using API.Services.AuthService;
+using API.Services.UserService;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +40,9 @@ namespace API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<DataContext>(option =>
             {

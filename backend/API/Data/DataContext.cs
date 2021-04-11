@@ -69,21 +69,24 @@ namespace BackEnd.Data
                     Id = 1,
                     Address = "admin address",
                     BranchId = 1,
-                    Gender = true
+                    Gender = true,
+                    UserId = 1,
                 },
                 new UserInfo
                 {
                     Id = 2,
                     Address = "user001 address",
                     BranchId = 1,
-                    Gender = false
+                    Gender = false,
+                    UserId = 2,
                 },
                 new UserInfo
                 {
                     Id = 3,
                     Address = "user002 address",
                     BranchId = 2,
-                    Gender = true
+                    Gender = true,
+                    UserId = 3
                 }
             );
 

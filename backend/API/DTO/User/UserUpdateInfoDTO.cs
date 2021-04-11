@@ -13,11 +13,10 @@ namespace API.DTO.User
 
         public DateTime Dob { get; set; }
 
-        public string phone { get; set; }
-        public int branchId { get; set; }
+        public string Phone { get; set; }
+        public int BranchId { get; set; }
 
         public string ImgName { get; set; }
-        public string ImgScr { get; set; }
 
         [NotMapped]
         public IFormFile ImgFile { get; set; }
