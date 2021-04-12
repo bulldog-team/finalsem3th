@@ -84,7 +84,7 @@ const CustomField: FC<IField> = (propsField: IField) => {
             onChange={(date, dateString) =>
               onDatePickerChange(date, dateString, field)
             }
-            defaultValue={moment(propsField.defaultValue, "yyyy-mm-dd")}
+            value={moment(propsField.defaultValue, "YYYY-MM-DD")}
           />
         );
       case "select":

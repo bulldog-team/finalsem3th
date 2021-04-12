@@ -212,6 +212,14 @@ const UserInfo = () => {
                   ]}
                 />
                 <CustomField
+                  name="dob"
+                  label="Date of Birth"
+                  control={control}
+                  errors={errors}
+                  type="datePicker"
+                  defaultValue={getValues("dob")}
+                />
+                <CustomField
                   name="branchId"
                   label="Branch"
                   control={control}
