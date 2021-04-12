@@ -1,4 +1,5 @@
 import { DatePicker, Form, Input, InputNumber, Select } from "antd";
+import moment from "moment";
 import { FC } from "react";
 import {
   Control,
@@ -83,6 +84,7 @@ const CustomField: FC<IField> = (propsField: IField) => {
             onChange={(date, dateString) =>
               onDatePickerChange(date, dateString, field)
             }
+            defaultValue={moment(propsField.defaultValue, "yyyy-mm-dd")}
           />
         );
       case "select":

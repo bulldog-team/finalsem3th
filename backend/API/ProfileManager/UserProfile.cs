@@ -13,7 +13,6 @@ namespace API.ProfileManager
             // CreateMap<UserRegisterDTO, UserModel>();
             CreateMap<UserModel, GetUserDTO>();
             CreateMap<UserUpdateInfoDTO, UserInfo>();
-            CreateMap<UserInfoTemp, UserInfo>();
         }
     }
 }

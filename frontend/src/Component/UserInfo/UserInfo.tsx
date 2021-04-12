@@ -1,12 +1,13 @@
 import Heading from "../Heading/Heading";
 import * as yup from "yup";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
 import { UploadOutlined } from "@ant-design/icons";
 import { Col, Row, Form, Button, Image, Upload } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
+import moment from "moment";
 
 export type UserInfoForm = {
   username: string;
@@ -38,18 +39,22 @@ const UserInfo = () => {
   const UserInfoSchema: yup.SchemaOf<UserInfoForm> = yup.object({
     address: yup.string().defined(),
     age: yup.number().integer().defined(),
-    branchId: yup.number().integer().defined(),
+    branchId: yup
+      .number()
+      .integer()
+      .defined()
+      .required("This field is required"),
     dob: yup.string().defined(),
-    email: yup.string().email().defined(),
+    email: yup.string().email().defined().required("This field is required"),
     gender: yup.boolean().defined(),
     phone: yup.string().defined(),
-    username: yup.string().defined(),
+    username: yup.string().defined().required("This field is required"),
   });
 
   const [imgFile, setImgFile] = useState<IFileState>({
     imgName: "",
     imgSrc: "",
-    imgFile: null,
+    imgFile: "",
   });
 
   const layout = {
@@ -69,13 +74,18 @@ const UserInfo = () => {
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
-    formData.append("imgName", imgFile.imgName);
-    formData.append("imgSrc", imgFile.imgSrc);
     if (imgFile.imgFile) {
+      formData.append("imgName", imgFile.imgName);
+      formData.append("imgSrc", imgFile.imgSrc);
       formData.append("imgFile", imgFile.imgFile);
+    } else {
+      formData.append("imgName", "");
+      formData.append("imgSrc", "");
+      formData.append("imgFile", "");
     }
+
     try {
-      const response = await UserApi.updateUserInfo(formData);
+      const response = await UserApi.userUpdateUserInfo(formData);
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -86,6 +96,8 @@ const UserInfo = () => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
+    getValues,
   } = useForm<UserInfoForm>({
     defaultValues: initForm,
     // resolver: yupResolver(UserInfoSchema),
@@ -123,8 +135,34 @@ const UserInfo = () => {
     }
   };
 
+  useEffect(() => {
+    const userGetInfo = async () => {
+      try {
+        const response = await UserApi.userGetUserInfo();
+        console.log(response);
+        reset(response.data);
+        setImgFile((pre) => ({
+          ...pre,
+          imgSrc: `${process.env.REACT_APP_API_URL}/images/${response.data.imgName}`,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    userGetInfo();
+  }, [reset]);
+
+  console.log(getValues("dob"));
+
   return (
     <>
+      <Button
+        onClick={() => {
+          console.log(getValues());
+        }}
+      >
+        aaa
+      </Button>
       <div className="px-1 py-1 table userInfo">
         <Heading title="User Information" />
         <div className="userInfo__body">
@@ -187,6 +225,7 @@ const UserInfo = () => {
                   control={control}
                   errors={errors}
                   type="datePicker"
+                  defaultValue={getValues("dob")}
                 />
               </Col>
               <Col sm={8}>

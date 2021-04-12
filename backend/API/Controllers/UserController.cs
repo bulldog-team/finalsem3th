@@ -15,6 +15,17 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        [HttpGet("{userRequestId}")]
+        public async Task<IActionResult> UserGetUserInfo(int userRequestId)
+        {
+            var response = await _userService.UserGetUserInfo(userRequestId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
         [HttpPatch("{userRequestId}")]
         public async Task<IActionResult> UserUpdateInfo([FromForm] UserUpdateInfoDTO user, int userRequestId)
         {
@@ -25,8 +36,5 @@ namespace API.Controllers
             }
             return Ok(user);
         }
-
-
-
     }
 }

@@ -16,7 +16,6 @@ namespace BackEnd.Data
         public DbSet<DeliveryTypeModel> DeliveryTypeModels { get; set; }
         public DbSet<PackageModel> packageModels { get; set; }
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
-        public DbSet<UserInfoTemp> UserInfoTemps { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
 
