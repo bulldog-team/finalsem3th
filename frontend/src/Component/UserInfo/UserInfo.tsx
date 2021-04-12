@@ -7,7 +7,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Col, Row, Form, Button, Image, Upload } from "antd";
 import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 export type UserInfoForm = {
   username: string;
@@ -135,6 +135,9 @@ const UserInfo = () => {
     }
   };
 
+  const [date, setDate] = useState<Moment>();
+  const dateFormat = "YYYY-MM-DD";
+
   useEffect(() => {
     const userGetInfo = async () => {
       try {
@@ -218,14 +221,6 @@ const UserInfo = () => {
                     { value: "1", name: "1" },
                     { value: "2", name: "2" },
                   ]}
-                />
-                <CustomField
-                  name="dob"
-                  label="Date of Birth"
-                  control={control}
-                  errors={errors}
-                  type="datePicker"
-                  defaultValue={getValues("dob")}
                 />
               </Col>
               <Col sm={8}>

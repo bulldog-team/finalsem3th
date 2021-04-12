@@ -71,6 +71,7 @@ namespace BackEnd.Data
                     BranchId = 1,
                     Gender = true,
                     UserId = 1,
+                    Dob = new DateTime(1963, 10, 14)
                 },
                 new UserInfo
                 {
@@ -79,6 +80,7 @@ namespace BackEnd.Data
                     BranchId = 1,
                     Gender = false,
                     UserId = 2,
+                    Dob = new DateTime(1989, 1, 4)
                 },
                 new UserInfo
                 {
@@ -86,7 +88,8 @@ namespace BackEnd.Data
                     Address = "user002 address",
                     BranchId = 2,
                     Gender = true,
-                    UserId = 3
+                    UserId = 3,
+                    Dob = new DateTime(1998, 6, 20)
                 }
             );
 
