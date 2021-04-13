@@ -8,12 +8,13 @@ import UserModal from "./UserModal";
 
 type UserListDataSource = UserListType & {
   key: number;
+  userId: number;
 };
 
 const UserList = () => {
   const [userListData, setUserListData] = useState<UserListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string>();
+  const [name, setName] = useState<number>();
 
   const { Column } = Table;
 
@@ -22,7 +23,7 @@ const UserList = () => {
       try {
         const response = await UserApi.getUserList();
         const transferData: UserListDataSource[] = response.data.map(
-          (item, index) => ({ ...item, key: index + 1 })
+          (item, index) => ({ ...item, key: index + 1, userId: item.userId })
         );
         setUserListData(transferData);
         console.log(response.data);
@@ -39,7 +40,7 @@ const UserList = () => {
         <UserModal
           isModalOpen={isViewModalOpen}
           setIsModalOpen={setIsViewModalOpen}
-          username={name}
+          userId={name}
         />
       )}
       <div className="px-1 py-1 table userList">
@@ -73,7 +74,7 @@ const UserList = () => {
               dataIndex="isAdminAccept"
               render={(data) => {
                 console.log(data.toString());
-                return <>{data ? "Activated" : "Not Activate"}</>;
+                return <>{data ? "Activated" : "Not Activated"}</>;
               }}
               sorter={(a: UserListDataSource, b: UserListDataSource) => {
                 return a.isAdminAccept
@@ -83,13 +84,16 @@ const UserList = () => {
             />
             <Column
               title="Action"
-              render={(_, record) => {
+              render={(_, record: UserListDataSource) => {
                 return (
                   <Space size="middle">
                     <Tooltip title="View">
                       <ExportOutlined
                         className="ant-icon icon-primary userList__btn"
-                        onClick={() => setIsViewModalOpen(true)}
+                        onClick={() => {
+                          setIsViewModalOpen(true);
+                          setName(record.userId);
+                        }}
                       />
                     </Tooltip>
                     <Tooltip title="Delete">
