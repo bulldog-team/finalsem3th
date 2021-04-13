@@ -17,23 +17,28 @@ namespace BackEnd.Data
         public DbSet<PackageModel> packageModels { get; set; }
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
+        public DbSet<UserInfo> UserInfos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BranchModel>().HasData(
                 new BranchModel
                 {
                     BranchId = 1,
-                    Address = "HCM",
+                    Address = "114 Đường 9A Khu Dân cư Trung Sơn, Huyện Bình Chánh, Hồ Chí Minh, Việt Nam",
+                    BranchName = "HCM"
                 },
                 new BranchModel
                 {
                     BranchId = 2,
-                    Address = "HN",
+                    Address = "Hikari Bình Dương, Thành phố Thủ Dầu Một, Bình Dương, Việt Nam",
+                    BranchName = " Binh Duong"
                 },
                 new BranchModel
                 {
                     BranchId = 3,
-                    Address = "HP",
+                    Address = "170 Nguyễn Văn Cừ, Ninh Kiều, Cần Thơ, Việt Nam",
+                    BranchName = "Can Tho"
                 }
             );
 
@@ -44,25 +49,56 @@ namespace BackEnd.Data
                 Username = "admin001",
                 Email = "admin001@mail.com",
                 Password = new PasswordHasher<object>().HashPassword(null, "admin001"),
-                BranchId = 1,
             },
             new UserModel
             {
                 UserId = 2,
                 Username = "user001",
                 Email = "user001@mail.com",
-                Password = new PasswordHasher<object>().HashPassword(null, "user001"),
-                BranchId = 1,
+                Password = new PasswordHasher<object>().HashPassword(null, "user001")
             },
             new UserModel
             {
                 UserId = 3,
                 Username = "user002",
                 Email = "user002@mail.com",
-                Password = new PasswordHasher<object>().HashPassword(null, "user002"),
-                BranchId = 2,
+                Password = new PasswordHasher<object>().HashPassword(null, "user002")
             }
             );
+
+            modelBuilder.Entity<UserInfo>().HasData(
+                new UserInfo
+                {
+                    Id = 1,
+                    Address = "admin address",
+                    BranchId = 1,
+                    Gender = GenderType.Male,
+                    UserId = 1,
+                    Dob = new DateTime(1963, 10, 14),
+                    ImgName = "default_img.png"
+                },
+                new UserInfo
+                {
+                    Id = 2,
+                    Address = "user001 address",
+                    BranchId = 1,
+                    Gender = GenderType.Male,
+                    UserId = 2,
+                    Dob = new DateTime(1989, 1, 4),
+                    ImgName = "default_img.png"
+                },
+                new UserInfo
+                {
+                    Id = 3,
+                    Address = "user002 address",
+                    BranchId = 2,
+                    Gender = GenderType.Female,
+                    UserId = 3,
+                    Dob = new DateTime(1998, 6, 20),
+                    ImgName = "default_img.png"
+                }
+            );
+
 
             modelBuilder.Entity<RoleModel>().HasData(
                 new RoleModel

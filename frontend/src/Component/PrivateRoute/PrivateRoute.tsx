@@ -22,7 +22,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({
   ...rest
 }) => {
   const auth = useSelector((state: AppState) => state.auth);
-  const isAuthenticate = auth.acToken ? true : false;
+  const isAuthenticate = auth.token ? true : false;
 
   const checkRole: ICheckRole = (requiredRole: string[]) => {
     const userRole = localStorageService.getRole();

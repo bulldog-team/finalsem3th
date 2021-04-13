@@ -1,5 +1,7 @@
 using API.Middleware;
 using API.Services.AuthService;
+using API.Services.BranchService;
+using API.Services.UserService;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,11 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +43,10 @@ namespace API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBranchService, BranchService>();
 
             services.AddDbContext<DataContext>(option =>
             {
@@ -53,7 +60,13 @@ namespace API
         {
             app.UseCors(options =>
                  options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-             );
+            );
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
+                RequestPath = "/Images"
+            });
 
             if (env.IsDevelopment())
             {

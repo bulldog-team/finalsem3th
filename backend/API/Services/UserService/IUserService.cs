@@ -1,15 +1,23 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTO.User;
 using API.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Services.UserService
 {
     public interface IUserService
     {
-        Task<ResponseServiceModel<UserRegisterDTO>> AdminCreateUser(UserRegisterDTO user);
+        Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO user, int userRequestId);
 
-        Task<ResponseServiceModel<UpdateUserDTO>> AdminUpdateUser(UpdateUserDTO user);
+        Task<ResponseServiceModel<UserGetUserInfo>> UserGetUserInfo(int id);
 
-        Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUser(DeleteUserDTO user);
+        Task<ResponseServiceModel<ICollection<UserListDTO>>> GetUserList();
+
+        Task<bool> UserExists(string username);
+        Task<bool> EmailExists(string email);
+
+
     }
 }

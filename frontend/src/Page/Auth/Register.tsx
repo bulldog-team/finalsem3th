@@ -5,7 +5,6 @@ import * as yup from "yup";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 
 import CustomField from "../../Component/Field/Field";
-import VerifyPage from "../Verify/Verify";
 
 type IRegisterForm = {
   username: string;
@@ -36,7 +35,12 @@ const RegisterPage = () => {
     email: yup.string().email("Error.validEmail").required("Error.required"),
   });
 
-  const { handleSubmit, control, errors, reset } = useForm<IRegisterForm>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<IRegisterForm>({
     defaultValues,
     resolver: yupResolver(RegisterSchema),
   });

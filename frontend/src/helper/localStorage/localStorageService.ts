@@ -1,19 +1,19 @@
 export interface IUserData {
   username: string | null;
   email: string | null;
-  acToken: string | null;
-  rfToken: string | null;
-  role: string[] | null;
+  token: string | null;
+  role: string[] | undefined;
+  userId: number | null;
 }
 
 export interface ILocalStorageService {
   setUserData: (userData: IUserData) => void;
   getUserData: () => IUserData;
   getUsername: () => string | null;
-  getAcToken: () => string | null;
-  getRfToken: () => string | null;
+  getUserId: () => number | null;
+  getToken: () => string | null;
   getEmail: () => string | null;
-  getRole: () => string[] | null;
+  getRole: () => string[] | undefined;
   clearAll: () => void;
 }
 
@@ -25,35 +25,44 @@ export const localStorageService: ILocalStorageService = {
     if (userData.email) {
       localStorage.setItem("email", userData.email);
     }
-    if (userData.rfToken) {
-      localStorage.setItem("rfToken", userData.rfToken);
+    if (userData.token) {
+      localStorage.setItem("token", userData.token);
     }
-    if (userData.acToken) {
-      localStorage.setItem("acToken", userData.acToken);
+    if (userData.userId) {
+      localStorage.setItem("userId", userData.userId.toString());
+    }
+    if (userData.role) {
+      localStorage.setItem("role", userData.role.toString());
     }
   },
 
   getUserData: () => {
     return {
-      acToken: localStorageService.getAcToken(),
+      token: localStorageService.getToken(),
       email: localStorageService.getEmail(),
-      rfToken: localStorageService.getRfToken(),
       role: localStorageService.getRole(),
       username: localStorageService.getUsername(),
+      userId: localStorageService.getUserId(),
     };
   },
 
   getUsername: () => localStorage.getItem("username"),
 
-  getAcToken: () => localStorage.getItem("acToken"),
+  getUserId: () => {
+    const temp = localStorage.getItem("userId");
+    if (temp) {
+      return parseInt(temp);
+    }
+    return null;
+  },
 
-  getRfToken: () => localStorage.getItem("rfToken"),
+  getToken: () => localStorage.getItem("token"),
 
   getEmail: () => localStorage.getItem("email"),
 
   getRole: () => {
     const temp = localStorage.getItem("role");
-    const role = temp ? JSON.parse(temp) : null;
+    const role = temp ? temp.split(",") : undefined;
     return role;
   },
 

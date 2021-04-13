@@ -19,12 +19,14 @@ export const authStart = (): AppAction => ({
 });
 
 export const authSuccess = (userData: IUserData): AppAction => {
+  const array = userData.role?.map((item) => item);
   return {
     type: AUTH_SUCCESS,
     username: userData.username,
-    acToken: userData.acToken,
+    token: userData.token,
     email: userData.email,
-    rfToken: userData.rfToken,
+    userId: userData.userId,
+    role: array,
     loading: false,
     error: null,
   };
@@ -46,8 +48,8 @@ export const authLogout = (): AppAction => {
 
 export const handleAutoLogin = () => {
   return (dispatch: Dispatch<AppAction>) => {
-    const acToken = localStorageService.getAcToken();
-    if (!acToken) {
+    const token = localStorageService.getToken();
+    if (!token) {
       return dispatch(authLogout());
     }
     const userData: IUserData = localStorageService.getUserData();

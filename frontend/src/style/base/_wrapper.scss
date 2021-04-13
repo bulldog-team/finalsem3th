@@ -46,7 +46,7 @@
 }
 
 .btn-success {
-  color: #fff;
+  color: #fff !important;
   background-color: $success-color !important;
   border: $success-color !important;
   &:hover {

@@ -15,7 +15,7 @@ const getRefreshToken = async (userData: IUserData): Promise<string | null> => {
 
 axiosClient.interceptors.request.use(
   async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
-    const acToken: string | null = localStorageService.getAcToken();
+    const acToken: string | null = localStorageService.getToken();
     if (acToken) {
       config.headers["Authorization"] = `Bearer ${acToken}`;
     }
@@ -45,7 +45,7 @@ axiosClient.interceptors.response.use(
             "Authorization"
           ] = `Bearer ${newAcToken}`;
 
-          const newUser: IUserData = { ...curUser, acToken: newAcToken };
+          const newUser: IUserData = { ...curUser, token: newAcToken };
           localStorageService.setUserData(newUser);
           return axiosClient(originalRequest);
         }
