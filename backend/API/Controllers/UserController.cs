@@ -15,13 +15,6 @@ namespace API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("info/branch")]
-        public async Task<IActionResult> GetBranchData()
-        {
-            var response = await _userService.GetBranchData();
-            return Ok(response);
-        }
-
         [HttpGet("info/{userRequestId}")]
         public async Task<IActionResult> UserGetUserInfo(int userRequestId)
         {

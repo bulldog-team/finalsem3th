@@ -8,6 +8,7 @@ import { Col, Row, Form, Button, Image, Upload } from "antd";
 import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
 import { Moment } from "moment";
+import BranchApi, { BranchInfoType } from "../../helper/axios/branchApi";
 
 export type UserInfoForm = {
   username: string;
@@ -26,8 +27,8 @@ export interface IFileState {
 }
 
 type BranchData = {
-  branchId: number;
-  branchName: string;
+  value: number;
+  name: string;
 };
 
 const UserInfo = () => {
@@ -44,11 +45,11 @@ const UserInfo = () => {
   const UserInfoSchema: yup.SchemaOf<UserInfoForm> = yup.object({
     address: yup.string().defined(),
     branchId: yup.number().defined(),
-    username: yup.string().defined(),
+    username: yup.string().defined().required("This field is required!"),
     dob: yup.string().defined(),
-    email: yup.string().defined(),
+    email: yup.string().defined().required("This field is required!"),
     gender: yup.number().integer().defined(),
-    phone: yup.string().defined(),
+    phone: yup.string().defined().required("This field is required!"),
   });
 
   const [imgFile, setImgFile] = useState<IFileState>({
@@ -101,7 +102,7 @@ const UserInfo = () => {
     getValues,
   } = useForm<UserInfoForm>({
     defaultValues: initForm,
-    // resolver: yupResolver(UserInfoSchema),
+    resolver: yupResolver(UserInfoSchema),
   });
 
   const loadFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,14 +137,16 @@ const UserInfo = () => {
     }
   };
 
-  const [branchData, setBracnhData] = useState();
+  const [branchData, setBracnhData] = useState<BranchData[]>();
+  const [status, setStatus] = useState<boolean>(false);
 
   useEffect(() => {
     const userGetInfo = async () => {
       try {
         const response = await UserApi.userGetUserInfo();
-        console.log(response);
+        console.log(response.data);
         reset(response.data);
+        setStatus(response.data.isAdminAccept);
         setImgFile((pre) => ({
           ...pre,
           imgSrc: `${process.env.REACT_APP_API_URL}/images/${response.data.imgName}`,
@@ -155,14 +158,13 @@ const UserInfo = () => {
 
     const fetchBranchData = async () => {
       try {
-        const response = await UserApi.getBranchData();
+        const response = await BranchApi.getBranchData();
         console.log(response);
-        setBracnhData(() =>
-          response.data.map((item: BranchData) => ({
-            value: item.branchId,
-            name: item.branchName,
-          }))
-        );
+        const transferData: BranchData[] = response.data.map((item) => ({
+          value: item.branchId,
+          name: item.branchName,
+        }));
+        setBracnhData(transferData);
       } catch (err) {
         console.log(err);
       }
@@ -259,10 +261,15 @@ const UserInfo = () => {
             </Row>
             <Row justify="center" style={{ margin: "2rem 0" }}>
               <Button type="primary" htmlType="submit">
-                Send
+                Update
               </Button>
             </Row>
           </Form>
+          <Row>
+            Please note that your information must be accepted by Admin before
+            activating.
+          </Row>
+          <Row>Status:{`${status}`}</Row>
         </div>
       </div>
     </>

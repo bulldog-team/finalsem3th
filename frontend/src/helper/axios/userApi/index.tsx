@@ -14,13 +14,12 @@ type UserInfoType = {
   imgName: string;
   imgSrc: string;
   imgFile: string | Blob | null;
-  IsAdminAccept: boolean;
+  isAdminAccept: boolean;
 };
 
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
   userGetUserInfo: () => Promise<AxiosResponse<UserInfoType>>;
-  getBranchData: () => Promise<AxiosResponse<any>>;
 }
 
 const UserApi: IUserApi = {
@@ -34,10 +33,6 @@ const UserApi: IUserApi = {
   userGetUserInfo: async () => {
     const userId = localStorageService.getUserId();
     const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
-    return axiosClient.get(url);
-  },
-  getBranchData: async () => {
-    const url = `${process.env.REACT_APP_API_URL}/user/info/branch`;
     return axiosClient.get(url);
   },
 };

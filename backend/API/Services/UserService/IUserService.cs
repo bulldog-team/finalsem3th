@@ -11,12 +11,10 @@ namespace API.Services.UserService
     {
         Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO user, int userRequestId);
 
-        Task<ResponseServiceModel<UserUpdateInfoDTO>> UserGetUserInfo(int id);
+        Task<ResponseServiceModel<UserGetUserInfo>> UserGetUserInfo(int id);
 
         Task<bool> UserExists(string username);
         Task<bool> EmailExists(string email);
-
-        Task<ResponseServiceModel<ICollection<BranchModel>>> GetBranchData();
 
 
     }

@@ -95,9 +95,9 @@ namespace API.Services.UserService
             return await _context.UserModels.AnyAsync(user => user.Email == email && user.UserId != userId);
         }
 
-        public async Task<ResponseServiceModel<UserUpdateInfoDTO>> UserGetUserInfo(int id)
+        public async Task<ResponseServiceModel<UserGetUserInfo>> UserGetUserInfo(int id)
         {
-            var response = new ResponseServiceModel<UserUpdateInfoDTO>();
+            var response = new ResponseServiceModel<UserGetUserInfo>();
             var userId = GetUserId();
             if (userId != id)
             {
@@ -106,7 +106,7 @@ namespace API.Services.UserService
                 return response;
             }
             var userProfile = await _context.UserInfos.Include(c => c.UserModel).FirstOrDefaultAsync(c => c.UserId == id);
-            response.Data = new UserUpdateInfoDTO
+            response.Data = new UserGetUserInfo
             {
                 Address = userProfile.Address,
                 BranchId = userProfile.BranchId,
@@ -119,14 +119,6 @@ namespace API.Services.UserService
             };
             return response;
 
-        }
-
-        public async Task<ResponseServiceModel<ICollection<BranchModel>>> GetBranchData()
-        {
-            var response = new ResponseServiceModel<ICollection<BranchModel>>();
-            var branchData = await _context.BranchModels.ToListAsync();
-            response.Data = branchData;
-            return response;
         }
     }
 }
