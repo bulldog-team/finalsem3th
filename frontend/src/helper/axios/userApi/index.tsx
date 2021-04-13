@@ -6,7 +6,7 @@ import axiosClient from "../axiosClient";
 type UserInfoType = {
   username: string;
   email: string;
-  gender: boolean;
+  gender: number;
   address: string;
   dob: any;
   phone: string;
@@ -20,6 +20,7 @@ type UserInfoType = {
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
   userGetUserInfo: () => Promise<AxiosResponse<UserInfoType>>;
+  getBranchData: () => Promise<AxiosResponse<any>>;
 }
 
 const UserApi: IUserApi = {
@@ -32,7 +33,11 @@ const UserApi: IUserApi = {
   },
   userGetUserInfo: async () => {
     const userId = localStorageService.getUserId();
-    const url = `${process.env.REACT_APP_API_URL}/user/${userId}`;
+    const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
+    return axiosClient.get(url);
+  },
+  getBranchData: async () => {
+    const url = `${process.env.REACT_APP_API_URL}/user/info/branch`;
     return axiosClient.get(url);
   },
 };

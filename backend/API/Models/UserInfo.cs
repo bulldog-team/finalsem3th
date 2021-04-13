@@ -4,12 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models
 {
+    public enum GenderType
+    {
+        Female,
+        Male,
+    }
     public class UserInfo
     {
         [Key]
         public int Id { get; set; }
         public string Address { get; set; }
-        public bool Gender { get; set; }
+        public GenderType Gender { get; set; }
         public string Phone { get; set; }
 
         public DateTime Dob { get; set; }

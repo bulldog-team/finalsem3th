@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace API.DTO.User
@@ -8,7 +9,7 @@ namespace API.DTO.User
     {
         public string Username { get; set; }
         public string Email { get; set; }
-        public bool Gender { get; set; }
+        public GenderType Gender { get; set; }
         public string Address { get; set; }
 
         public DateTime Dob { get; set; }

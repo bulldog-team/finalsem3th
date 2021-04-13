@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -118,6 +119,14 @@ namespace API.Services.UserService
             };
             return response;
 
+        }
+
+        public async Task<ResponseServiceModel<ICollection<BranchModel>>> GetBranchData()
+        {
+            var response = new ResponseServiceModel<ICollection<BranchModel>>();
+            var branchData = await _context.BranchModels.ToListAsync();
+            response.Data = branchData;
+            return response;
         }
     }
 }

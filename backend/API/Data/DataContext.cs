@@ -25,17 +25,20 @@ namespace BackEnd.Data
                 new BranchModel
                 {
                     BranchId = 1,
-                    Address = "HCM",
+                    Address = "114 Đường 9A Khu Dân cư Trung Sơn, Huyện Bình Chánh, Hồ Chí Minh, Việt Nam",
+                    BranchName = "HCM"
                 },
                 new BranchModel
                 {
                     BranchId = 2,
-                    Address = "HN",
+                    Address = "Hikari Bình Dương, Thành phố Thủ Dầu Một, Bình Dương, Việt Nam",
+                    BranchName = " Binh Duong"
                 },
                 new BranchModel
                 {
                     BranchId = 3,
-                    Address = "HP",
+                    Address = "170 Nguyễn Văn Cừ, Ninh Kiều, Cần Thơ, Việt Nam",
+                    BranchName = "Can Tho"
                 }
             );
 
@@ -69,27 +72,30 @@ namespace BackEnd.Data
                     Id = 1,
                     Address = "admin address",
                     BranchId = 1,
-                    Gender = true,
+                    Gender = GenderType.Male,
                     UserId = 1,
-                    Dob = new DateTime(1963, 10, 14)
+                    Dob = new DateTime(1963, 10, 14),
+                    ImgName = "default_img.png"
                 },
                 new UserInfo
                 {
                     Id = 2,
                     Address = "user001 address",
                     BranchId = 1,
-                    Gender = false,
+                    Gender = GenderType.Male,
                     UserId = 2,
-                    Dob = new DateTime(1989, 1, 4)
+                    Dob = new DateTime(1989, 1, 4),
+                    ImgName = "default_img.png"
                 },
                 new UserInfo
                 {
                     Id = 3,
                     Address = "user002 address",
                     BranchId = 2,
-                    Gender = true,
+                    Gender = GenderType.Female,
                     UserId = 3,
-                    Dob = new DateTime(1998, 6, 20)
+                    Dob = new DateTime(1998, 6, 20),
+                    ImgName = "default_img.png"
                 }
             );
 

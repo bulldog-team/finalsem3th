@@ -28,7 +28,7 @@ interface IField {
   type: InputType;
   prefix?: React.ReactElement;
   className?: string;
-  options?: { value: string; name: string }[];
+  options?: { value: string | number; name: string | number }[];
   defaultValue?: any;
 }
 
@@ -84,7 +84,7 @@ const CustomField: FC<IField> = (propsField: IField) => {
             onChange={(date, dateString) =>
               onDatePickerChange(date, dateString, field)
             }
-            value={moment(propsField.defaultValue, "YYYY-MM-DD")}
+            value={moment(field.value, "YYYY-MM-DD")}
           />
         );
       case "select":

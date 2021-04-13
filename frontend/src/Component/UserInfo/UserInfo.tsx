@@ -1,18 +1,18 @@
 import Heading from "../Heading/Heading";
 import * as yup from "yup";
-import { SubmitHandler, useForm, useFormState } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
 import { UploadOutlined } from "@ant-design/icons";
 import { Col, Row, Form, Button, Image, Upload } from "antd";
 import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 
 export type UserInfoForm = {
   username: string;
   email: string;
-  gender: boolean;
+  gender: number;
   address: string;
   dob: any;
   phone: string;
@@ -25,11 +25,16 @@ export interface IFileState {
   imgFile: string | Blob | null;
 }
 
+type BranchData = {
+  branchId: number;
+  branchName: string;
+};
+
 const UserInfo = () => {
   const initForm: UserInfoForm = {
     username: "",
     email: "",
-    gender: true,
+    gender: 0,
     address: "",
     branchId: 1,
     dob: "",
@@ -38,17 +43,12 @@ const UserInfo = () => {
 
   const UserInfoSchema: yup.SchemaOf<UserInfoForm> = yup.object({
     address: yup.string().defined(),
-    age: yup.number().integer().defined(),
-    branchId: yup
-      .number()
-      .integer()
-      .defined()
-      .required("This field is required"),
+    branchId: yup.number().defined(),
+    username: yup.string().defined(),
     dob: yup.string().defined(),
-    email: yup.string().email().defined().required("This field is required"),
-    gender: yup.boolean().defined(),
+    email: yup.string().defined(),
+    gender: yup.number().integer().defined(),
     phone: yup.string().defined(),
-    username: yup.string().defined().required("This field is required"),
   });
 
   const [imgFile, setImgFile] = useState<IFileState>({
@@ -74,6 +74,7 @@ const UserInfo = () => {
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
+    console.log(data);
     if (imgFile.imgFile) {
       formData.append("imgName", imgFile.imgName);
       formData.append("imgSrc", imgFile.imgSrc);
@@ -135,8 +136,7 @@ const UserInfo = () => {
     }
   };
 
-  const [date, setDate] = useState<Moment>();
-  const dateFormat = "YYYY-MM-DD";
+  const [branchData, setBracnhData] = useState();
 
   useEffect(() => {
     const userGetInfo = async () => {
@@ -152,20 +152,27 @@ const UserInfo = () => {
         console.log(error);
       }
     };
-    userGetInfo();
-  }, [reset]);
 
-  console.log(getValues("dob"));
+    const fetchBranchData = async () => {
+      try {
+        const response = await UserApi.getBranchData();
+        console.log(response);
+        setBracnhData(() =>
+          response.data.map((item: BranchData) => ({
+            value: item.branchId,
+            name: item.branchName,
+          }))
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    userGetInfo();
+    fetchBranchData();
+  }, [reset]);
 
   return (
     <>
-      <Button
-        onClick={() => {
-          console.log(getValues());
-        }}
-      >
-        aaa
-      </Button>
       <div className="px-1 py-1 table userInfo">
         <Heading title="User Information" />
         <div className="userInfo__body">
@@ -207,8 +214,8 @@ const UserInfo = () => {
                   errors={errors}
                   type="select"
                   options={[
-                    { value: "true", name: "Male" },
-                    { value: "false", name: "Female" },
+                    { value: 0, name: "Female" },
+                    { value: 1, name: "Male" },
                   ]}
                 />
                 <CustomField
@@ -225,10 +232,7 @@ const UserInfo = () => {
                   control={control}
                   errors={errors}
                   type="select"
-                  options={[
-                    { value: "1", name: "1" },
-                    { value: "2", name: "2" },
-                  ]}
+                  options={branchData}
                 />
               </Col>
               <Col sm={8}>

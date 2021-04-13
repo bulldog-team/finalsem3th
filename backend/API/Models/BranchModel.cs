@@ -10,7 +10,8 @@ namespace API.Models
         [Key]
         public int BranchId { get; set; }
 
-        public String Address { get; set; }
+        public string Address { get; set; }
+        public string BranchName { get; set; }
 
         public ICollection<UserModel> Users { get; set; }
 
