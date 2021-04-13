@@ -4,11 +4,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
 import { UploadOutlined } from "@ant-design/icons";
-import { Col, Row, Form, Button, Image, Upload } from "antd";
+import { Col, Row, Form, Button, Image } from "antd";
 import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
-import { Moment } from "moment";
-import BranchApi, { BranchInfoType } from "../../helper/axios/branchApi";
+import BranchApi from "../../helper/axios/branchApi";
 
 export type UserInfoForm = {
   username: string;
@@ -269,7 +268,7 @@ const UserInfo = () => {
             Please note that your information must be accepted by Admin before
             activating.
           </Row>
-          <Row>Status:{`${status}`}</Row>
+          <Row>Status {status ? "Activated" : "Not activated"} </Row>
         </div>
       </div>
     </>

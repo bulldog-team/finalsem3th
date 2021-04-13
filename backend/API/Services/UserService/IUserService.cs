@@ -13,6 +13,8 @@ namespace API.Services.UserService
 
         Task<ResponseServiceModel<UserGetUserInfo>> UserGetUserInfo(int id);
 
+        Task<ResponseServiceModel<ICollection<UserListDTO>>> GetUserList();
+
         Task<bool> UserExists(string username);
         Task<bool> EmailExists(string email);
 

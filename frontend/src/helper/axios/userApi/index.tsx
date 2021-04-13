@@ -1,9 +1,9 @@
-import axios, { AxiosResponse } from "axios";
-import { IFileState, UserInfoForm } from "../../../Component/UserInfo/UserInfo";
+import { AxiosResponse } from "axios";
+import { UserInfoForm } from "../../../Component/UserInfo/UserInfo";
 import { localStorageService } from "../../localStorage/localStorageService";
 import axiosClient from "../axiosClient";
 
-type UserInfoType = {
+export type UserInfoType = {
   username: string;
   email: string;
   gender: number;
@@ -17,9 +17,17 @@ type UserInfoType = {
   isAdminAccept: boolean;
 };
 
+export type UserListType = {
+  username: string;
+  email: string;
+  branch: string;
+  isAdminAccept: boolean;
+};
+
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
   userGetUserInfo: () => Promise<AxiosResponse<UserInfoType>>;
+  getUserList: () => Promise<AxiosResponse<UserListType[]>>;
 }
 
 const UserApi: IUserApi = {
@@ -27,12 +35,16 @@ const UserApi: IUserApi = {
     form: FormData
   ): Promise<AxiosResponse<UserInfoType>> => {
     const userId = localStorageService.getUserId();
-    const url: string = `${process.env.REACT_APP_API_URL}/user/${userId}`;
+    const url: string = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
     return axiosClient.patch(url, form);
   },
   userGetUserInfo: async () => {
     const userId = localStorageService.getUserId();
     const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
+    return axiosClient.get(url);
+  },
+  getUserList: async () => {
+    const url = `${process.env.REACT_APP_API_URL}/user/`;
     return axiosClient.get(url);
   },
 };

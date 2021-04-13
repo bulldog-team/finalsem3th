@@ -80,7 +80,6 @@ namespace API.Services.UserService
                 };
             }
             return imgName;
-
         }
 
         public async Task<bool> UserExists(string username)
@@ -118,7 +117,20 @@ namespace API.Services.UserService
                 ImgName = userProfile.ImgName,
             };
             return response;
+        }
 
+        public async Task<ResponseServiceModel<ICollection<UserListDTO>>> GetUserList()
+        {
+            var response = new ResponseServiceModel<ICollection<UserListDTO>>();
+            var user = await _context.UserInfos.Select(c => new UserListDTO
+            {
+                Branch = c.Branch.BranchName,
+                Email = c.UserModel.Email,
+                IsAdminAccept = c.IsAdminAccept,
+                Username = c.UserModel.Username
+            }).ToListAsync<UserListDTO>();
+            response.Data = user;
+            return response;
         }
     }
 }
