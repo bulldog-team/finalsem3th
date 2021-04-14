@@ -124,6 +124,7 @@ namespace API.Services.UserService
             var response = new ResponseServiceModel<ICollection<UserListDTO>>();
             var user = await _context.UserInfos.Select(c => new UserListDTO
             {
+                UserId = c.UserId,
                 Branch = c.Branch.BranchName,
                 Email = c.UserModel.Email,
                 IsAdminAccept = c.IsAdminAccept,

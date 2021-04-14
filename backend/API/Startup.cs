@@ -1,4 +1,5 @@
 using API.Middleware;
+using API.Services.AdminService;
 using API.Services.AuthService;
 using API.Services.BranchService;
 using API.Services.UserService;
@@ -47,6 +48,7 @@ namespace API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBranchService, BranchService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             services.AddDbContext<DataContext>(option =>
             {
