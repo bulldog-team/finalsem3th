@@ -15,6 +15,7 @@ const UserList = () => {
   const [userListData, setUserListData] = useState<UserListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
   const [name, setName] = useState<number>();
+  const [update, setUpdate] = useState<boolean>(false);
 
   const { Column } = Table;
 
@@ -32,7 +33,7 @@ const UserList = () => {
       }
     };
     fetchDaTa();
-  }, []);
+  }, [update]);
 
   return (
     <>
@@ -41,6 +42,7 @@ const UserList = () => {
           isModalOpen={isViewModalOpen}
           setIsModalOpen={setIsViewModalOpen}
           userId={name}
+          setUpdate={setUpdate}
         />
       )}
       <div className="px-1 py-1 table userList">

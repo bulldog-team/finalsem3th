@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTO.User;
 using API.Models;
@@ -24,26 +25,33 @@ namespace API.Services.AdminService
             _config = config;
         }
 
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
         public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminUpdateUserInfo(int userId)
         {
             var response = new ResponseServiceModel<AdminGetUserInfoDTO>();
-            var user = await _context.UserInfos.FirstOrDefaultAsync(c => c.UserId == userId);
+            var user = await _context.UserInfos.Include(c => c.UserModel).FirstOrDefaultAsync(c => c.UserId == userId);
             user.IsAdminAccept = !user.IsAdminAccept;
-
-            response.Data = new AdminGetUserInfoDTO
-            {
-                Address = user.Address,
-                BranchName = user.Branch.BranchName,
-                Dob = user.Dob,
-                IsAdminAccept = user.IsAdminAccept,
-                Email = user.UserModel.Email,
-                Gender = user.Gender,
-                Phone = user.Phone,
-                UserId = user.UserId,
-                ImgName = user.ImgName
-            };
             await _context.SaveChangesAsync();
+
+            if (user != null && user.Branch != null)
+            {
+                response.Data = new AdminGetUserInfoDTO
+                {
+                    Address = user.Address,
+                    BranchName = user.Branch.BranchName,
+                    Dob = user.Dob,
+                    Email = user.UserModel.Email,
+                    Gender = user.Gender,
+                    IsAdminAccept = user.IsAdminAccept,
+                    ImgName = user.ImgName,
+                    Phone = user.Phone
+                };
+                return response;
+            }
+            response.Success = false;
             return response;
+
         }
 
         public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminGetUserInfo(int userId)
@@ -70,6 +78,22 @@ namespace API.Services.AdminService
                 response.Message = "Something wrongs!";
             }
             response.Data = user;
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUserInfo(int userId)
+        {
+            var response = new ResponseServiceModel<DeleteUserDTO>();
+            var curId = GetUserId();
+            if (curId == userId)
+            {
+                response.Success = false;
+                return response;
+            }
+
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+            _context.UserModels.Remove(user);
+            response.Data = _mapper.Map<DeleteUserDTO>(user);
             return response;
         }
     }

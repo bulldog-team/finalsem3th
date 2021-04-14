@@ -6,17 +6,20 @@ import UserApi, { UserInfoType } from "../../helper/axios/userApi";
 interface UserModalProps {
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  setUpdate: Dispatch<SetStateAction<boolean>>;
   userId: number | undefined;
 }
 
 const UserModal: FC<UserModalProps> = (props) => {
-  const { isModalOpen, setIsModalOpen, userId } = props;
+  const { isModalOpen, setIsModalOpen, userId, setUpdate } = props;
 
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   console.log(userId);
 
   const handleOk = async () => {
     const response = await UserApi.adminUpdateUserInfo(userId);
+    setUpdate((pre) => !pre);
+    setIsModalOpen(false);
     console.log(response);
   };
 
@@ -44,9 +47,15 @@ const UserModal: FC<UserModalProps> = (props) => {
         <Button key="back" onClick={handleCancel}>
           Return
         </Button>,
-        <Button key="submit" type="primary" onClick={handleOk}>
-          Approve
-        </Button>,
+        userInfo?.isAdminAccept === true ? (
+          <Button key="submit" danger onClick={handleOk}>
+            Deactivate
+          </Button>
+        ) : (
+          <Button key="submit" type="primary" onClick={handleOk}>
+            Activate
+          </Button>
+        ),
       ]}
     >
       <Descriptions bordered>

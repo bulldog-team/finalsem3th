@@ -10,5 +10,9 @@ namespace API.Services.AdminService
         Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminGetUserInfo(int userId);
 
         Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminUpdateUserInfo(int userId);
+
+        Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUserInfo(int userId);
+
+
     }
 }
