@@ -24,6 +24,28 @@ namespace API.Services.AdminService
             _config = config;
         }
 
+        public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminUpdateUserInfo(int userId)
+        {
+            var response = new ResponseServiceModel<AdminGetUserInfoDTO>();
+            var user = await _context.UserInfos.FirstOrDefaultAsync(c => c.UserId == userId);
+            user.IsAdminAccept = !user.IsAdminAccept;
+
+            response.Data = new AdminGetUserInfoDTO
+            {
+                Address = user.Address,
+                BranchName = user.Branch.BranchName,
+                Dob = user.Dob,
+                IsAdminAccept = user.IsAdminAccept,
+                Email = user.UserModel.Email,
+                Gender = user.Gender,
+                Phone = user.Phone,
+                UserId = user.UserId,
+                ImgName = user.ImgName
+            };
+            await _context.SaveChangesAsync();
+            return response;
+        }
+
         public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminGetUserInfo(int userId)
         {
             var response = new ResponseServiceModel<AdminGetUserInfoDTO>();
@@ -38,7 +60,9 @@ namespace API.Services.AdminService
                 Username = c.UserModel.Username,
                 UserId = c.UserId,
                 Gender = c.Gender,
-                Phone = c.Phone
+                Phone = c.Phone,
+                BranchName = c.Branch.BranchName
+
             }).Where(c => c.UserId == userId).FirstOrDefaultAsync();
             if (user == null)
             {

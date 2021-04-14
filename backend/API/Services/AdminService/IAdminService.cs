@@ -8,5 +8,7 @@ namespace API.Services.AdminService
     public interface IAdminService
     {
         Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminGetUserInfo(int userId);
+
+        Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminUpdateUserInfo(int userId);
     }
 }

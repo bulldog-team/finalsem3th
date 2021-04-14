@@ -25,5 +25,12 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpPatch("info/{userId}")]
+        public async Task<IActionResult> AdminApproveUserInfo(int userId)
+        {
+            var response = await _adminService.AdminUpdateUserInfo(userId);
+            return Ok(response);
+        }
+
     }
 }

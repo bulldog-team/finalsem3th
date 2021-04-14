@@ -21,5 +21,6 @@ namespace API.DTO.User
         public string ImgName { get; set; }
 
         public bool IsAdminAccept { get; set; }
+        public string BranchName { get; set; }
     }
 }

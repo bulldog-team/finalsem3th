@@ -15,6 +15,7 @@ export type UserInfoType = {
   imgSrc: string;
   imgFile: string | Blob | null;
   isAdminAccept: boolean;
+  branchName: string;
 };
 
 export type UserListType = {
@@ -30,6 +31,9 @@ interface IUserApi {
   userGetUserInfo: () => Promise<AxiosResponse<UserInfoType>>;
   getUserList: () => Promise<AxiosResponse<UserListType[]>>;
   adminGetUserInfo: (
+    userId: number | undefined
+  ) => Promise<AxiosResponse<UserInfoType>>;
+  adminUpdateUserInfo: (
     userId: number | undefined
   ) => Promise<AxiosResponse<UserInfoType>>;
 }
@@ -55,6 +59,10 @@ const UserApi: IUserApi = {
   adminGetUserInfo: async (userId) => {
     const url = `${process.env.REACT_APP_API_URL}/admin/info/${userId}`;
     return axiosClient.get(url);
+  },
+  adminUpdateUserInfo: async (userId) => {
+    const url = `${process.env.REACT_APP_API_URL}/admin/info/${userId}`;
+    return axiosClient.patch(url);
   },
 };
 
