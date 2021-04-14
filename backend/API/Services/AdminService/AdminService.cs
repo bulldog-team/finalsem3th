@@ -6,6 +6,7 @@ using API.Models;
 using AutoMapper;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -94,6 +95,45 @@ namespace API.Services.AdminService
             var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
             _context.UserModels.Remove(user);
             response.Data = _mapper.Map<DeleteUserDTO>(user);
+            return response;
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            return await _context.UserModels.AnyAsync(c => c.Username == username);
+        }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            return await _context.UserModels.AnyAsync(c => c.Email == email);
+        }
+
+        public async Task<ResponseServiceModel<AdminCreateUserResponse>> AdminCreateuser(AdminCreateUser userRequest)
+        {
+            var response = new ResponseServiceModel<AdminCreateUserResponse>();
+            if (await EmailExists(userRequest.Email) || (await UserExists(userRequest.Username)) || (userRequest.Password != userRequest.ConfirmPassword))
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+            var newUser = new UserModel
+            {
+                Email = userRequest.Email,
+                Password = new PasswordHasher<object>().HashPassword(null, userRequest.Password),
+                Username = userRequest.Username
+            };
+
+            await _context.UserModels.AddAsync(newUser);
+            await _context.SaveChangesAsync();
+
+            var repsonseUser = new AdminCreateUserResponse
+            {
+                Email = newUser.Email,
+                UserId = newUser.Id,
+                Username = newUser.Username
+            };
+            response.Data = repsonseUser;
             return response;
         }
     }

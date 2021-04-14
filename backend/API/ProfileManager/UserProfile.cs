@@ -14,6 +14,8 @@ namespace API.ProfileManager
             CreateMap<UserModel, GetUserDTO>();
             CreateMap<UserUpdateInfoDTO, UserInfo>();
             CreateMap<UserModel, DeleteUserDTO>();
+            CreateMap<UserModel, AdminCreateUserResponse>();
+            CreateMap<AdminCreateUserResponse, UserModel>();
         }
     }
 }
