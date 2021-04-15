@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -122,6 +124,23 @@ namespace API.Services.AdminService
                 Email = userRequest.Email,
                 Password = new PasswordHasher<object>().HashPassword(null, userRequest.Password),
                 Username = userRequest.Username
+            };
+
+            var userRole = await _context.RoleModels.FirstOrDefaultAsync(c => c.RoleName == "User");
+
+            newUser.RoleDetailModels = new List<RoleDetailModel> {
+                new RoleDetailModel{
+                    RoleModel = userRole,
+                    User = newUser
+                }
+            };
+
+            var defaultBranch = await _context.BranchModels.FirstOrDefaultAsync(c => c.BranchName == "HCM");
+
+            newUser.UserInfo = new UserInfo
+            {
+                Dob = DateTime.Now,
+                Branch = defaultBranch,
             };
 
             await _context.UserModels.AddAsync(newUser);
