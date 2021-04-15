@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { UserInfoForm } from "../../../Component/UserInfo/UserInfo";
+import { IcreateUserForm } from "../../../Component/UserList/CreateUserModal";
 import { localStorageService } from "../../localStorage/localStorageService";
 import axiosClient from "../axiosClient";
 
@@ -26,31 +27,45 @@ export type UserListType = {
   userId: number;
 };
 
+export type AdminCreateUserReponse = {
+  username: string;
+  email: string;
+  userId: number;
+};
+
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
+
   userGetUserInfo: () => Promise<AxiosResponse<UserInfoType>>;
+
   getUserList: () => Promise<AxiosResponse<UserListType[]>>;
+
   adminGetUserInfo: (
     userId: number | undefined
   ) => Promise<AxiosResponse<UserInfoType>>;
+
   adminUpdateUserInfo: (
     userId: number | undefined
   ) => Promise<AxiosResponse<UserInfoType>>;
+
+  adminCreateUser: (
+    form: IcreateUserForm
+  ) => Promise<AxiosResponse<AdminCreateUserReponse>>;
 }
 
 const UserApi: IUserApi = {
-  userUpdateUserInfo: async (
-    form: FormData
-  ): Promise<AxiosResponse<UserInfoType>> => {
+  userUpdateUserInfo: async (form) => {
     const userId = localStorageService.getUserId();
     const url: string = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
     return axiosClient.patch(url, form);
   },
+
   userGetUserInfo: async () => {
     const userId = localStorageService.getUserId();
     const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
     return axiosClient.get(url);
   },
+
   getUserList: async () => {
     const url = `${process.env.REACT_APP_API_URL}/user/`;
     return axiosClient.get(url);
@@ -60,9 +75,15 @@ const UserApi: IUserApi = {
     const url = `${process.env.REACT_APP_API_URL}/admin/info/${userId}`;
     return axiosClient.get(url);
   },
+
   adminUpdateUserInfo: async (userId) => {
     const url = `${process.env.REACT_APP_API_URL}/admin/info/${userId}`;
     return axiosClient.patch(url);
+  },
+
+  adminCreateUser: async (form) => {
+    const url = `${process.env.REACT_APP_API_URL}/admin/info`;
+    return axiosClient.post(url, form);
   },
 };
 

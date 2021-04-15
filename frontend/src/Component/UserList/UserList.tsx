@@ -4,7 +4,8 @@ import { ExportOutlined, RestOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import UserApi, { UserListType } from "../../helper/axios/userApi/index";
 import Heading from "../Heading/Heading";
-import UserModal from "./UserModal";
+import ViewUserInfo from "./ViewUserInfo";
+import CreateUserModal from "./CreateUserModal";
 
 type UserListDataSource = UserListType & {
   key: number;
@@ -16,6 +17,7 @@ const UserList = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
   const [name, setName] = useState<number>();
   const [update, setUpdate] = useState<boolean>(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   const { Column } = Table;
 
@@ -37,8 +39,15 @@ const UserList = () => {
 
   return (
     <>
+      {isCreateModalOpen && (
+        <CreateUserModal
+          isCreateModalOpen={isCreateModalOpen}
+          setIsCreateModalOpen={setIsCreateModalOpen}
+          setUpdate={setUpdate}
+        />
+      )}
       {isViewModalOpen && (
-        <UserModal
+        <ViewUserInfo
           isModalOpen={isViewModalOpen}
           setIsModalOpen={setIsViewModalOpen}
           userId={name}
@@ -49,7 +58,11 @@ const UserList = () => {
         <Heading title="User List" />
         <div className="userInfo__body">
           <Row justify="end" style={{ margin: "1rem 0" }}>
-            <Button icon={<PlusOutlined />} className="btn-success">
+            <Button
+              onClick={() => setIsCreateModalOpen((pre) => !pre)}
+              icon={<PlusOutlined />}
+              className="btn-success"
+            >
               New
             </Button>
           </Row>
@@ -75,7 +88,6 @@ const UserList = () => {
               title="Profile Status"
               dataIndex="isAdminAccept"
               render={(data) => {
-                console.log(data.toString());
                 return <>{data ? "Activated" : "Not Activated"}</>;
               }}
               sorter={(a: UserListDataSource, b: UserListDataSource) => {

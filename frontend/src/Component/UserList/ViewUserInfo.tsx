@@ -10,7 +10,7 @@ interface UserModalProps {
   userId: number | undefined;
 }
 
-const UserModal: FC<UserModalProps> = (props) => {
+const ViewUserInfo: FC<UserModalProps> = (props) => {
   const { isModalOpen, setIsModalOpen, userId, setUpdate } = props;
 
   const [userInfo, setUserInfo] = useState<UserInfoType>();
@@ -89,4 +89,4 @@ const UserModal: FC<UserModalProps> = (props) => {
   );
 };
 
-export default UserModal;
+export default ViewUserInfo;

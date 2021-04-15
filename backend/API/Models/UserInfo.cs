@@ -25,7 +25,7 @@ namespace API.Models
         [ForeignKey("BranchId")]
         public BranchModel Branch { get; set; }
         public int BranchId { get; set; }
-        public bool IsAdminAccept { get; set; }
+        public bool IsAdminAccept { get; set; } = false;
 
         [ForeignKey("UserId")]
         public UserModel UserModel { get; set; }

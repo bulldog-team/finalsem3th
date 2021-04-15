@@ -113,7 +113,7 @@ namespace API.Services.AdminService
         public async Task<ResponseServiceModel<AdminCreateUserResponse>> AdminCreateuser(AdminCreateUser userRequest)
         {
             var response = new ResponseServiceModel<AdminCreateUserResponse>();
-            if (await EmailExists(userRequest.Email) || (await UserExists(userRequest.Username)) || (userRequest.Password != userRequest.ConfirmPassword))
+            if (await EmailExists(userRequest.Email) || (await UserExists(userRequest.Username)) || (userRequest.Password != userRequest.ConfirmPassword) || (userRequest.Password.Length < 6))
             {
                 response.Success = false;
                 response.Message = "Something wrongs!";
