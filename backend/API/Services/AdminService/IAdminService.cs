@@ -14,7 +14,6 @@ namespace API.Services.AdminService
         Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUserInfo(int userId);
 
         Task<ResponseServiceModel<AdminCreateUserResponse>> AdminCreateuser(AdminCreateUser userRequest);
-
         Task<bool> UserExists(string username);
         Task<bool> EmailExists(string email);
 

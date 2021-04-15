@@ -33,6 +33,11 @@ export type AdminCreateUserReponse = {
   userId: number;
 };
 
+export type AdminDeleteuserRepsonse = {
+  username: string;
+  userId: number;
+};
+
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
 
@@ -51,6 +56,10 @@ interface IUserApi {
   adminCreateUser: (
     form: IcreateUserForm
   ) => Promise<AxiosResponse<AdminCreateUserReponse>>;
+
+  adminDeleteUser: (
+    userId: number
+  ) => Promise<AxiosResponse<AdminDeleteuserRepsonse>>;
 }
 
 const UserApi: IUserApi = {
@@ -84,6 +93,11 @@ const UserApi: IUserApi = {
   adminCreateUser: async (form) => {
     const url = `${process.env.REACT_APP_API_URL}/admin/info`;
     return axiosClient.post(url, form);
+  },
+
+  adminDeleteUser: async (userId) => {
+    const url = `${process.env.REACT_APP_API_URL}/admin/info/${userId}`;
+    return axiosClient.delete(url);
   },
 };
 

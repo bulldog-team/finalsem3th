@@ -1,4 +1,4 @@
-import { Button, Row, Space, Table, Tooltip } from "antd";
+import { Button, message, Popconfirm, Row, Space, Table, Tooltip } from "antd";
 import { ExportOutlined, RestOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
@@ -32,10 +32,21 @@ const UserList = () => {
         console.log(response.data);
       } catch (err) {
         console.log(err);
+        message.error(err.response.data, 5);
       }
     };
     fetchDaTa();
   }, [update]);
+
+  const handleDeleteUser = async (record: UserListDataSource) => {
+    try {
+      await UserApi.adminDeleteUser(record.userId);
+      message.success("This account has been deleted succesfull");
+      setUpdate((pre) => !pre);
+    } catch (error) {
+      message.error(error.response.data, 5);
+    }
+  };
 
   return (
     <>
@@ -111,7 +122,12 @@ const UserList = () => {
                       />
                     </Tooltip>
                     <Tooltip title="Delete">
-                      <RestOutlined className="ant-icon icon-danger userList__btn" />
+                      <Popconfirm
+                        title="Are you sure to delete this user?"
+                        onConfirm={() => handleDeleteUser(record)}
+                      >
+                        <RestOutlined className="ant-icon icon-danger userList__btn" />
+                      </Popconfirm>
                     </Tooltip>
                   </Space>
                 );

@@ -88,14 +88,15 @@ namespace API.Services.AdminService
         {
             var response = new ResponseServiceModel<DeleteUserDTO>();
             var curId = GetUserId();
-            if (curId == userId)
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+            if (curId == userId || user == null)
             {
                 response.Success = false;
                 return response;
             }
 
-            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
             _context.UserModels.Remove(user);
+            await _context.SaveChangesAsync();
             response.Data = _mapper.Map<DeleteUserDTO>(user);
             return response;
         }
