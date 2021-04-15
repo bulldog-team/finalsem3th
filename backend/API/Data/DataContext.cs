@@ -14,7 +14,7 @@ namespace BackEnd.Data
         public DbSet<UserModel> UserModels { get; set; }
         public DbSet<RoleModel> RoleModels { get; set; }
         public DbSet<DeliveryTypeModel> DeliveryTypeModels { get; set; }
-        public DbSet<PackageModel> packageModels { get; set; }
+        public DbSet<PackageModel> PackageModels { get; set; }
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
@@ -171,7 +171,7 @@ namespace BackEnd.Data
                 new PackageStatusModel
                 {
                     StatusId = 1,
-                    Status = "Waiting to send",
+                    Status = "Picked up",
                 },
                 new PackageStatusModel
                 {
@@ -181,7 +181,7 @@ namespace BackEnd.Data
                 new PackageStatusModel
                 {
                     StatusId = 3,
-                    Status = "Receive",
+                    Status = "Received",
                 }
             );
             base.OnModelCreating(modelBuilder);

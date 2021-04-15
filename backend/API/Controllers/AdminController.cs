@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.DTO.Package;
 using API.DTO.User;
 using API.Services.AdminService;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +54,13 @@ namespace API.Controllers
             {
                 return BadRequest(response.Message);
             }
+            return Ok(response);
+        }
+
+        [HttpPatch("type")]
+        public async Task<IActionResult> AdminUpdatePrice(List<UpdatePriceRequestDTO> request)
+        {
+            var response = await _adminService.AdminUpdatePrice(request);
             return Ok(response);
         }
 

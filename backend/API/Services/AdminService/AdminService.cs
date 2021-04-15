@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using API.DTO.Package;
 using API.DTO.User;
 using API.Models;
 using AutoMapper;
@@ -154,6 +155,25 @@ namespace API.Services.AdminService
                 Username = newUser.Username
             };
             response.Data = repsonseUser;
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<List<UpdatePriceRequestDTO>>> AdminUpdatePrice(List<UpdatePriceRequestDTO> request)
+        {
+            var response = new ResponseServiceModel<List<UpdatePriceRequestDTO>>();
+            response.Data = new List<UpdatePriceRequestDTO>();
+            foreach (var item in request)
+            {
+                var curType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeId == item.TypeId);
+                var type = item.UnitPrice.GetType();
+                if (type == typeof(int) && item.UnitPrice > 0 && curType != null)
+                {
+                    curType.UnitPrice = item.UnitPrice;
+                    curType.TypeName = item.TypeName;
+                    response.Data.Add(item);
+                }
+            }
+            await _context.SaveChangesAsync();
             return response;
         }
     }
