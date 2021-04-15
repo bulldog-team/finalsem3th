@@ -1,10 +1,11 @@
-import { Button, Row, Space, Table, Tooltip } from "antd";
+import { Button, message, Popconfirm, Row, Space, Table, Tooltip } from "antd";
 import { ExportOutlined, RestOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
 import UserApi, { UserListType } from "../../helper/axios/userApi/index";
 import Heading from "../Heading/Heading";
-import UserModal from "./UserModal";
+import ViewUserInfo from "./ViewUserInfo";
+import CreateUserModal from "./CreateUserModal";
 
 type UserListDataSource = UserListType & {
   key: number;
@@ -16,6 +17,7 @@ const UserList = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
   const [name, setName] = useState<number>();
   const [update, setUpdate] = useState<boolean>(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   const { Column } = Table;
 
@@ -30,15 +32,33 @@ const UserList = () => {
         console.log(response.data);
       } catch (err) {
         console.log(err);
+        message.error(err.response.data, 5);
       }
     };
     fetchDaTa();
   }, [update]);
 
+  const handleDeleteUser = async (record: UserListDataSource) => {
+    try {
+      await UserApi.adminDeleteUser(record.userId);
+      message.success("This account has been deleted succesfull");
+      setUpdate((pre) => !pre);
+    } catch (error) {
+      message.error(error.response.data, 5);
+    }
+  };
+
   return (
     <>
+      {isCreateModalOpen && (
+        <CreateUserModal
+          isCreateModalOpen={isCreateModalOpen}
+          setIsCreateModalOpen={setIsCreateModalOpen}
+          setUpdate={setUpdate}
+        />
+      )}
       {isViewModalOpen && (
-        <UserModal
+        <ViewUserInfo
           isModalOpen={isViewModalOpen}
           setIsModalOpen={setIsViewModalOpen}
           userId={name}
@@ -49,7 +69,11 @@ const UserList = () => {
         <Heading title="User List" />
         <div className="userInfo__body">
           <Row justify="end" style={{ margin: "1rem 0" }}>
-            <Button icon={<PlusOutlined />} className="btn-success">
+            <Button
+              onClick={() => setIsCreateModalOpen((pre) => !pre)}
+              icon={<PlusOutlined />}
+              className="btn-success"
+            >
               New
             </Button>
           </Row>
@@ -75,7 +99,6 @@ const UserList = () => {
               title="Profile Status"
               dataIndex="isAdminAccept"
               render={(data) => {
-                console.log(data.toString());
                 return <>{data ? "Activated" : "Not Activated"}</>;
               }}
               sorter={(a: UserListDataSource, b: UserListDataSource) => {
@@ -99,7 +122,12 @@ const UserList = () => {
                       />
                     </Tooltip>
                     <Tooltip title="Delete">
-                      <RestOutlined className="ant-icon icon-danger userList__btn" />
+                      <Popconfirm
+                        title="Are you sure to delete this user?"
+                        onConfirm={() => handleDeleteUser(record)}
+                      >
+                        <RestOutlined className="ant-icon icon-danger userList__btn" />
+                      </Popconfirm>
                     </Tooltip>
                   </Space>
                 );

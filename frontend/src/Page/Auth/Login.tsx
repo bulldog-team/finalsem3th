@@ -1,13 +1,14 @@
-import { Button, Form } from "antd";
+import { Button, Form, message } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch, FC, SetStateAction } from "react";
 
 import CustomField from "../../Component/Field/Field";
 import * as actionCreator from "../../store/action/index";
+import { AppState } from "../../store/store";
 
 type ILoginForm = {
   username: string;
@@ -44,9 +45,14 @@ const LoginPage: FC<IloginProps> = () => {
   const handleLoginForm: SubmitHandler<ILoginForm> = async (
     data: ILoginForm
   ) => {
-    dispatch(actionCreator.handleLogin(data.username, data.username));
+    dispatch(actionCreator.handleLogin(data.username, data.password));
     reset(defaultValues);
   };
+
+  const auth = useSelector((state: AppState) => state.auth);
+  if (auth.error) {
+    message.error(auth.error.message, 5);
+  }
 
   return (
     <div className="login">

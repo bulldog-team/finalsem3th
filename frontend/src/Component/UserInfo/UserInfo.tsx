@@ -15,7 +15,7 @@ export type UserInfoForm = {
   gender: number;
   address: string;
   dob: any;
-  phone: string;
+  phone: string | null;
   branchId: number;
 };
 
@@ -46,9 +46,9 @@ const UserInfo = () => {
     branchId: yup.number().defined(),
     username: yup.string().defined().required("This field is required!"),
     dob: yup.string().defined(),
-    email: yup.string().defined().required("This field is required!"),
+    email: yup.string().required("This field is required!"),
     gender: yup.number().integer().defined(),
-    phone: yup.string().defined().required("This field is required!"),
+    phone: yup.string().required("This field is required!").nullable(),
   });
 
   const [imgFile, setImgFile] = useState<IFileState>({

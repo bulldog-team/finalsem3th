@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace API.Models
 {
@@ -19,12 +20,12 @@ namespace API.Models
 
         public DateTime Dob { get; set; }
 
-        public string ImgName { get; set; }
+        public string ImgName { get; set; } = "default_img.png";
 
         [ForeignKey("BranchId")]
         public BranchModel Branch { get; set; }
         public int BranchId { get; set; }
-        public bool IsAdminAccept { get; set; }
+        public bool IsAdminAccept { get; set; } = false;
 
         [ForeignKey("UserId")]
         public UserModel UserModel { get; set; }

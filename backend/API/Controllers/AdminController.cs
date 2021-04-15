@@ -44,5 +44,16 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpDelete("info/{userId}")]
+        public async Task<IActionResult> AdminDeleteUser(int userId)
+        {
+            var response = await _adminService.AdminDeleteUserInfo(userId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
+
     }
 }

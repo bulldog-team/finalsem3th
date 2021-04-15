@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -86,14 +88,15 @@ namespace API.Services.AdminService
         {
             var response = new ResponseServiceModel<DeleteUserDTO>();
             var curId = GetUserId();
-            if (curId == userId)
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+            if (curId == userId || user == null)
             {
                 response.Success = false;
                 return response;
             }
 
-            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
             _context.UserModels.Remove(user);
+            await _context.SaveChangesAsync();
             response.Data = _mapper.Map<DeleteUserDTO>(user);
             return response;
         }
@@ -111,7 +114,7 @@ namespace API.Services.AdminService
         public async Task<ResponseServiceModel<AdminCreateUserResponse>> AdminCreateuser(AdminCreateUser userRequest)
         {
             var response = new ResponseServiceModel<AdminCreateUserResponse>();
-            if (await EmailExists(userRequest.Email) || (await UserExists(userRequest.Username)) || (userRequest.Password != userRequest.ConfirmPassword))
+            if (await EmailExists(userRequest.Email) || (await UserExists(userRequest.Username)) || (userRequest.Password != userRequest.ConfirmPassword) || (userRequest.Password.Length < 6))
             {
                 response.Success = false;
                 response.Message = "Something wrongs!";
@@ -122,6 +125,23 @@ namespace API.Services.AdminService
                 Email = userRequest.Email,
                 Password = new PasswordHasher<object>().HashPassword(null, userRequest.Password),
                 Username = userRequest.Username
+            };
+
+            var userRole = await _context.RoleModels.FirstOrDefaultAsync(c => c.RoleName == "User");
+
+            newUser.RoleDetailModels = new List<RoleDetailModel> {
+                new RoleDetailModel{
+                    RoleModel = userRole,
+                    User = newUser
+                }
+            };
+
+            var defaultBranch = await _context.BranchModels.FirstOrDefaultAsync(c => c.BranchName == "HCM");
+
+            newUser.UserInfo = new UserInfo
+            {
+                Dob = DateTime.Now,
+                Branch = defaultBranch,
             };
 
             await _context.UserModels.AddAsync(newUser);
