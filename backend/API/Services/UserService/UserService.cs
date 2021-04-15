@@ -10,6 +10,7 @@ using AutoMapper;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -131,6 +132,30 @@ namespace API.Services.UserService
                 Username = c.UserModel.Username
             }).ToListAsync<UserListDTO>();
             response.Data = user;
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<UserUpdatePasswordResponseDTO>> UpdatePassword(UserUpdatePasswordRequestDTO request, int userId)
+        {
+            var response = new ResponseServiceModel<UserUpdatePasswordResponseDTO>();
+            var curUserId = GetUserId();
+            if (curUserId != userId || request.Password != request.ConfirmPassword)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == curUserId);
+
+            user.Password = new PasswordHasher<object>().HashPassword(null, request.Password);
+            await _context.SaveChangesAsync();
+            response.Data = new UserUpdatePasswordResponseDTO
+            {
+                UserId = curUserId,
+                Username = user.Username,
+            };
+
             return response;
         }
     }

@@ -15,6 +15,8 @@ namespace API.Services.UserService
 
         Task<ResponseServiceModel<ICollection<UserListDTO>>> GetUserList();
 
+        Task<ResponseServiceModel<UserUpdatePasswordResponseDTO>> UpdatePassword(UserUpdatePasswordRequestDTO request, int userId);
+
         Task<bool> UserExists(string username);
         Task<bool> EmailExists(string email);
 
