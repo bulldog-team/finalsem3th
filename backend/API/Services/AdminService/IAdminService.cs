@@ -19,5 +19,9 @@ namespace API.Services.AdminService
         Task<bool> EmailExists(string email);
 
         Task<ResponseServiceModel<List<UpdatePriceRequestDTO>>> AdminUpdatePrice(List<UpdatePriceRequestDTO> request);
+
+        Task<ResponseServiceModel<List<GetPriceListDTO>>> AdminGetPriceList();
+
+
     }
 }

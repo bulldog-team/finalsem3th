@@ -42,8 +42,8 @@ const MENU: MenuTypes[] = [
       {
         key: "packageList",
         role: [Role.ADMIN, Role.USER],
-        title: "Package List",
-        link: "/package-list",
+        title: "Delivery Type",
+        link: "/package-pricelist",
       },
     ],
   },

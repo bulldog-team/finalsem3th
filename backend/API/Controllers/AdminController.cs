@@ -64,5 +64,12 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("type")]
+        public async Task<IActionResult> AdminGetPrice()
+        {
+            var response = await _adminService.AdminGetPriceList();
+            return Ok(response);
+        }
+
     }
 }

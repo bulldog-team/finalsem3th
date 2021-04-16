@@ -176,5 +176,19 @@ namespace API.Services.AdminService
             await _context.SaveChangesAsync();
             return response;
         }
+
+        public async Task<ResponseServiceModel<List<GetPriceListDTO>>> AdminGetPriceList()
+        {
+            var response = new ResponseServiceModel<List<GetPriceListDTO>>();
+            var list = await _context.DeliveryTypeModels.Select(c => new GetPriceListDTO
+            {
+                TypeId = c.TypeId,
+                TypeName = c.TypeName,
+                UnitPrice = c.UnitPrice
+            }).ToListAsync();
+            response.Data = list;
+            return response;
+
+        }
     }
 }
