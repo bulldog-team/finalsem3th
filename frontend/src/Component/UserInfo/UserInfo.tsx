@@ -268,7 +268,9 @@ const UserInfo = () => {
             Please note that your information must be accepted by Admin before
             activating.
           </Row>
-          <Row>Status {status ? "Activated" : "Not activated"} </Row>
+          <Row>
+            <strong>Status {status ? "Activated" : "Not activated"}</strong>{" "}
+          </Row>
         </div>
       </div>
     </>
