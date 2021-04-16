@@ -51,6 +51,10 @@ const CustomField: FC<IField> = (propsField: IField) => {
     field.onChange(dateString);
   };
 
+  const onNumberChange = (value: number, field: ControllerRenderProps) => {
+    field.onChange(value);
+  };
+
   const InputStyle = (
     type: string,
     props: {
@@ -104,7 +108,8 @@ const CustomField: FC<IField> = (propsField: IField) => {
             min={1}
             max={200}
             defaultValue={propsField.defaultValue || 1}
-            {...field}
+            value={field.value}
+            onChange={(value) => onNumberChange(value, field)}
           />
         );
     }
@@ -122,6 +127,7 @@ const CustomField: FC<IField> = (propsField: IField) => {
         control={control}
         name={name}
         render={(props) => InputStyle(type, props)}
+        defaultValue={propsField.defaultValue}
       />
     </Form.Item>
   );

@@ -164,7 +164,7 @@ namespace API.Services.AdminService
             response.Data = new List<UpdatePriceRequestDTO>();
             foreach (var item in request)
             {
-                var curType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeId == item.TypeId);
+                var curType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == item.TypeName);
                 var type = item.UnitPrice.GetType();
                 if (type == typeof(int) && item.UnitPrice > 0 && curType != null)
                 {

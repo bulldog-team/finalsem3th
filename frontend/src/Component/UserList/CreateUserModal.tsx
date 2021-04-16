@@ -61,6 +61,7 @@ const CreateUserModal: FC<CreateUserModalProps> = (props) => {
       const response = await UserApi.adminCreateUser(data);
       setIsCreateModalOpen(false);
       setUpdate((pre) => !pre);
+      reset();
     } catch (error) {
       message.error(error.response.data, 5);
     }
