@@ -13,6 +13,11 @@ namespace API.Models
         public string ReceiveName { get; set; }
         public string ReceiveAddress { get; set; }
 
+        [ForeignKey("UserId")]
+        public int UserId { get; set; }
+
+        public UserModel User { get; set; }
+
         [ForeignKey("TypeId")]
         public DeliveryTypeModel DeliveryType { get; set; }
         public int TypeId { get; set; }

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using API.DTO.Package;
@@ -29,8 +30,9 @@ namespace API.Services.PackageService
             _context = context;
             _mapper = mapper;
             _config = config;
-
         }
+
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         private int GetDistance(string original, string target)
         {
@@ -63,6 +65,11 @@ namespace API.Services.PackageService
                 response.Success = false;
                 return response;
             };
+
+            var userId = GetUserId();
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+            newPackage.User = user;
+
             var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == "Picked up");
             status.Packages.Add(newPackage);
             newPackage.PackageStatus = status;
@@ -79,6 +86,8 @@ namespace API.Services.PackageService
             response.Data = request;
             return response;
         }
+
+
 
     }
 }
