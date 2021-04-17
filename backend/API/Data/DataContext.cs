@@ -18,6 +18,7 @@ namespace BackEnd.Data
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
+        public DbSet<InvoiceModel> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

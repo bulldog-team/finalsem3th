@@ -29,5 +29,11 @@ namespace API.Models
         [ForeignKey("StatusId")]
         public int StatusId { get; set; }
         public PackageStatusModel PackageStatus { get; set; }
+
+        public bool IsPaid { get; set; } = false;
+
+        [ForeignKey("InvoiceId")]
+        public int InvoiceId { get; set; }
+        public InvoiceModel InvoiceModel { get; set; } = new InvoiceModel();
     }
 }

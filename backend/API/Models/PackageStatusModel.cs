@@ -9,6 +9,6 @@ namespace API.Models
         public int StatusId { get; set; }
         public string Status { get; set; }
 
-        public ICollection<PackageModel> Packages { get; set; }
+        public ICollection<PackageModel> Packages { get; set; } = new List<PackageModel>();
     }
 }

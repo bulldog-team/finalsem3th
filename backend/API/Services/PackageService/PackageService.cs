@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.IO;
 using System.Net;
@@ -17,7 +18,6 @@ namespace API.Services.PackageService
     public class PackageService : IPackageService
     {
         private readonly IWebHostEnvironment _hostEnvironment;
-        private readonly PackageService _packageService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -32,7 +32,7 @@ namespace API.Services.PackageService
 
         }
 
-        private string GetDistance(string original, string target)
+        private int GetDistance(string original, string target)
         {
 
             string url = "https://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + original + "&destinations=" + target + "&key=AIzaSyBi5dqUpdZT2yRVs013U_sGX3Rar51y-j8";
@@ -45,8 +45,8 @@ namespace API.Services.PackageService
                 {
                     DataSet dsResult = new DataSet();
                     var test = dsResult.ReadXml(reader);
-                    var check = dsResult.Tables["distance"].Rows[0]["text"].ToString();
-                    return check;
+                    var check = dsResult.Tables["distance"].Rows[0]["value"].ToString();
+                    return Int32.Parse(check);
                 }
             }
         }
@@ -54,29 +54,31 @@ namespace API.Services.PackageService
         public async Task<ResponseServiceModel<InitPackageDTO>> InitPackage(InitPackageDTO request)
         {
             var response = new ResponseServiceModel<InitPackageDTO>();
-            // var newPackage = _mapper.Map<PackageModel>(request);
-            // var deliveryType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == request.DeliveryType);
+            var newPackage = _mapper.Map<PackageModel>(request);
+            var deliveryType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == request.DeliveryType);
 
-            // if (deliveryType == null)
-            // {
-            //     response.Message = "Something wrongs!";
-            //     response.Success = false;
-            //     return response;
-            // };
-            // var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == "Picked up");
-            // status.Packages.Add(newPackage);
-            // newPackage.PackageStatus = status;
+            if (deliveryType == null)
+            {
+                response.Message = "Something wrongs!";
+                response.Success = false;
+                return response;
+            };
+            var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == "Picked up");
+            status.Packages.Add(newPackage);
+            newPackage.PackageStatus = status;
 
-            // newPackage.DeliveryType = deliveryType;
-            // deliveryType.Packages.Add(newPackage);
+            newPackage.DeliveryType = deliveryType;
+            deliveryType.Packages.Add(newPackage);
 
-            // await _context.PackageModels.AddAsync(newPackage);
-
-            // await _context.SaveChangesAsync();
-            // response.Data = request;
-
+            await _context.PackageModels.AddAsync(newPackage);
             var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
+            newPackage.Distance = distance;
+            newPackage.TotalPrice = distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2;
+
+            await _context.SaveChangesAsync();
+            response.Data = request;
             return response;
         }
+
     }
 }
