@@ -203,6 +203,23 @@ namespace BackEnd.Data
                     StatusId = 1,
                     IsPaid = true,
                     Pincode = 700000,
+                },
+                new PackageModel
+                {
+                    PackageId = 2,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nu Hoang Minh",
+                    SenderAddress = "44 Hòa Bình, Quận 11, Hồ Chí Minh, Việt Nam",
+                    ReceiveName = "Hoang Minh Nam",
+                    ReceiveAddress = "114-116 Nguyễn Ảnh Thủ, Quận 12, Hồ Chí Minh, Việt Nam",
+                    Distance = 1290,
+                    TotalPrice = 45000,
+                    Weight = 1,
+                    UserId = 3,
+                    TypeId = 2,
+                    StatusId = 1,
+                    IsPaid = false,
+                    Pincode = 700000,
                 }
             );
 
