@@ -37,8 +37,7 @@ namespace API.Models
 
         public bool IsPaid { get; set; } = false;
 
-        [ForeignKey("InvoiceId")]
-        public int InvoiceId { get; set; }
-        public InvoiceModel InvoiceModel { get; set; } = new InvoiceModel();
+        public InvoiceModel InvoiceModel { get; set; }
+
     }
 }

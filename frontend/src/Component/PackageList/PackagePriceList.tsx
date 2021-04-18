@@ -1,4 +1,4 @@
-import { Button, Form, message } from "antd";
+import { Button, Form, message, Row } from "antd";
 
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -79,9 +79,11 @@ const PackagePriceList = () => {
               />
             );
           })}
-          <Button key="submit" htmlType="submit" type="primary">
-            Update
-          </Button>
+          <Row justify="center">
+            <Button key="submit" htmlType="submit" type="primary">
+              Update
+            </Button>
+          </Row>
         </Form>
       </div>
     </>

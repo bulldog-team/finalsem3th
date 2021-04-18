@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -87,7 +89,21 @@ namespace API.Services.PackageService
             return response;
         }
 
+        public async Task<ResponseServiceModel<List<GetPackageListDTO>>> GetPackageList()
+        {
+            var response = new ResponseServiceModel<List<GetPackageListDTO>>();
 
-
+            var packageList = await _context.PackageModels.OrderBy(c => c.DateSent).Select(c => new GetPackageListDTO
+            {
+                DateSent = c.DateSent,
+                IsPaid = c.IsPaid,
+                PackageId = c.PackageId,
+                ReceiveName = c.ReceiveName,
+                SenderName = c.SenderName,
+                TotalPrice = c.TotalPrice
+            }).ToListAsync();
+            response.Data = packageList;
+            return response;
+        }
     }
 }

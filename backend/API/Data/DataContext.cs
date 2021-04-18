@@ -185,6 +185,36 @@ namespace BackEnd.Data
                     Status = "Received",
                 }
             );
+
+            modelBuilder.Entity<PackageModel>().HasData(
+                new PackageModel
+                {
+                    PackageId = 1,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nguyen Thi Minh Khai",
+                    SenderAddress = "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
+                    ReceiveName = "Nguyen Thi Mai Nam",
+                    ReceiveAddress = "175B Cao Thắng, Phường 12, Quận 10, Thành phố Hồ Chí Minh",
+                    Distance = 2019,
+                    TotalPrice = 20120,
+                    Weight = 1,
+                    UserId = 2,
+                    TypeId = 1,
+                    StatusId = 1,
+                    IsPaid = true,
+                    Pincode = 700000,
+                }
+            );
+
+            modelBuilder.Entity<InvoiceModel>().HasData(
+                new InvoiceModel
+                {
+                    CreateAt = DateTime.Now,
+                    InvoiceId = 1,
+                    PackageId = 1,
+                    TotalPrice = 20120
+                }
+            );
             base.OnModelCreating(modelBuilder);
         }
 

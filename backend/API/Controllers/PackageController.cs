@@ -25,5 +25,13 @@ namespace API.Controllers
             }
             return Ok(response);
         }
+
+        [HttpGet("init")]
+        public async Task<IActionResult> GetPackageList()
+        {
+            var response = await _packageService.GetPackageList();
+            return Ok(response);
+        }
+
     }
 }
