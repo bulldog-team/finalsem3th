@@ -40,10 +40,16 @@ const MENU: MenuTypes[] = [
     role: [Role.ADMIN, Role.USER],
     sub: [
       {
-        key: "packageList",
+        key: "packagepriceList",
         role: [Role.ADMIN, Role.USER],
         title: "Delivery Type",
         link: "/package-pricelist",
+      },
+      {
+        key: "packageList",
+        role: [Role.ADMIN, Role.USER],
+        title: "Package List",
+        link: "/package-list",
       },
     ],
   },

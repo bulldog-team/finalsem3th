@@ -4,6 +4,7 @@ import { ExportOutlined, RestOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import packageApi, { PackageListType } from "../../helper/axios/packageApi";
 import Heading from "../Heading/Heading";
+import moment from "moment";
 
 type PackageListDataSource = PackageListType & {
   key: number;
@@ -37,9 +38,9 @@ const PackageList = () => {
 
   return (
     <>
-      <div className="px-1 py-1 table userList">
+      <div className="px-1 py-1 table packageList">
         <Heading title="Package List" />
-        <div className="userInfo__body">
+        <div className="packageList__body">
           <Row justify="end" style={{ margin: "1rem 0" }}>
             <Button
               onClick={() => setIsCreateModalOpen((pre) => !pre)}
@@ -73,41 +74,34 @@ const PackageList = () => {
               title="Date Sent"
               dataIndex="dateSent"
               render={(data) => {
-                return <>{data ? "Activated" : "Not Activated"}</>;
+                return moment(data).format("YYYY-MM-DD");
               }}
-              // sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
-              //   return a.isAdminAccept
-              //     .toString()
-              //     .localeCompare(b.isAdminAccept.toString());
-              // }}
             />
             <Column
               title="Status"
               dataIndex="isPaid"
               render={(data) => {
-                return <>{data ? "Activated" : "Not Activated"}</>;
+                return <>{data ? "Paid" : "Not yet"}</>;
               }}
-              // sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
-              //   return a.isAdminAccept
-              //     .toString()
-              //     .localeCompare(b.isAdminAccept.toString());
-              // }}
+              sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
+                return a.isPaid.toString().localeCompare(b.isPaid.toString());
+              }}
             />
             <Column
-              title="Action"
+              title="Price"
               dataIndex="totalPrice"
               sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
                 return a.totalPrice - b.totalPrice;
               }}
             />
             <Column
-              title="Status"
+              title="Action"
               render={(_, record: PackageListDataSource) => {
                 return (
                   <Space size="middle">
                     <Tooltip title="View">
                       <ExportOutlined
-                        className="ant-icon icon-primary userList__btn"
+                        className="ant-icon icon-primary packageList__btn"
                         onClick={() => {
                           setIsViewModalOpen(true);
                         }}
