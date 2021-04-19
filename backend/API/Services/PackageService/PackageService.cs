@@ -105,5 +105,40 @@ namespace API.Services.PackageService
             response.Data = packageList;
             return response;
         }
+
+        public async Task<ResponseServiceModel<UserGetPackageDTO>> UserGetPackageInfo(int packageId)
+        {
+            var response = new ResponseServiceModel<UserGetPackageDTO>();
+            var package = await _context.PackageModels.Include(c => c.DeliveryType).Include(c => c.PackageStatus).Select(c => new UserGetPackageDTO
+            {
+                DateReceived = c.DateReceived,
+                CreatedBy = c.User.Username,
+                DateSent = c.DateSent,
+                DeliveryType = c.DeliveryType.TypeName,
+                Distance = c.Distance,
+                IsPaid = c.IsPaid,
+                Pincode = c.Pincode,
+                PackageId = c.PackageId,
+                ReceiveAddress = c.ReceiveAddress,
+                ReceiveName = c.ReceiveName,
+                SenderAddress = c.SenderAddress,
+                SenderName = c.SenderName,
+                Status = c.PackageStatus.Status,
+                TotalPrice = c.TotalPrice,
+                Weight = c.Weight
+
+            }).FirstOrDefaultAsync(c => c.PackageId == packageId);
+
+            if (package == null)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            response.Data = package;
+            return response;
+
+        }
     }
 }

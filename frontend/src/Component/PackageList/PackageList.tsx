@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import packageApi, { PackageListType } from "../../helper/axios/packageApi";
 import Heading from "../Heading/Heading";
 import moment from "moment";
+import ViewPackageInfo from "./ViewPackageInfo";
 
 type PackageListDataSource = PackageListType & {
   key: number;
@@ -13,7 +14,7 @@ type PackageListDataSource = PackageListType & {
 const PackageList = () => {
   const [packageList, setPackageList] = useState<PackageListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
-  const [name, setName] = useState<number>();
+  const [packageId, setPackageId] = useState<number>();
   const [update, setUpdate] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
@@ -38,6 +39,14 @@ const PackageList = () => {
 
   return (
     <>
+      {isCreateModalOpen && (
+        <ViewPackageInfo
+          isViewModalOpen={isViewModalOpen}
+          packageId={packageId}
+          setIsViewModalOpen={setIsCreateModalOpen}
+          setUpdate={setUpdate}
+        />
+      )}
       <div className="px-1 py-1 table packageList">
         <Heading title="Package List" />
         <div className="packageList__body">
@@ -104,6 +113,7 @@ const PackageList = () => {
                         className="ant-icon icon-primary packageList__btn"
                         onClick={() => {
                           setIsViewModalOpen(true);
+                          setPackageId(record.packageId);
                         }}
                       />
                     </Tooltip>

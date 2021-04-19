@@ -32,8 +32,8 @@ namespace API.Models
         public int Weight { get; set; }
 
         [ForeignKey("StatusId")]
-        public int StatusId { get; set; }
         public PackageStatusModel PackageStatus { get; set; }
+        public int StatusId { get; set; }
 
         public bool IsPaid { get; set; } = false;
 

@@ -21,6 +21,24 @@ export type PackageListType = {
   isPaid: boolean;
 };
 
+export type PackageInfo = {
+  packageId: number;
+  senderName: string;
+  senderAddress: string;
+  receiveName: string;
+  receiveAddress: string;
+  createdBy: string;
+  deliveryType: string;
+  dateSent: string;
+  dateReceived: string;
+  totalPrice: number;
+  distance: number;
+  pincode: number;
+  weight: number;
+  status: string;
+  isPaid: boolean;
+};
+
 interface IPackageApi {
   getPriceList: () => Promise<AxiosResponse<DeliveryType[]>>;
   updatePriceList: (
@@ -28,6 +46,10 @@ interface IPackageApi {
   ) => Promise<AxiosResponse<DeliveryType[]>>;
 
   getPackageList: () => Promise<AxiosResponse<PackageListType[]>>;
+
+  userGetPackageInfo: (
+    packageId: number
+  ) => Promise<AxiosResponse<PackageInfo>>;
 }
 
 const packageApi: IPackageApi = {
@@ -43,6 +65,11 @@ const packageApi: IPackageApi = {
 
   getPackageList: async () => {
     const url = `${process.env.REACT_APP_API_URL}/package/init`;
+    return axiosClient.get(url);
+  },
+
+  userGetPackageInfo: (packageId) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
     return axiosClient.get(url);
   },
 };

@@ -9,5 +9,7 @@ namespace API.Services.PackageService
     {
         Task<ResponseServiceModel<InitPackageDTO>> InitPackage(InitPackageDTO request);
         Task<ResponseServiceModel<List<GetPackageListDTO>>> GetPackageList();
+
+        Task<ResponseServiceModel<UserGetPackageDTO>> UserGetPackageInfo(int packageId);
     }
 }

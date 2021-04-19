@@ -33,5 +33,17 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("info/{packageId}")]
+        public async Task<IActionResult> UserGetPackageInfo(int packageId)
+        {
+            var response = await _packageService.UserGetPackageInfo(packageId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+
+            return Ok(response);
+        }
+
     }
 }
