@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
+
 import axiosClient from "../axiosClient";
+import { ICreatePackageForm } from "../../../Component/PackageList/CreatePackage";
 
 export type DeliveryType = {
   typeId: number;
@@ -39,6 +41,11 @@ export type PackageInfo = {
   isPaid: boolean;
 };
 
+export type ICreatePackageFormRepsone = ICreatePackageForm & {
+  distance: number;
+  totalPrice: number;
+};
+
 interface IPackageApi {
   getPriceList: () => Promise<AxiosResponse<DeliveryType[]>>;
   updatePriceList: (
@@ -50,20 +57,24 @@ interface IPackageApi {
   userGetPackageInfo: (
     packageId: number
   ) => Promise<AxiosResponse<PackageInfo>>;
+
+  createPackage: (
+    data: ICreatePackageForm
+  ) => Promise<AxiosResponse<ICreatePackageFormRepsone>>;
 }
 
 const packageApi: IPackageApi = {
-  getPriceList: async () => {
+  getPriceList: () => {
     const url = `${process.env.REACT_APP_API_URL}/admin/type`;
     return axiosClient.get(url);
   },
 
-  updatePriceList: async (data) => {
+  updatePriceList: (data) => {
     const url = `${process.env.REACT_APP_API_URL}/admin/type`;
     return axiosClient.patch(url, data);
   },
 
-  getPackageList: async () => {
+  getPackageList: () => {
     const url = `${process.env.REACT_APP_API_URL}/package/init`;
     return axiosClient.get(url);
   },
@@ -71,6 +82,11 @@ const packageApi: IPackageApi = {
   userGetPackageInfo: (packageId) => {
     const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
     return axiosClient.get(url);
+  },
+
+  createPackage: (data) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/init`;
+    return axiosClient.post(url, data);
   },
 };
 

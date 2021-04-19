@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { UserInfoForm } from "../../../Component/UserInfo/UserInfo";
-import { IcreateUserForm } from "../../../Component/UserList/CreateUserModal";
+import { ICreateUserForm } from "../../../Component/UserList/CreateUserModal";
 import { localStorageService } from "../../localStorage/localStorageService";
 import axiosClient from "../axiosClient";
 
@@ -65,7 +65,7 @@ interface IUserApi {
   ) => Promise<AxiosResponse<UserInfoType>>;
 
   adminCreateUser: (
-    form: IcreateUserForm
+    form: ICreateUserForm
   ) => Promise<AxiosResponse<AdminCreateUserReponse>>;
 
   adminDeleteUser: (

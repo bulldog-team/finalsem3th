@@ -12,7 +12,7 @@ interface CreateUserModalProps {
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface IcreateUserForm {
+export interface ICreateUserForm {
   username: string;
   password: string;
   confirmPassword: string;
@@ -22,7 +22,7 @@ export interface IcreateUserForm {
 const CreateUserModal: FC<CreateUserModalProps> = (props) => {
   const { isCreateModalOpen, setIsCreateModalOpen, setUpdate } = props;
 
-  const CreateUserFormSchema: yup.SchemaOf<IcreateUserForm> = yup.object({
+  const CreateUserFormSchema: yup.SchemaOf<ICreateUserForm> = yup.object({
     username: yup.string().required("This field is required"),
     password: yup.string().min(6).required("This field is required"),
     confirmPassword: yup
@@ -36,7 +36,7 @@ const CreateUserModal: FC<CreateUserModalProps> = (props) => {
     email: yup.string().email().required("This field is required"),
   });
 
-  const defaultValues: IcreateUserForm = {
+  const defaultValues: ICreateUserForm = {
     username: "",
     confirmPassword: "",
     email: "",
@@ -48,13 +48,13 @@ const CreateUserModal: FC<CreateUserModalProps> = (props) => {
     control,
     formState: { errors },
     reset,
-  } = useForm<IcreateUserForm>({
+  } = useForm<ICreateUserForm>({
     defaultValues,
     resolver: yupResolver(CreateUserFormSchema),
   });
 
-  const handleCreateUser: SubmitHandler<IcreateUserForm> = async (
-    data: IcreateUserForm
+  const handleCreateUser: SubmitHandler<ICreateUserForm> = async (
+    data: ICreateUserForm
   ) => {
     console.log(typeof data);
     try {

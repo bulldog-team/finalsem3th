@@ -1,8 +1,11 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Form, Row } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import moment from "moment";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+
 import packageApi, { DeliveryType } from "../../helper/axios/packageApi";
 import CustomField from "../Field/Field";
 
@@ -12,8 +15,15 @@ interface NewPackageProps {
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
-interface ICreatePackageForm {
+export interface ICreatePackageForm {
+  senderName: string;
+  senderAddress: string;
+  receiveName: string;
+  receiveAddress: string;
   deliveryType: string;
+  dateSent: string;
+  pincode: number;
+  weight: number;
 }
 
 type DeliveryTypeOptions = {
@@ -24,13 +34,28 @@ type DeliveryTypeOptions = {
 
 const CreatePackage: FC<NewPackageProps> = (props) => {
   const { isCreateModalOpen, setIsCreateModalOpen, setUpdate } = props;
+
+  const CreateUserFormSchema: yup.SchemaOf<ICreatePackageForm> = yup.object({
+    senderName: yup.string().required("This field is required!"),
+    senderAddress: yup.string().required("This field is required!"),
+    receiveName: yup.string().required("This field is required!"),
+    receiveAddress: yup.string().required("This field is required!"),
+    dateSent: yup.string().required("This field is required!"),
+    deliveryType: yup.string().required("This field is required!"),
+    pincode: yup.number().required("This field is required!"),
+    weight: yup.number().required("This field is required!"),
+  });
+
   const [deliveryType, setDeliveryType] = useState<DeliveryTypeOptions[]>([]);
+
   const {
     control,
     formState: { errors },
     reset,
     handleSubmit,
-  } = useForm<ICreatePackageForm>();
+  } = useForm<ICreatePackageForm>({
+    resolver: yupResolver(CreateUserFormSchema),
+  });
 
   const layout = {
     labelCol: {
@@ -51,7 +76,10 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
         price: item.unitPrice,
       }));
       setDeliveryType(transfer);
-      reset({ deliveryType: "Speed Post" });
+      reset({
+        deliveryType: "Courier",
+        dateSent: moment().format("YYYY-MM-DD"),
+      });
       console.log(response);
     };
     fetchDeliveryType();
@@ -60,7 +88,8 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
   const handleCreatePackage: SubmitHandler<ICreatePackageForm> = async (
     data
   ) => {
-    console.log(data);
+    const response = await packageApi.createPackage(data);
+    console.log(response);
   };
 
   const handleClose = () => {
@@ -97,14 +126,14 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
             <CustomField
               control={control}
               errors={errors}
-              name="sendername"
+              name="senderName"
               label="Sender's Name"
               type="text"
             />
             <CustomField
               control={control}
               errors={errors}
-              name="senderaddress"
+              name="senderAddress"
               label="Sender's Address"
               type="text"
             />
@@ -112,7 +141,7 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
               control={control}
               errors={errors}
               name="receiveName"
-              label="Receiver"
+              label="Receiver's Name"
               type="text"
             />
             <CustomField
@@ -148,7 +177,7 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
             />
             <CustomField
               name="dateSent"
-              label="Date of Birth"
+              label="Date sent"
               control={control}
               errors={errors}
               type="datePicker"

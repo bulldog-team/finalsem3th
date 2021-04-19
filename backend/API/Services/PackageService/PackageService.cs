@@ -55,9 +55,9 @@ namespace API.Services.PackageService
             }
         }
 
-        public async Task<ResponseServiceModel<InitPackageDTO>> InitPackage(InitPackageDTO request)
+        public async Task<ResponseServiceModel<PackageModel>> InitPackage(InitPackageDTO request)
         {
-            var response = new ResponseServiceModel<InitPackageDTO>();
+            var response = new ResponseServiceModel<PackageModel>();
             var newPackage = _mapper.Map<PackageModel>(request);
             var deliveryType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == request.DeliveryType);
 
@@ -79,13 +79,14 @@ namespace API.Services.PackageService
             newPackage.DeliveryType = deliveryType;
             deliveryType.Packages.Add(newPackage);
 
-            await _context.PackageModels.AddAsync(newPackage);
             var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
             newPackage.Distance = distance;
             newPackage.TotalPrice = distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2;
 
+            await _context.PackageModels.AddAsync(newPackage);
             await _context.SaveChangesAsync();
-            response.Data = request;
+            var savedPackage = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == newPackage.PackageId);
+            response.Data = savedPackage;
             return response;
         }
 
