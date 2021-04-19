@@ -5,7 +5,7 @@ import packageApi, { PackageInfo } from "../../helper/axios/packageApi";
 interface ViewpackageInfoProps {
   isViewModalOpen: boolean;
   setIsViewModalOpen: Dispatch<SetStateAction<boolean>>;
-  packageId: number | undefined;
+  packageId: number;
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -22,8 +22,8 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response =
-        packageId && (await packageApi.userGetPackageInfo(packageId));
+      const response = await packageApi.userGetPackageInfo(packageId);
+      setPackageInfo(response.data);
       console.log(response);
     };
     fetchData();

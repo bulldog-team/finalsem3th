@@ -39,7 +39,7 @@ const PackageList = () => {
 
   return (
     <>
-      {isCreateModalOpen && (
+      {isCreateModalOpen && packageId && (
         <ViewPackageInfo
           isViewModalOpen={isViewModalOpen}
           packageId={packageId}
