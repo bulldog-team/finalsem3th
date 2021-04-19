@@ -1,10 +1,10 @@
-import { Button, Form } from "antd";
+import { Button, Col, Form, Row } from "antd";
 import Modal from "antd/lib/modal/Modal";
+import moment from "moment";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import packageApi, { DeliveryType } from "../../helper/axios/packageApi";
 import CustomField from "../Field/Field";
-import { IcreateUserForm } from "../UserList/CreateUserModal";
 
 interface NewPackageProps {
   isCreateModalOpen: boolean;
@@ -32,6 +32,16 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
     handleSubmit,
   } = useForm<ICreatePackageForm>();
 
+  const layout = {
+    labelCol: {
+      span: 7,
+      offset: 1,
+    },
+    wrapperCol: {
+      span: 15,
+    },
+  };
+
   useEffect(() => {
     const fetchDeliveryType = async () => {
       const response = await packageApi.getPriceList();
@@ -45,7 +55,7 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
       console.log(response);
     };
     fetchDeliveryType();
-  }, []);
+  }, [reset]);
 
   const handleCreatePackage: SubmitHandler<ICreatePackageForm> = async (
     data
@@ -75,17 +85,76 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
           Create
         </Button>,
       ]}
-      width={960}
+      width={1100}
     >
-      <Form onFinish={handleSubmit(handleCreatePackage)} id="createPackage">
-        <CustomField
-          control={control}
-          errors={errors}
-          name="deliveryType"
-          label="Delivery Type"
-          options={deliveryType}
-          type="select"
-        />
+      <Form
+        onFinish={handleSubmit(handleCreatePackage)}
+        {...layout}
+        id="createPackage"
+      >
+        <Row>
+          <Col xs={24} sm={12}>
+            <CustomField
+              control={control}
+              errors={errors}
+              name="sendername"
+              label="Sender's Name"
+              type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="senderaddress"
+              label="Sender's Address"
+              type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="receiveName"
+              label="Receiver"
+              type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="receiveAddress"
+              label="Receiver's Address"
+              type="text"
+            />
+          </Col>
+          <Col xs={24} sm={12}>
+            <CustomField
+              control={control}
+              errors={errors}
+              name="pincode"
+              label="Pincode"
+              type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="weight"
+              label="Weight"
+              type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="deliveryType"
+              label="Delivery Type"
+              options={deliveryType}
+              type="select"
+            />
+            <CustomField
+              name="dateSent"
+              label="Date of Birth"
+              control={control}
+              errors={errors}
+              type="datePicker"
+            />
+          </Col>
+        </Row>
       </Form>
     </Modal>
   );
