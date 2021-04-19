@@ -6,6 +6,7 @@ import packageApi, { PackageListType } from "../../helper/axios/packageApi";
 import Heading from "../Heading/Heading";
 import moment from "moment";
 import ViewPackageInfo from "./ViewPackageInfo";
+import CreatePackage from "./CreatePackage";
 
 type PackageListDataSource = PackageListType & {
   key: number;
@@ -39,11 +40,18 @@ const PackageList = () => {
 
   return (
     <>
-      {isCreateModalOpen && packageId && (
+      {isViewModalOpen && packageId && (
         <ViewPackageInfo
           isViewModalOpen={isViewModalOpen}
           packageId={packageId}
-          setIsViewModalOpen={setIsCreateModalOpen}
+          setIsViewModalOpen={setIsViewModalOpen}
+          setUpdate={setUpdate}
+        />
+      )}
+      {isCreateModalOpen && (
+        <CreatePackage
+          isCreateModalOpen={isCreateModalOpen}
+          setIsCreateModalOpen={setIsCreateModalOpen}
           setUpdate={setUpdate}
         />
       )}

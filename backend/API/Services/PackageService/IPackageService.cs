@@ -11,5 +11,7 @@ namespace API.Services.PackageService
         Task<ResponseServiceModel<List<GetPackageListDTO>>> GetPackageList();
 
         Task<ResponseServiceModel<UserGetPackageDTO>> UserGetPackageInfo(int packageId);
+
+        Task<ResponseServiceModel<List<DeliveryTypeModel>>> GetDeliveryType();
     }
 }

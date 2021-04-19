@@ -22,7 +22,7 @@ namespace API.Models
         public DeliveryTypeModel DeliveryType { get; set; }
         public int TypeId { get; set; }
         public DateTime DateSent { get; set; }
-        public DateTime DateReceived { get; set; }
+        public Nullable<DateTime> DateReceived { get; set; } = null;
 
         public int TotalPrice { get; set; }
         public int Distance { get; set; }

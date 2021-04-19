@@ -12,12 +12,12 @@ interface CreateUserModalProps {
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
-export type IcreateUserForm = {
+export interface IcreateUserForm {
   username: string;
   password: string;
   confirmPassword: string;
   email: string;
-};
+}
 
 const CreateUserModal: FC<CreateUserModalProps> = (props) => {
   const { isCreateModalOpen, setIsCreateModalOpen, setUpdate } = props;

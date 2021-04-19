@@ -51,7 +51,10 @@ const CustomField: FC<IField> = (propsField: IField) => {
     field.onChange(dateString);
   };
 
-  const onNumberChange = (value: number, field: ControllerRenderProps) => {
+  const onTextChange = (
+    value: number | string,
+    field: ControllerRenderProps
+  ) => {
     field.onChange(value);
   };
 
@@ -94,7 +97,10 @@ const CustomField: FC<IField> = (propsField: IField) => {
       case "select":
         const { Option } = Select;
         return (
-          <Select defaultValue={propsField.defaultValue} {...field}>
+          <Select
+            value={field.value}
+            onChange={(value) => onTextChange(value, field)}
+          >
             {propsField.options?.map((item) => (
               <Option key={item.name} value={item.value}>
                 {item.name}
@@ -109,7 +115,7 @@ const CustomField: FC<IField> = (propsField: IField) => {
             max={200}
             defaultValue={propsField.defaultValue || 1}
             value={field.value}
-            onChange={(value) => onNumberChange(value, field)}
+            onChange={(value) => onTextChange(value, field)}
           />
         );
     }

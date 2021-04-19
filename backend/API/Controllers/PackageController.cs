@@ -45,5 +45,11 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("delivery-type")]
+        public async Task<IActionResult> GetDeliveryType()
+        {
+            var response = await _packageService.GetDeliveryType();
+            return Ok(response);
+        }
     }
 }

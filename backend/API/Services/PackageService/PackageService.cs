@@ -140,5 +140,13 @@ namespace API.Services.PackageService
             return response;
 
         }
+
+        public async Task<ResponseServiceModel<List<DeliveryTypeModel>>> GetDeliveryType()
+        {
+            var response = new ResponseServiceModel<List<DeliveryTypeModel>>();
+
+            response.Data = await _context.DeliveryTypeModels.ToListAsync();
+            return response;
+        }
     }
 }
