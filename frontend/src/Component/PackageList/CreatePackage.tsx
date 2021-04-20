@@ -24,6 +24,7 @@ export interface ICreatePackageForm {
   dateSent: string;
   pincode: number;
   weight: number;
+  paymentType: string;
 }
 
 type DeliveryTypeOptions = {
@@ -44,6 +45,7 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
     deliveryType: yup.string().required("This field is required!"),
     pincode: yup.number().required("This field is required!"),
     weight: yup.number().required("This field is required!"),
+    paymentType: yup.string().required("This field is required!"),
   });
 
   const [deliveryType, setDeliveryType] = useState<DeliveryTypeOptions[]>([]);
@@ -79,6 +81,7 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
       reset({
         deliveryType: "Courier",
         dateSent: moment().format("YYYY-MM-DD"),
+        paymentType: "Cash",
       });
       console.log(response);
     };
@@ -89,6 +92,8 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
     data
   ) => {
     const response = await packageApi.createPackage(data);
+    setUpdate((pre) => !pre);
+    setIsCreateModalOpen(false);
     console.log(response);
   };
 
@@ -150,6 +155,18 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
               name="receiveAddress"
               label="Receiver's Address"
               type="text"
+            />
+            <CustomField
+              control={control}
+              errors={errors}
+              name="paymentType"
+              label="Payment Type"
+              type="select"
+              options={[
+                { name: "Cash", value: "Cash" },
+                { name: "Paypal", value: "Paypal" },
+              ]}
+              defaultValue="Cash"
             />
           </Col>
           <Col xs={24} sm={12}>

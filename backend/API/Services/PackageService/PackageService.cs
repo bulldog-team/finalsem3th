@@ -55,9 +55,9 @@ namespace API.Services.PackageService
             }
         }
 
-        public async Task<ResponseServiceModel<PackageModel>> InitPackage(InitPackageDTO request)
+        public async Task<ResponseServiceModel<InitPackageResponse>> InitPackage(InitPackageDTO request)
         {
-            var response = new ResponseServiceModel<PackageModel>();
+            var response = new ResponseServiceModel<InitPackageResponse>();
             var newPackage = _mapper.Map<PackageModel>(request);
             var deliveryType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == request.DeliveryType);
 
@@ -67,6 +67,10 @@ namespace API.Services.PackageService
                 response.Success = false;
                 return response;
             };
+            if (request.PaymentType == "Cash")
+            {
+                newPackage.IsPaid = true;
+            }
 
             var userId = GetUserId();
             var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
@@ -78,14 +82,38 @@ namespace API.Services.PackageService
 
             newPackage.DeliveryType = deliveryType;
             deliveryType.Packages.Add(newPackage);
+            try
+            {
+                var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
+                newPackage.Distance = distance;
+                newPackage.TotalPrice = distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2;
 
-            var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
-            newPackage.Distance = distance;
-            newPackage.TotalPrice = distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Someting wrongs!" + ex.Message;
+                response.Success = false;
+                return response;
+            }
+
 
             await _context.PackageModels.AddAsync(newPackage);
             await _context.SaveChangesAsync();
-            var savedPackage = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == newPackage.PackageId);
+            var savedPackage = await _context.PackageModels.Select(c => new InitPackageResponse
+            {
+                DateSent = c.DateSent,
+                DeliveryType = c.DeliveryType.TypeName,
+                Distance = c.Distance,
+                IsPaid = c.IsPaid,
+                PackageId = c.PackageId,
+                Pincode = c.Pincode,
+                ReceiveAddress = c.ReceiveAddress,
+                ReceiveName = c.ReceiveName,
+                SenderAddress = c.SenderAddress,
+                SenderName = c.SenderName,
+                TotalPrice = c.TotalPrice,
+                Weight = c.Weight
+            }).FirstOrDefaultAsync(c => c.PackageId == newPackage.PackageId);
             response.Data = savedPackage;
             return response;
         }
