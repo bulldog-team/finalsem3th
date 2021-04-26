@@ -201,6 +201,9 @@ const CreatePackage: FC<NewPackageProps> = (props) => {
             />
           </Col>
         </Row>
+        <Row style={{ fontStyle: "italic" }}>
+          Note: With paypal, you will be paid later on!
+        </Row>
       </Form>
     </Modal>
   );

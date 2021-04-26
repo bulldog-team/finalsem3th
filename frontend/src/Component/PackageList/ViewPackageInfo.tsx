@@ -1,9 +1,11 @@
-import { Descriptions } from "antd";
+import { Col, Descriptions, Row, Select } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import packageApi, { PackageInfo } from "../../helper/axios/packageApi";
+import CustomField from "../Field/Field";
+import { resolve } from "node:path";
 
 interface ViewpackageInfoProps {
   isViewModalOpen: boolean;
@@ -13,6 +15,9 @@ interface ViewpackageInfoProps {
 }
 
 const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
+  const { Option } = Select;
+  const [newPackageStatus, setNewPackageStatus] = useState<string>("");
+
   const { isViewModalOpen, setIsViewModalOpen, packageId, setUpdate } = props;
 
   const [packageInfo, setPackageInfo] = useState<PackageInfo>();
@@ -33,6 +38,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
   }, [packageId]);
   return (
     <Modal
+      centered
       title="Package Info"
       visible={isViewModalOpen}
       onOk={handleOk}
@@ -68,34 +74,57 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           {packageInfo?.totalPrice}
         </Descriptions.Item>
         <Descriptions.Item label="Payment Status">
-          {packageInfo?.totalPrice ? "Paid" : "Not yet"}
+          {packageInfo?.isPaid ? "Paid" : "Not yet"}
+        </Descriptions.Item>
+        <Descriptions.Item label="Update Package Status">
+          <Select
+            value={newPackageStatus}
+            style={{ width: 120 }}
+            disabled={!packageInfo?.isPaid}
+          >
+            <Option value="Picked up">Picked up</Option>
+            <Option value="Sending">Sending</Option>
+            <Option value="Received">Received</Option>
+          </Select>
         </Descriptions.Item>
         <Descriptions.Item label="">
-          <PayPalButton
-            amount={packageInfo?.totalPrice}
-            // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-            options={{
-              clientId:
-                "ASgR34Pm1N4ifEQLSkP_CCFGaEHfdN_76gpASMKwFi1dPgXBfeS6FkVTVzpsU6dcGQlwO0qoG_g-tZJG",
-            }}
-            onSuccess={(
-              details: { payer: { name: { given_name: string } } },
-              data: { orderID: any }
-            ) => {
-              alert(
-                "Transaction completed by " + details.payer.name.given_name
-              );
-              console.log(details);
-
-              // OPTIONAL: Call your server to save the transaction
-              // return fetch("/paypal-transaction-complete", {
-              //   method: "post",
-              //   body: JSON.stringify({
-              //     orderID: data.orderID,
-              //   }),
-              // });
-            }}
-          />
+          {!packageInfo?.isPaid && (
+            <PayPalScriptProvider options={{ "client-id": "test" }}>
+              <PayPalButtons
+                forceReRender={[packageInfo?.totalPrice]}
+                createOrder={(data, actions) => {
+                  if (packageInfo?.totalPrice) {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: packageInfo.totalPrice.toString(),
+                          },
+                          shipping: {
+                            address: {
+                              address_line_1: packageInfo.receiveAddress,
+                              address_line_2: packageInfo.receiveAddress,
+                              admin_area_1: packageInfo.receiveAddress,
+                              admin_area_2: packageInfo.receiveAddress,
+                              country_code: packageInfo.receiveAddress,
+                              postal_code: packageInfo.receiveAddress,
+                            },
+                            name: {
+                              full_name: packageInfo.receiveName,
+                            },
+                          },
+                        },
+                      ],
+                    });
+                  }
+                  return new Promise((resolve, reject) => {
+                    reject("Failed!");
+                  });
+                }}
+                style={{ layout: "horizontal" }}
+              />
+            </PayPalScriptProvider>
+          )}
         </Descriptions.Item>
       </Descriptions>
     </Modal>

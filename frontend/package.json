@@ -5,6 +5,7 @@
   "dependencies": {
     "@hookform/error-message": "0.0.5",
     "@hookform/resolvers": "^2.0.0",
+    "@paypal/react-paypal-js": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
