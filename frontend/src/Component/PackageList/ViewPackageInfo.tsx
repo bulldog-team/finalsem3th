@@ -2,6 +2,7 @@ import { Col, Descriptions, Row, Select } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButton } from "react-paypal-button-v2";
 
 import packageApi, { PackageInfo } from "../../helper/axios/packageApi";
 import CustomField from "../Field/Field";
@@ -22,7 +23,10 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
 
   const [packageInfo, setPackageInfo] = useState<PackageInfo>();
 
-  const handleOk = async () => {};
+  const handleOk = async () => {
+    const response = await packageApi.userUpdatePackageStatus();
+    console.log(response);
+  };
 
   const handleCancel = () => {
     setIsViewModalOpen(false);
@@ -32,10 +36,13 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
     const fetchData = async () => {
       const response = await packageApi.userGetPackageInfo(packageId);
       setPackageInfo(response.data);
+      if (packageInfo?.status) {
+        setNewPackageStatus(packageInfo.status);
+      }
       console.log(response);
     };
     fetchData();
-  }, [packageId]);
+  }, [packageId, packageInfo?.status]);
   return (
     <Modal
       centered
@@ -44,6 +51,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
       width={960}
+      destroyOnClose
     >
       <Descriptions bordered>
         <Descriptions.Item label="Created by">
@@ -81,6 +89,9 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
             value={newPackageStatus}
             style={{ width: 120 }}
             disabled={!packageInfo?.isPaid}
+            onChange={(value) => {
+              setNewPackageStatus(value);
+            }}
           >
             <Option value="Picked up">Picked up</Option>
             <Option value="Sending">Sending</Option>
@@ -88,42 +99,23 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           </Select>
         </Descriptions.Item>
         <Descriptions.Item label="">
-          {!packageInfo?.isPaid && (
-            <PayPalScriptProvider options={{ "client-id": "test" }}>
-              <PayPalButtons
-                forceReRender={[packageInfo?.totalPrice]}
-                createOrder={(data, actions) => {
-                  if (packageInfo?.totalPrice) {
-                    return actions.order.create({
-                      purchase_units: [
-                        {
-                          amount: {
-                            value: packageInfo.totalPrice.toString(),
-                          },
-                          shipping: {
-                            address: {
-                              address_line_1: packageInfo.receiveAddress,
-                              address_line_2: packageInfo.receiveAddress,
-                              admin_area_1: packageInfo.receiveAddress,
-                              admin_area_2: packageInfo.receiveAddress,
-                              country_code: packageInfo.receiveAddress,
-                              postal_code: packageInfo.receiveAddress,
-                            },
-                            name: {
-                              full_name: packageInfo.receiveName,
-                            },
-                          },
-                        },
-                      ],
-                    });
-                  }
-                  return new Promise((resolve, reject) => {
-                    reject("Failed!");
-                  });
-                }}
-                style={{ layout: "horizontal" }}
-              />
-            </PayPalScriptProvider>
+          {packageInfo && !packageInfo.isPaid && (
+            <PayPalButton
+              amount={packageInfo.totalPrice}
+              // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+              onSuccess={(details: any, data: any) => {
+                console.log("DETAILS", details);
+                console.log("DATA", data);
+
+                // OPTIONAL: Call your server to save the transaction
+                // return fetch("/paypal-transaction-complete", {
+                //   method: "post",
+                //   body: JSON.stringify({
+                //     orderID: data.orderID,
+                //   }),
+                // });
+              }}
+            />
           )}
         </Descriptions.Item>
       </Descriptions>

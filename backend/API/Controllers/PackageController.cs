@@ -45,6 +45,13 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [HttpPost("info/{packageId}")]
+        public IActionResult UserUpdatePackageStatus(int packageId)
+        {
+            var response = "Ok";
+            return Ok(response);
+        }
+
         [HttpGet("delivery-type")]
         public async Task<IActionResult> GetDeliveryType()
         {

@@ -46,6 +46,10 @@ export type ICreatePackageFormRepsone = ICreatePackageForm & {
   totalPrice: number;
 };
 
+export type UserUpdateStatusType = {
+  txtStatus: string;
+};
+
 interface IPackageApi {
   getPriceList: () => Promise<AxiosResponse<DeliveryType[]>>;
   updatePriceList: (
@@ -57,6 +61,8 @@ interface IPackageApi {
   userGetPackageInfo: (
     packageId: number
   ) => Promise<AxiosResponse<PackageInfo>>;
+
+  userUpdatePackageStatus: () => Promise<AxiosResponse<string>>;
 
   createPackage: (
     data: ICreatePackageForm
@@ -82,6 +88,12 @@ const packageApi: IPackageApi = {
   userGetPackageInfo: (packageId) => {
     const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
     return axiosClient.get(url);
+  },
+
+  userUpdatePackageStatus: () => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/1}`;
+
+    return axiosClient.post(url);
   },
 
   createPackage: (data) => {

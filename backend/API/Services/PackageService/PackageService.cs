@@ -177,5 +177,18 @@ namespace API.Services.PackageService
             response.Data = await _context.DeliveryTypeModels.ToListAsync();
             return response;
         }
+
+        public async Task<ResponseServiceModel<string>> UserUpdatePackageStatus(UserUpdatePackageStatus txtStatus, int packageId)
+        {
+            var response = new ResponseServiceModel<string>();
+            response.Data = "Ok";
+            var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
+            var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == txtStatus.txtStatus);
+            package.PackageStatus = status;
+            package.StatusId = status.StatusId;
+            await _context.SaveChangesAsync();
+            return response;
+
+        }
     }
 }
