@@ -64,5 +64,12 @@ namespace API.Controllers
             var response = await _packageService.GetDeliveryType();
             return Ok(response);
         }
+
+        [HttpGet("search")]
+        public IActionResult Searching([FromQuery] PackageResource request)
+        {
+            var response = _packageService.SearchPackage(request);
+            return Ok(response);
+        }
     }
 }

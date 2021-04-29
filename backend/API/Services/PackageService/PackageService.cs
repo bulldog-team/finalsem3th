@@ -199,5 +199,53 @@ namespace API.Services.PackageService
             return response;
 
         }
+
+        public ResponseServiceModel<ICollection<SearchingPackageResponseDTO>> SearchPackage(PackageResource request)
+        {
+            var response = new ResponseServiceModel<ICollection<SearchingPackageResponseDTO>>();
+            if (request == null)
+            {
+                response.Success = false;
+                response.Message = " Something wrongs!";
+                return response;
+            }
+
+            if (string.IsNullOrEmpty(request.PackageId) && (string.IsNullOrEmpty(request.Pincode)))
+            {
+                response.Success = false;
+                response.Message = " Something wrongs!";
+                return response;
+            }
+
+            var collection = _context.PackageModels as IQueryable<PackageModel>;
+
+            if (!string.IsNullOrWhiteSpace(request.PackageId))
+            {
+                var text = request.PackageId.Trim();
+                collection = collection.Where(c => c.PackageId.ToString().Contains(text));
+            }
+            if (!string.IsNullOrWhiteSpace(request.Pincode))
+            {
+                var text = request.Pincode.Trim();
+                collection = collection.Where(c => c.PackageId.ToString().Contains(text));
+            }
+
+            response.Data = collection.Include(c => c.PackageStatus).Include(c => c.DeliveryType).Select(c => new SearchingPackageResponseDTO
+            {
+                DateSent = c.DateSent,
+                Distance = c.Distance,
+                DateReceived = c.DateReceived,
+                IsPaid = c.IsPaid,
+                PackageId = c.PackageId,
+                PackageStatus = c.PackageStatus.Status,
+                PackageType = c.DeliveryType.TypeName,
+                Pincode = c.Pincode,
+                ReceiveAddress = c.ReceiveAddress,
+                SenderAddress = c.SenderAddress,
+                TotalPrice = c.TotalPrice,
+                UserId = c.UserId
+            }).ToList();
+            return response;
+        }
     }
 }
