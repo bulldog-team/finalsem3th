@@ -6,10 +6,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTO.User;
 using API.Models;
+using API.Services.AuthService;
 using AutoMapper;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,8 +25,10 @@ namespace API.Services.UserService
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
-        public UserService(IConfiguration config, DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment hostEnvironment)
+        private readonly IAuthService _authService;
+        public UserService(IConfiguration config, DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment hostEnvironment, IAuthService authService)
         {
+            _authService = authService;
             _httpContextAccessor = httpContextAccessor;
             _hostEnvironment = hostEnvironment;
             _context = context;
@@ -115,6 +119,7 @@ namespace API.Services.UserService
                 Phone = userProfile.Phone,
                 Gender = userProfile.Gender,
                 ImgName = userProfile.ImgName,
+                IsAdminAccept = userProfile.IsAdminAccept
             };
             return response;
         }
@@ -131,6 +136,30 @@ namespace API.Services.UserService
                 Username = c.UserModel.Username
             }).ToListAsync<UserListDTO>();
             response.Data = user;
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<UserUpdatePasswordResponseDTO>> UpdatePassword(UserUpdatePasswordRequestDTO request, int userId)
+        {
+            var response = new ResponseServiceModel<UserUpdatePasswordResponseDTO>();
+            var curUserId = GetUserId();
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == curUserId);
+
+            if (curUserId != userId || request.Password != request.ConfirmPassword || !_authService.ComparePassowrd(user.Password, request.CurrentPassword))
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            user.Password = new PasswordHasher<object>().HashPassword(null, request.Password);
+            await _context.SaveChangesAsync();
+            response.Data = new UserUpdatePasswordResponseDTO
+            {
+                UserId = curUserId,
+                Username = user.Username,
+            };
+
             return response;
         }
     }

@@ -43,5 +43,16 @@ namespace API.Controllers
             }
             return Ok(user);
         }
+
+        [HttpPut("info/{userRequestId}")]
+        public async Task<IActionResult> UpdatePassword(UserUpdatePasswordRequestDTO request, int userRequestId)
+        {
+            var response = await _userService.UpdatePassword(request, userRequestId);
+            if (!response.Success)
+            {
+                return BadRequest(response.Message);
+            }
+            return Ok(response);
+        }
     }
 }

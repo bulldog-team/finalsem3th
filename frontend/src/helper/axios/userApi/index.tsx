@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { UserInfoForm } from "../../../Component/UserInfo/UserInfo";
-import { IcreateUserForm } from "../../../Component/UserList/CreateUserModal";
+import { ICreateUserForm } from "../../../Component/UserList/CreateUserModal";
 import { localStorageService } from "../../localStorage/localStorageService";
 import axiosClient from "../axiosClient";
 
@@ -38,6 +38,17 @@ export type AdminDeleteuserRepsonse = {
   userId: number;
 };
 
+export type UpdatePasswordResponseType = {
+  username: string;
+  userId: number;
+};
+
+export type UpdatePasswordRequestType = {
+  password: string;
+  confirmPassword: string;
+  currentPassword: string;
+};
+
 interface IUserApi {
   userUpdateUserInfo: (form: FormData) => Promise<AxiosResponse<UserInfoForm>>;
 
@@ -54,12 +65,16 @@ interface IUserApi {
   ) => Promise<AxiosResponse<UserInfoType>>;
 
   adminCreateUser: (
-    form: IcreateUserForm
+    form: ICreateUserForm
   ) => Promise<AxiosResponse<AdminCreateUserReponse>>;
 
   adminDeleteUser: (
     userId: number
   ) => Promise<AxiosResponse<AdminDeleteuserRepsonse>>;
+
+  updatePassword: (
+    data: UpdatePasswordRequestType
+  ) => Promise<AxiosResponse<UpdatePasswordResponseType>>;
 }
 
 const UserApi: IUserApi = {
@@ -73,6 +88,12 @@ const UserApi: IUserApi = {
     const userId = localStorageService.getUserId();
     const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
     return axiosClient.get(url);
+  },
+
+  updatePassword: async (form: UpdatePasswordRequestType) => {
+    const userId = localStorageService.getUserId();
+    const url = `${process.env.REACT_APP_API_URL}/user/info/${userId}`;
+    return axiosClient.put(url, form);
   },
 
   getUserList: async () => {

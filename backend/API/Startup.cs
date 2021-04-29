@@ -2,6 +2,7 @@ using API.Middleware;
 using API.Services.AdminService;
 using API.Services.AuthService;
 using API.Services.BranchService;
+using API.Services.PackageService;
 using API.Services.UserService;
 using BackEnd.Data;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBranchService, BranchService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IPackageService, PackageService>();
 
             services.AddDbContext<DataContext>(option =>
             {

@@ -14,10 +14,11 @@ namespace BackEnd.Data
         public DbSet<UserModel> UserModels { get; set; }
         public DbSet<RoleModel> RoleModels { get; set; }
         public DbSet<DeliveryTypeModel> DeliveryTypeModels { get; set; }
-        public DbSet<PackageModel> packageModels { get; set; }
+        public DbSet<PackageModel> PackageModels { get; set; }
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
+        public DbSet<InvoiceModel> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -171,7 +172,7 @@ namespace BackEnd.Data
                 new PackageStatusModel
                 {
                     StatusId = 1,
-                    Status = "Waiting to send",
+                    Status = "Picked up",
                 },
                 new PackageStatusModel
                 {
@@ -181,7 +182,54 @@ namespace BackEnd.Data
                 new PackageStatusModel
                 {
                     StatusId = 3,
-                    Status = "Receive",
+                    Status = "Received",
+                }
+            );
+
+            modelBuilder.Entity<PackageModel>().HasData(
+                new PackageModel
+                {
+                    PackageId = 1,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nguyen Thi Minh Khai",
+                    SenderAddress = "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
+                    ReceiveName = "Nguyen Thi Mai Nam",
+                    ReceiveAddress = "175B Cao Thắng, Phường 12, Quận 10, Thành phố Hồ Chí Minh",
+                    Distance = 2019,
+                    TotalPrice = 20120,
+                    Weight = 1,
+                    UserId = 2,
+                    TypeId = 1,
+                    StatusId = 1,
+                    IsPaid = true,
+                    Pincode = 700000,
+                },
+                new PackageModel
+                {
+                    PackageId = 2,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nu Hoang Minh",
+                    SenderAddress = "44 Hòa Bình, Quận 11, Hồ Chí Minh, Việt Nam",
+                    ReceiveName = "Hoang Minh Nam",
+                    ReceiveAddress = "114-116 Nguyễn Ảnh Thủ, Quận 12, Hồ Chí Minh, Việt Nam",
+                    Distance = 1290,
+                    TotalPrice = 45000,
+                    Weight = 1,
+                    UserId = 3,
+                    TypeId = 2,
+                    StatusId = 1,
+                    IsPaid = false,
+                    Pincode = 700000,
+                }
+            );
+
+            modelBuilder.Entity<InvoiceModel>().HasData(
+                new InvoiceModel
+                {
+                    CreateAt = DateTime.Now,
+                    InvoiceId = 1,
+                    PackageId = 1,
+                    TotalPrice = 20120
                 }
             );
             base.OnModelCreating(modelBuilder);

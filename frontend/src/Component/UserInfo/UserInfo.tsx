@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomField from "../Field/Field";
 import { UploadOutlined } from "@ant-design/icons";
-import { Col, Row, Form, Button, Image } from "antd";
+import { Col, Row, Form, Button, Image, message } from "antd";
 import { useEffect, useRef, useState } from "react";
 import UserApi from "../../helper/axios/userApi";
 import BranchApi from "../../helper/axios/branchApi";
@@ -88,6 +88,7 @@ const UserInfo = () => {
     try {
       const response = await UserApi.userUpdateUserInfo(formData);
       console.log(response);
+      message.success("Completely update your information");
     } catch (err) {
       console.log(err);
     }
@@ -225,7 +226,7 @@ const UserInfo = () => {
                   control={control}
                   errors={errors}
                   type="datePicker"
-                  defaultValue={getValues("dob")}
+                  // defaultValue={getValues("dob")}
                 />
                 <CustomField
                   name="branchId"
@@ -268,7 +269,9 @@ const UserInfo = () => {
             Please note that your information must be accepted by Admin before
             activating.
           </Row>
-          <Row>Status {status ? "Activated" : "Not activated"} </Row>
+          <Row>
+            <strong>Status {status ? "Activated" : "Not activated"}</strong>{" "}
+          </Row>
         </div>
       </div>
     </>
