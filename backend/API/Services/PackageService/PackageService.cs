@@ -227,7 +227,7 @@ namespace API.Services.PackageService
             if (!string.IsNullOrWhiteSpace(request.Pincode))
             {
                 var text = request.Pincode.Trim();
-                collection = collection.Where(c => c.PackageId.ToString().Contains(text));
+                collection = collection.Where(c => c.Pincode.ToString().Contains(text));
             }
 
             response.Data = collection.Include(c => c.PackageStatus).Include(c => c.DeliveryType).Select(c => new SearchingPackageResponseDTO
