@@ -14,6 +14,8 @@ namespace API.Services.PackageService
 
         Task<ResponseServiceModel<List<DeliveryTypeModel>>> GetDeliveryType();
 
-        Task<ResponseServiceModel<string>> UserUpdatePackageStatus(UserUpdatePackageStatus txtStatus, int packageId);
+        Task<ResponseServiceModel<string>> UserUpdatePackageStatus(int packageId, UserUpdatePackageStatus txtStatus);
+
+        Task<ResponseServiceModel<string>> UserUpdatePaymentPackage(int packageId);
     }
 }

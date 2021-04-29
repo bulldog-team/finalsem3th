@@ -62,7 +62,12 @@ interface IPackageApi {
     packageId: number
   ) => Promise<AxiosResponse<PackageInfo>>;
 
-  userUpdatePackageStatus: () => Promise<AxiosResponse<string>>;
+  userUpdatePackageStatus: (
+    packageId: number,
+    data: UserUpdateStatusType
+  ) => Promise<AxiosResponse<object>>;
+
+  userUpdatePayment: (packageId: number) => Promise<AxiosResponse<string>>;
 
   createPackage: (
     data: ICreatePackageForm
@@ -90,10 +95,16 @@ const packageApi: IPackageApi = {
     return axiosClient.get(url);
   },
 
-  userUpdatePackageStatus: () => {
-    const url = `${process.env.REACT_APP_API_URL}/package/info/1}`;
+  userUpdatePackageStatus: (packageId: number, data: UserUpdateStatusType) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
+    console.log(url);
 
-    return axiosClient.post(url);
+    return axiosClient.post(url, data);
+  },
+
+  userUpdatePayment: (packageId: number) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
+    return axiosClient.put(url);
   },
 
   createPackage: (data) => {

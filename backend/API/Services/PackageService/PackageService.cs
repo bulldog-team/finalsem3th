@@ -178,14 +178,23 @@ namespace API.Services.PackageService
             return response;
         }
 
-        public async Task<ResponseServiceModel<string>> UserUpdatePackageStatus(UserUpdatePackageStatus txtStatus, int packageId)
+        public async Task<ResponseServiceModel<string>> UserUpdatePackageStatus(int packageId, UserUpdatePackageStatus request)
         {
             var response = new ResponseServiceModel<string>();
             response.Data = "Ok";
             var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
-            var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == txtStatus.txtStatus);
+            var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == request.txtStatus);
             package.PackageStatus = status;
             package.StatusId = status.StatusId;
+            await _context.SaveChangesAsync();
+            return response;
+        }
+
+        public async Task<ResponseServiceModel<string>> UserUpdatePaymentPackage(int packageId)
+        {
+            var response = new ResponseServiceModel<string>();
+            var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
+            package.IsPaid = true;
             await _context.SaveChangesAsync();
             return response;
 

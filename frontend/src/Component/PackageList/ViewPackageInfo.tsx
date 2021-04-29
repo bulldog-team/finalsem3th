@@ -4,7 +4,10 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { PayPalButton } from "react-paypal-button-v2";
 
-import packageApi, { PackageInfo } from "../../helper/axios/packageApi";
+import packageApi, {
+  PackageInfo,
+  UserUpdateStatusType,
+} from "../../helper/axios/packageApi";
 import CustomField from "../Field/Field";
 import { resolve } from "node:path";
 
@@ -24,7 +27,13 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
   const [packageInfo, setPackageInfo] = useState<PackageInfo>();
 
   const handleOk = async () => {
-    const response = await packageApi.userUpdatePackageStatus();
+    console.log(newPackageStatus);
+    console.log(packageId);
+    const data: UserUpdateStatusType = {
+      txtStatus: newPackageStatus,
+    };
+    const response = await packageApi.userUpdatePackageStatus(packageId, data);
+    setIsViewModalOpen(false);
     console.log(response);
   };
 
@@ -42,7 +51,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       console.log(response);
     };
     fetchData();
-  }, [packageId, packageInfo?.status]);
+  }, [packageId, packageInfo?.status, packageInfo?.isPaid]);
   return (
     <Modal
       centered
@@ -102,18 +111,27 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           {packageInfo && !packageInfo.isPaid && (
             <PayPalButton
               amount={packageInfo.totalPrice}
+              shippingPreference="NO_SHIPPING"
               // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
               onSuccess={(details: any, data: any) => {
                 console.log("DETAILS", details);
                 console.log("DATA", data);
 
                 // OPTIONAL: Call your server to save the transaction
-                // return fetch("/paypal-transaction-complete", {
-                //   method: "post",
-                //   body: JSON.stringify({
-                //     orderID: data.orderID,
-                //   }),
-                // });
+                return packageApi
+                  .userUpdatePayment(packageInfo.packageId)
+                  .then(() => {
+                    setUpdate((pre) => !pre);
+                    console.log("Check");
+                    setPackageInfo((pre) => {
+                      if (pre) {
+                        return {
+                          ...pre,
+                          isPaid: true,
+                        };
+                      }
+                    });
+                  });
               }}
             />
           )}

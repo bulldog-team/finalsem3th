@@ -41,14 +41,20 @@ namespace API.Controllers
             {
                 return BadRequest(response.Message);
             }
-
             return Ok(response);
         }
 
         [HttpPost("info/{packageId}")]
-        public IActionResult UserUpdatePackageStatus(int packageId)
+        public async Task<IActionResult> UserUpdatePackageStatus(UserUpdatePackageStatus request, int packageId)
         {
-            var response = "Ok";
+            var response = await _packageService.UserUpdatePackageStatus(packageId, request);
+            return Ok(response);
+        }
+
+        [HttpPut("info/{packageId}")]
+        public async Task<IActionResult> UserUpdatePaymentPackage(int packageId)
+        {
+            var response = await _packageService.UserUpdatePaymentPackage(packageId);
             return Ok(response);
         }
 
