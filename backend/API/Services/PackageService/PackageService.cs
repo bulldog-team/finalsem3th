@@ -186,6 +186,11 @@ namespace API.Services.PackageService
             var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == request.txtStatus);
             package.PackageStatus = status;
             package.StatusId = status.StatusId;
+
+            if (status.Status == "Received")
+            {
+                package.DateReceived = DateTime.Now;
+            }
             await _context.SaveChangesAsync();
             return response;
         }

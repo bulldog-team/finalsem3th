@@ -8,6 +8,7 @@ import Role from "./helper/config/Role";
 import { localStorageService } from "./helper/localStorage/localStorageService";
 import AuthPage from "./Page/Auth/Auth";
 import Dashboard from "./Page/Dashboard/Dashboard";
+import Search from "./Page/Search/Search";
 import * as actionCreator from "./store/action/index";
 import { AppState } from "./store/store";
 
@@ -29,6 +30,7 @@ const App = () => {
   const routes = (
     <Switch>
       <Route path="/auth" component={AuthPage} />
+      <Route path="/search" component={Search} />
       <PrivateRoute
         path="/"
         component={Dashboard}
