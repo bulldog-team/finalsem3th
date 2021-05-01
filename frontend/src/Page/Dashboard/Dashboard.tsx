@@ -11,6 +11,7 @@ import Sidebar from "../../Component/Sidebar/Sidebar";
 import MENU from "../../Component/Navbar/Menu";
 import PackagePriceList from "../../Component/PackageList/PackagePriceList";
 import PackageList from "../../Component/PackageList/PackageList";
+import Search from "../Search/Search";
 
 const Dashboard: FC = () => {
   const [isSidebarOpen, SetIsSidebarOpen] = useState<boolean>(false);
@@ -30,7 +31,7 @@ const Dashboard: FC = () => {
       <PrivateRoute
         path={`/package-pricelist`}
         exact
-        requiredRole={[Role.ADMIN, Role.USER]}
+        requiredRole={[Role.ADMIN]}
         component={PackagePriceList}
       />
       <PrivateRoute
@@ -44,6 +45,12 @@ const Dashboard: FC = () => {
         exact
         requiredRole={[Role.ADMIN, Role.USER]}
         component={PackageList}
+      />
+      <PrivateRoute
+        path="/package-search"
+        exact
+        component={Search}
+        requiredRole={[Role.ADMIN, Role.USER]}
       />
       <Route path="/error" exact component={ErrorPage} />
       <Redirect to="/user-info" />
