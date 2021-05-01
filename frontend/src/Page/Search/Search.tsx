@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Button, Divider, Form, List, Typography } from "antd";
+import { Button, Collapse, Divider, Form, List, Typography } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomField from "../../Component/Field/Field";
 import searchApi, { SearchResponse } from "../../helper/axios/searchApi";
@@ -12,6 +12,7 @@ export interface ISearchForm {
 
 const Search: FC = () => {
   const { Title } = Typography;
+  const { Panel } = Collapse;
   const [info, setInfo] = useState<SearchResponse[]>();
 
   const layout = {
@@ -59,19 +60,27 @@ const Search: FC = () => {
               type="text"
               errors={errors}
             />
-            <CustomField
-              name="pincode"
-              control={control}
-              label="Pincode"
-              type="text"
-              errors={errors}
-            />
-            <Button type="primary" htmlType="submit">
+            <Collapse accordion bordered={false}>
+              <Panel header="Advance search" key="1">
+                <CustomField
+                  name="pincode"
+                  control={control}
+                  label="Pincode"
+                  type="text"
+                  errors={errors}
+                />
+              </Panel>
+            </Collapse>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ marginTop: "1rem" }}
+            >
               Search
             </Button>
           </Form>
         </div>
-        <Divider orientation="center"></Divider>
+
         <div className="search__result" />
         {info && (
           <List
