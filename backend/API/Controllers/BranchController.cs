@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using API.Services.BranchService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -14,7 +15,7 @@ namespace API.Controllers
         {
             _branchService = branchService;
         }
-
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("info")]
         public async Task<IActionResult> GetBranchData()
         {

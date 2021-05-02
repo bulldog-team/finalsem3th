@@ -1,3 +1,4 @@
+import { title } from "node:process";
 import Role from "../../helper/config/Role";
 
 export type MenuType = {
@@ -41,7 +42,7 @@ const MENU: MenuTypes[] = [
     sub: [
       {
         key: "packagepriceList",
-        role: [Role.ADMIN, Role.USER],
+        role: [Role.ADMIN],
         title: "Delivery Type",
         link: "/package-pricelist",
       },
@@ -52,6 +53,13 @@ const MENU: MenuTypes[] = [
         link: "/package-list",
       },
     ],
+  },
+  {
+    key: "Search",
+    role: [Role.ADMIN, Role.USER],
+    title: "Search",
+    icon: "search",
+    link: "/package-search",
   },
 ];
 

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using API.DTO.Package;
 using API.Services.PackageService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -14,7 +15,7 @@ namespace API.Controllers
         {
             _packageService = packageService;
         }
-
+        [Authorize]
         [HttpPost("init")]
         public async Task<IActionResult> InitPackage(InitPackageDTO request)
         {
@@ -26,6 +27,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("init")]
         public async Task<IActionResult> GetPackageList()
         {
@@ -33,6 +35,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("info/{packageId}")]
         public async Task<IActionResult> UserGetPackageInfo(int packageId)
         {
@@ -44,6 +47,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost("info/{packageId}")]
         public async Task<IActionResult> UserUpdatePackageStatus(UserUpdatePackageStatus request, int packageId)
         {
@@ -51,6 +55,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPut("info/{packageId}")]
         public async Task<IActionResult> UserUpdatePaymentPackage(int packageId)
         {
@@ -58,6 +63,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("delivery-type")]
         public async Task<IActionResult> GetDeliveryType()
         {

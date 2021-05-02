@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using API.DTO.User;
 using API.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -15,6 +16,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetUserList()
         {
@@ -22,6 +24,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpGet("info/{userRequestId}")]
         public async Task<IActionResult> UserGetUserInfo(int userRequestId)
         {
@@ -33,6 +36,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPatch("info/{userRequestId}")]
         public async Task<IActionResult> UserUpdateInfo([FromForm] UserUpdateInfoDTO user, int userRequestId)
         {
@@ -44,6 +48,7 @@ namespace API.Controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpPut("info/{userRequestId}")]
         public async Task<IActionResult> UpdatePassword(UserUpdatePasswordRequestDTO request, int userRequestId)
         {
