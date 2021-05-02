@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Net;
+using System.Net.Mail;
 
 namespace API.Services.AdminService
 {
@@ -155,6 +157,19 @@ namespace API.Services.AdminService
                 Username = newUser.Username
             };
             response.Data = repsonseUser;
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            mail.From = new MailAddress("nguyenhuyhoang_test5@oisp.edu.vn");
+            mail.To.Add(userRequest.Email);
+            mail.Subject = "Create new user";
+            mail.Body = $"Username: {userRequest.Username}<br> Password: {userRequest.Password} <br> Please change your password immediately";
+            mail.IsBodyHtml = true;
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("nguyenhuyhoang_test5@oisp.edu.vn", "kien1@2024");
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(mail);
+
             return response;
         }
 
