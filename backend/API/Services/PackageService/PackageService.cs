@@ -184,6 +184,14 @@ namespace API.Services.PackageService
             response.Data = "Ok";
             var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
             var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == request.txtStatus);
+
+            if (status.Status == "Received" && package.IsPaid == false)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
             package.PackageStatus = status;
             package.StatusId = status.StatusId;
 
