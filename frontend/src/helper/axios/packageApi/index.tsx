@@ -21,6 +21,7 @@ export type PackageListType = {
   dateSent: Date;
   totalPrice: number;
   isPaid: boolean;
+  type: string;
 };
 
 export type PackageInfo = {

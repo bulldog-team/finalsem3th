@@ -95,6 +95,13 @@ const PackageList = () => {
               }}
             />
             <Column
+              title="Type"
+              dataIndex="type"
+              sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
+                return a.type.localeCompare(b.type);
+              }}
+            />
+            <Column
               title="Status"
               dataIndex="isPaid"
               render={(data) => {

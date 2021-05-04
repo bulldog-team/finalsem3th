@@ -129,7 +129,8 @@ namespace API.Services.PackageService
                 PackageId = c.PackageId,
                 ReceiveName = c.ReceiveName,
                 SenderName = c.SenderName,
-                TotalPrice = c.TotalPrice
+                TotalPrice = c.TotalPrice,
+                Type = c.DeliveryType.TypeName
             }).ToListAsync();
             response.Data = packageList;
             return response;

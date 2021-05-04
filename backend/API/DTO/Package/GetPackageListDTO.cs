@@ -13,5 +13,7 @@ namespace API.DTO.Package
         public int TotalPrice { get; set; }
         public bool IsPaid { get; set; }
 
+        public string Type { get; set; }
+
     }
 }

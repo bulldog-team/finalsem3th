@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomField from "../../Component/Field/Field";
 import searchApi, { SearchResponse } from "../../helper/axios/searchApi";
 import moment from "moment";
+import DeliveryStep from "../../Component/Step/DeliveryStep";
 
 export interface ISearchForm {
   packageId: string;
@@ -60,7 +61,7 @@ const Search: FC = () => {
               type="text"
               errors={errors}
             />
-            <Collapse accordion bordered={false}>
+            <Collapse accordion bordered={false} style={{ textAlign: "left" }}>
               <Panel header="Advance search" key="1">
                 <CustomField
                   name="pincode"
@@ -90,6 +91,7 @@ const Search: FC = () => {
             dataSource={info}
             renderItem={(item) => (
               <List.Item style={{ textAlign: "center" }}>
+                <DeliveryStep current={item.packageStatus} />
                 Package Id: {item.packageId} <br />
                 Package Status: {item.packageStatus} <br />
                 Delivery Type: {item.packageType} <br />

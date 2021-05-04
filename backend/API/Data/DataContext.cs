@@ -18,7 +18,6 @@ namespace BackEnd.Data
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
-        public DbSet<InvoiceModel> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -195,8 +194,8 @@ namespace BackEnd.Data
                     SenderAddress = "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
                     ReceiveName = "Nguyen Thi Mai Nam",
                     ReceiveAddress = "175B Cao Thắng, Phường 12, Quận 10, Thành phố Hồ Chí Minh",
-                    Distance = 2019,
-                    TotalPrice = 20120,
+                    Distance = 125,
+                    TotalPrice = 220,
                     Weight = 1,
                     UserId = 2,
                     TypeId = 1,
@@ -212,26 +211,34 @@ namespace BackEnd.Data
                     SenderAddress = "44 Hòa Bình, Quận 11, Hồ Chí Minh, Việt Nam",
                     ReceiveName = "Hoang Minh Nam",
                     ReceiveAddress = "114-116 Nguyễn Ảnh Thủ, Quận 12, Hồ Chí Minh, Việt Nam",
-                    Distance = 1290,
-                    TotalPrice = 45000,
+                    Distance = 860,
+                    TotalPrice = 360,
                     Weight = 1,
                     UserId = 3,
                     TypeId = 2,
                     StatusId = 1,
                     IsPaid = false,
                     Pincode = 700000,
+                },
+                new PackageModel
+                {
+                    PackageId = 3,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nguyen Hoang",
+                    SenderAddress = "19B Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
+                    ReceiveName = "Nguyen An",
+                    ReceiveAddress = " 249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
+                    Distance = 768,
+                    TotalPrice = 400,
+                    Weight = 2,
+                    UserId = 2,
+                    TypeId = 4,
+                    StatusId = 1,
+                    IsPaid = false,
+                    Pincode = 700000,
                 }
             );
 
-            modelBuilder.Entity<InvoiceModel>().HasData(
-                new InvoiceModel
-                {
-                    CreateAt = DateTime.Now,
-                    InvoiceId = 1,
-                    PackageId = 1,
-                    TotalPrice = 20120
-                }
-            );
             base.OnModelCreating(modelBuilder);
         }
 
