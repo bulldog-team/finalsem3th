@@ -123,6 +123,15 @@ namespace API.Services.AdminService
                 response.Message = "Something wrongs!";
                 return response;
             }
+
+            var curUser = await _context.UserModels.AnyAsync(c => c.Username == userRequest.Username || c.Email == userRequest.Email);
+            if (curUser)
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
             var newUser = new UserModel
             {
                 Email = userRequest.Email,
@@ -168,7 +177,7 @@ namespace API.Services.AdminService
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("nguyenhuyhoang_test5@oisp.edu.vn", "kien1@2024");
             SmtpServer.EnableSsl = true;
-            SmtpServer.Send(mail);
+            await SmtpServer.SendMailAsync(mail);
 
             return response;
         }

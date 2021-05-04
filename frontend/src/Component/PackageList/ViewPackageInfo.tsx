@@ -57,7 +57,6 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
         setIsUpdate(true);
       }
       console.log(response);
-      console.log("CHECK", isUpdate);
     };
     fetchData();
   }, [
@@ -77,7 +76,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       width={960}
       destroyOnClose
     >
-      <DeliveryStep current={packageInfo.deliveryType} />
+      <DeliveryStep current={packageInfo.status} />
       <Descriptions column={2} bordered>
         <Descriptions.Item label="Created by">
           {packageInfo?.createdBy}

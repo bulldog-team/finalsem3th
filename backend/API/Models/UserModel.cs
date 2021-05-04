@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +14,8 @@ namespace API.Models
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
         public string Email { get; set; }
         public ICollection<RoleDetailModel> RoleDetailModels { get; set; }
 

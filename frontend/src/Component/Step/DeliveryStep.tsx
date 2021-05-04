@@ -11,6 +11,7 @@ const DeliveryStep: FC<IStepProps> = (props) => {
   const { Step } = Steps;
 
   const getCurrentStep = (current: string): number => {
+    console.log(current);
     switch (current) {
       case "Picked up":
         return 0;

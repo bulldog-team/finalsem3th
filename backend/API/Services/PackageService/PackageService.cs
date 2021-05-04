@@ -38,20 +38,27 @@ namespace API.Services.PackageService
 
         private int GetDistance(string original, string target)
         {
-
-            string url = "https://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + original + "&destinations=" + target + "&key=AIzaSyBi5dqUpdZT2yRVs013U_sGX3Rar51y-j8";
-
-            WebRequest request = WebRequest.Create(url);
-
-            using (WebResponse response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+
+                string url = "https://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + original + "&destinations=" + target + "&key=AIzaSyBi5dqUpdZT2yRVs013U_sGX3Rar51y-j8";
+
+                WebRequest request = WebRequest.Create(url);
+
+                using (WebResponse response = (HttpWebResponse)request.GetResponse())
                 {
-                    DataSet dsResult = new DataSet();
-                    var test = dsResult.ReadXml(reader);
-                    var check = dsResult.Tables["distance"].Rows[0]["value"].ToString();
-                    return Int32.Parse(check);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        DataSet dsResult = new DataSet();
+                        var test = dsResult.ReadXml(reader);
+                        var check = dsResult.Tables["distance"].Rows[0]["value"].ToString();
+                        return Int32.Parse(check);
+                    }
                 }
+            }
+            catch
+            {
+                return -1;
             }
         }
 
@@ -85,8 +92,10 @@ namespace API.Services.PackageService
             try
             {
                 var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
+                if (distance == -1) throw new ArgumentException("Error");
                 newPackage.Distance = distance;
-                newPackage.TotalPrice = distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2;
+                newPackage.TotalPrice = Convert.ToInt32((distance * deliveryType.UnitPrice + newPackage.Weight * deliveryType.UnitPrice * 2
+                ) / 1000);
 
             }
             catch (Exception ex)
@@ -185,6 +194,13 @@ namespace API.Services.PackageService
             response.Data = "Ok";
             var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
             var status = await _context.PackageStatusModels.FirstOrDefaultAsync(c => c.Status == request.txtStatus);
+
+            if (package.IsPaid == false && package.DeliveryType.TypeName != "VPP")
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
 
             if (status.Status == "Received" && package.IsPaid == false)
             {
