@@ -16,6 +16,7 @@ namespace API.Controllers
             _authRepo = authRepo;
         }
 
+        // Login route
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO request)
         {
@@ -27,6 +28,7 @@ namespace API.Controllers
             else return Ok(response);
         }
 
+        // Admin create a new user route
         [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDTO request)

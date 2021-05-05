@@ -9,6 +9,7 @@ interface IAuthApi {
   ) => Promise<AxiosResponse<IUserData>>;
 }
 
+// Authenticate axios
 const authApi: IAuthApi = {
   login: async (
     username: string,

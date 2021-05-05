@@ -16,6 +16,7 @@ interface ICheckRole {
   (requiredRole: string[]): boolean;
 }
 
+// Protected route component
 const PrivateRoute: FC<PrivateRouteProps> = ({
   component: Component,
   requiredRole,

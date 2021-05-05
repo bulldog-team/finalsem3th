@@ -1,5 +1,6 @@
 import { Button, Result } from "antd";
 
+// Verify Page
 const VerifyPage = () => {
   return (
     <Result

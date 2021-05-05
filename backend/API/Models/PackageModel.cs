@@ -37,7 +37,5 @@ namespace API.Models
 
         public bool IsPaid { get; set; } = false;
 
-        public InvoiceModel InvoiceModel { get; set; }
-
     }
 }

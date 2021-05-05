@@ -6,6 +6,7 @@ interface IPropsType {
   toggleSidebar: React.MouseEventHandler<HTMLSpanElement>;
 }
 
+// Navbar menu
 const Navbar: FC<IPropsType> = (props) => {
   const { toggleSidebar } = props;
 

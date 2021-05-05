@@ -10,6 +10,7 @@ interface UserModalProps {
   userId: number | undefined;
 }
 
+// View user's details
 const ViewUserInfo: FC<UserModalProps> = (props) => {
   const { isModalOpen, setIsModalOpen, userId, setUpdate } = props;
 

@@ -24,6 +24,7 @@ export type SearchResponse = {
   isPaid: boolean;
 };
 
+// Search api
 const searchApi: ISearchApi = {
   getPackageInfo: (data: ISearchForm) => {
     // http://localhost:5000/package/search?PackageId=1&pincode=700000

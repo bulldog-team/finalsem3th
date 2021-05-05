@@ -16,6 +16,7 @@ namespace API.Controllers
             _userService = userService;
         }
 
+        // Get all users in list
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetUserList()
@@ -24,6 +25,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // User get their info
         [Authorize]
         [HttpGet("info/{userRequestId}")]
         public async Task<IActionResult> UserGetUserInfo(int userRequestId)
@@ -36,6 +38,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // User Update their info
         [Authorize]
         [HttpPatch("info/{userRequestId}")]
         public async Task<IActionResult> UserUpdateInfo([FromForm] UserUpdateInfoDTO user, int userRequestId)
@@ -48,6 +51,7 @@ namespace API.Controllers
             return Ok(user);
         }
 
+        // User Update their password
         [Authorize]
         [HttpPut("info/{userRequestId}")]
         public async Task<IActionResult> UpdatePassword(UserUpdatePasswordRequestDTO request, int userRequestId)

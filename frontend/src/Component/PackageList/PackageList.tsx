@@ -12,6 +12,7 @@ type PackageListDataSource = PackageListType & {
   key: number;
 };
 
+// View all packages in list
 const PackageList = () => {
   const [packageList, setPackageList] = useState<PackageListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);
@@ -92,6 +93,13 @@ const PackageList = () => {
               dataIndex="dateSent"
               render={(data) => {
                 return moment(data).format("YYYY-MM-DD");
+              }}
+            />
+            <Column
+              title="Type"
+              dataIndex="type"
+              sorter={(a: PackageListDataSource, b: PackageListDataSource) => {
+                return a.type.localeCompare(b.type);
               }}
             />
             <Column

@@ -33,6 +33,7 @@ namespace API.Services.AuthService
             _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
         }
 
+        // Compare password
         public bool ComparePassowrd(string hashedPassword, string curPassword)
         {
             var passwordVerificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, hashedPassword, curPassword);
@@ -49,6 +50,7 @@ namespace API.Services.AuthService
             }
         }
 
+        // Create JWT Token
         public string GenerateSecurityToken(GetUserDTO user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -75,6 +77,7 @@ namespace API.Services.AuthService
             return tokenHandler.WriteToken(token);
         }
 
+        // Login service
         public async Task<ResponseServiceModel<GetUserDTO>> Login(UserLoginDTO request)
         {
             var response = new ResponseServiceModel<GetUserDTO>();
@@ -104,11 +107,13 @@ namespace API.Services.AuthService
             return response;
         }
 
+        // Check username exists
         public async Task<bool> UserExists(string username)
         {
             return await _context.UserModels.AnyAsync(c => c.Username == username);
         }
 
+        // Create a new user 
         public async Task<ResponseServiceModel<GetUserDTO>> Register(UserRegisterDTO request)
         {
             var userExists = await UserExists(request.Username);

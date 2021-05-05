@@ -5,6 +5,7 @@ interface HeadingProps {
   title: string;
 }
 
+// Heading Component
 const Heading: FC<HeadingProps> = (props) => {
   const { Title } = Typography;
   const { title } = props;

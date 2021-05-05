@@ -10,6 +10,7 @@ import packageApi, {
 } from "../../helper/axios/packageApi";
 import CustomField from "../Field/Field";
 import { resolve } from "node:path";
+import DeliveryStep from "../Step/DeliveryStep";
 
 interface ViewpackageInfoProps {
   isViewModalOpen: boolean;
@@ -18,9 +19,11 @@ interface ViewpackageInfoProps {
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
+// View package
 const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
   const { Option } = Select;
   const [newPackageStatus, setNewPackageStatus] = useState<string>("");
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const { isViewModalOpen, setIsViewModalOpen, packageId, setUpdate } = props;
 
@@ -48,11 +51,23 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       if (packageInfo?.status) {
         setNewPackageStatus(packageInfo.status);
       }
+      if (
+        packageInfo?.deliveryType === "VPP" ||
+        (packageInfo?.deliveryType !== "VPP" && packageInfo?.isPaid === true)
+      ) {
+        setIsUpdate(true);
+      }
       console.log(response);
     };
     fetchData();
-  }, [packageId, packageInfo?.status, packageInfo?.isPaid]);
-  return (
+  }, [
+    packageId,
+    packageInfo?.status,
+    packageInfo?.isPaid,
+    packageInfo?.deliveryType,
+  ]);
+
+  return packageInfo ? (
     <Modal
       centered
       title="Package Info"
@@ -62,9 +77,13 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       width={960}
       destroyOnClose
     >
-      <Descriptions bordered>
+      <DeliveryStep current={packageInfo.status} />
+      <Descriptions column={2} bordered>
         <Descriptions.Item label="Created by">
           {packageInfo?.createdBy}
+        </Descriptions.Item>
+        <Descriptions.Item label="Deliver type">
+          {packageInfo?.deliveryType}
         </Descriptions.Item>
         <Descriptions.Item label="Sender's name">
           {packageInfo?.senderName}
@@ -84,9 +103,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
         <Descriptions.Item label="Pin code">
           {packageInfo?.pincode}
         </Descriptions.Item>
-        <Descriptions.Item label="Deliver type">
-          {packageInfo?.deliveryType}
-        </Descriptions.Item>
+
         <Descriptions.Item label="Price">
           {packageInfo?.totalPrice}
         </Descriptions.Item>
@@ -97,7 +114,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           <Select
             value={newPackageStatus}
             style={{ width: 120 }}
-            disabled={!packageInfo?.isPaid}
+            disabled={!isUpdate}
             onChange={(value) => {
               setNewPackageStatus(value);
             }}
@@ -138,6 +155,8 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
         </Descriptions.Item>
       </Descriptions>
     </Modal>
+  ) : (
+    <></>
   );
 };
 

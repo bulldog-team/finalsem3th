@@ -3,6 +3,7 @@ using API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+// Data Context
 namespace BackEnd.Data
 {
     public class DataContext : DbContext
@@ -18,7 +19,6 @@ namespace BackEnd.Data
         public DbSet<PackageStatusModel> PackageStatusModels { get; set; }
 
         public DbSet<UserInfo> UserInfos { get; set; }
-        public DbSet<InvoiceModel> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -195,8 +195,8 @@ namespace BackEnd.Data
                     SenderAddress = "249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
                     ReceiveName = "Nguyen Thi Mai Nam",
                     ReceiveAddress = "175B Cao Thắng, Phường 12, Quận 10, Thành phố Hồ Chí Minh",
-                    Distance = 2019,
-                    TotalPrice = 20120,
+                    Distance = 125,
+                    TotalPrice = 220,
                     Weight = 1,
                     UserId = 2,
                     TypeId = 1,
@@ -211,27 +211,52 @@ namespace BackEnd.Data
                     SenderName = "Nu Hoang Minh",
                     SenderAddress = "44 Hòa Bình, Quận 11, Hồ Chí Minh, Việt Nam",
                     ReceiveName = "Hoang Minh Nam",
-                    ReceiveAddress = "114-116 Nguyễn Ảnh Thủ, Quận 12, Hồ Chí Minh, Việt Nam",
-                    Distance = 1290,
-                    TotalPrice = 45000,
-                    Weight = 1,
-                    UserId = 3,
-                    TypeId = 2,
+                    ReceiveAddress = "281 Lê Văn Sỹ, Phường 1, Tân Bình, Thành phố Hồ Chí Minh",
+                    Distance = 284,
+                    TotalPrice = 652,
+                    Weight = 10,
+                    UserId = 1,
+                    TypeId = 1,
+                    StatusId = 1,
+                    IsPaid = false,
+                    Pincode = 700000,
+                },
+                new PackageModel
+                {
+                    PackageId = 3,
+                    DateSent = DateTime.Now,
+                    SenderName = "Nguyen Hoang",
+                    SenderAddress = "19B Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh",
+                    ReceiveName = "Nguyen An",
+                    ReceiveAddress = " 249 Lý Thường Kiệt, Phường 15, Quận 11, Thành phố Hồ Chí Minh",
+                    Distance = 768,
+                    TotalPrice = 400,
+                    Weight = 2,
+                    UserId = 2,
+                    TypeId = 4,
+                    StatusId = 1,
+                    IsPaid = false,
+                    Pincode = 700000,
+                },
+                new PackageModel
+                {
+                    PackageId = 4,
+                    DateSent = new DateTime(2021, 02, 01),
+                    SenderName = "le Thi Diem",
+                    SenderAddress = "183F Trần Quốc Thảo, Phường 9, Quận 3, Thành phố Hồ Chí Minh",
+                    ReceiveName = "Hoang Kieu",
+                    ReceiveAddress = "6A Ngô Thời Nhiệm, Phường 7, Quận 3, Thành phố Hồ Chí Minh",
+                    Distance = 521,
+                    TotalPrice = 230,
+                    Weight = 2,
+                    UserId = 1,
+                    TypeId = 3,
                     StatusId = 1,
                     IsPaid = false,
                     Pincode = 700000,
                 }
             );
 
-            modelBuilder.Entity<InvoiceModel>().HasData(
-                new InvoiceModel
-                {
-                    CreateAt = DateTime.Now,
-                    InvoiceId = 1,
-                    PackageId = 1,
-                    TotalPrice = 20120
-                }
-            );
             base.OnModelCreating(modelBuilder);
         }
 

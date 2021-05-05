@@ -36,8 +36,10 @@ namespace API.Services.UserService
             _config = config;
         }
 
+        // Get UserId in JWT
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+        // User Update their info
         public async Task<ResponseServiceModel<UserUpdateInfoDTO>> UserUpdateInfo(UserUpdateInfoDTO userRequest, int userRequestId)
         {
             var response = new ResponseServiceModel<UserUpdateInfoDTO>();
@@ -69,6 +71,7 @@ namespace API.Services.UserService
         }
 
         [NonAction]
+        // Save Image 
         public async Task<string> SaveImage(IFormFile imgFile)
         {
             var imgName = "default_img.png";
@@ -86,18 +89,21 @@ namespace API.Services.UserService
             return imgName;
         }
 
+        // Check username exists
         public async Task<bool> UserExists(string username)
         {
             var userId = GetUserId();
             return await _context.UserModels.AnyAsync(user => user.Username == username && user.UserId != userId);
         }
 
+        // Check email exists
         public async Task<bool> EmailExists(string email)
         {
             var userId = GetUserId();
             return await _context.UserModels.AnyAsync(user => user.Email == email && user.UserId != userId);
         }
 
+        // User get their info
         public async Task<ResponseServiceModel<UserGetUserInfo>> UserGetUserInfo(int id)
         {
             var response = new ResponseServiceModel<UserGetUserInfo>();
@@ -124,6 +130,7 @@ namespace API.Services.UserService
             return response;
         }
 
+        // Get all user
         public async Task<ResponseServiceModel<ICollection<UserListDTO>>> GetUserList()
         {
             var response = new ResponseServiceModel<ICollection<UserListDTO>>();
@@ -139,6 +146,7 @@ namespace API.Services.UserService
             return response;
         }
 
+        // User update their password
         public async Task<ResponseServiceModel<UserUpdatePasswordResponseDTO>> UpdatePassword(UserUpdatePasswordRequestDTO request, int userId)
         {
             var response = new ResponseServiceModel<UserUpdatePasswordResponseDTO>();

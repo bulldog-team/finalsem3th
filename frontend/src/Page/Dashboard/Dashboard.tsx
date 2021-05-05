@@ -13,6 +13,7 @@ import PackagePriceList from "../../Component/PackageList/PackagePriceList";
 import PackageList from "../../Component/PackageList/PackageList";
 import Search from "../Search/Search";
 
+// Dashboard Component
 const Dashboard: FC = () => {
   const [isSidebarOpen, SetIsSidebarOpen] = useState<boolean>(false);
 

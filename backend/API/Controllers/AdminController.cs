@@ -10,6 +10,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    // Admin Controller
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -19,6 +20,7 @@ namespace API.Controllers
         }
 
 
+        // Admin get User Information
         [Authorize(Roles = "Admin")]
         [HttpGet("info/{userId}")]
         public async Task<IActionResult> AdminGetUserInfo(int userId)
@@ -31,6 +33,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Admin aprrove User Information
         [Authorize(Roles = "Admin")]
         [HttpPatch("info/{userId}")]
         public async Task<IActionResult> AdminApproveUserInfo(int userId)
@@ -39,6 +42,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Admin create a new user
         [Authorize(Roles = "Admin")]
         [HttpPost("info")]
         public async Task<IActionResult> AdminCreateuser(AdminCreateUser userRequest)
@@ -51,6 +55,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Admin delete user information
         [Authorize(Roles = "Admin")]
         [HttpDelete("info/{userId}")]
         public async Task<IActionResult> AdminDeleteUser(int userId)
@@ -63,6 +68,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Admin update delivery type price list
         [Authorize(Roles = "Admin")]
         [HttpPatch("type")]
         public async Task<IActionResult> AdminUpdatePrice(List<UpdatePriceRequestDTO> request)
@@ -71,6 +77,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Admin get all delivery type price list
         [Authorize(Roles = "Admin")]
         [HttpGet("type")]
         public async Task<IActionResult> AdminGetPrice()

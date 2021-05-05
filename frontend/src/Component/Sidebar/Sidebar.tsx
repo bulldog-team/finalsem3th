@@ -9,6 +9,7 @@ interface SidebarProps {
   menu: MenuTypes[];
 }
 
+// Sidebar
 const Sidebar: FC<SidebarProps> = (props) => {
   const { menu } = props;
 

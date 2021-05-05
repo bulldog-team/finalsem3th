@@ -12,6 +12,7 @@ type UserListDataSource = UserListType & {
   userId: number;
 };
 
+// View all user in list
 const UserList = () => {
   const [userListData, setUserListData] = useState<UserListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);

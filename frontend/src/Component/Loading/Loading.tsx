@@ -1,5 +1,6 @@
 import { Spin } from "antd";
 
+// Loading component
 const Loading = () => {
   return (
     <div className="loading">
