@@ -15,6 +15,7 @@ type ExtendRouteProps = RedirectProps & {
   };
 };
 
+// Authenticate Page
 const AuthPage: FC<ExtendRouteProps> = (props) => {
   const { Title } = Typography;
 

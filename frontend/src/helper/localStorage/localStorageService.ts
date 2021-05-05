@@ -17,6 +17,7 @@ export interface ILocalStorageService {
   clearAll: () => void;
 }
 
+// Handle Local storage
 export const localStorageService: ILocalStorageService = {
   setUserData: (userData: IUserData) => {
     if (userData.username) {

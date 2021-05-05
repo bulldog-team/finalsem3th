@@ -31,8 +31,10 @@ namespace API.Services.AdminService
             _config = config;
         }
 
+        // Get UserId in JWT
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+        // Admin Update User Information
         public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminUpdateUserInfo(int userId)
         {
             var response = new ResponseServiceModel<AdminGetUserInfoDTO>();
@@ -60,6 +62,7 @@ namespace API.Services.AdminService
 
         }
 
+        // Admin get User Information
         public async Task<ResponseServiceModel<AdminGetUserInfoDTO>> AdminGetUserInfo(int userId)
         {
             var response = new ResponseServiceModel<AdminGetUserInfoDTO>();
@@ -87,6 +90,7 @@ namespace API.Services.AdminService
             return response;
         }
 
+        // Admin delete user information
         public async Task<ResponseServiceModel<DeleteUserDTO>> AdminDeleteUserInfo(int userId)
         {
             var response = new ResponseServiceModel<DeleteUserDTO>();
@@ -104,16 +108,19 @@ namespace API.Services.AdminService
             return response;
         }
 
+        // Check username exists or not
         public async Task<bool> UserExists(string username)
         {
             return await _context.UserModels.AnyAsync(c => c.Username == username);
         }
 
+        // Check email exists or not
         public async Task<bool> EmailExists(string email)
         {
             return await _context.UserModels.AnyAsync(c => c.Email == email);
         }
 
+        // Admin create a new user
         public async Task<ResponseServiceModel<AdminCreateUserResponse>> AdminCreateuser(AdminCreateUser userRequest)
         {
             var response = new ResponseServiceModel<AdminCreateUserResponse>();
@@ -182,6 +189,7 @@ namespace API.Services.AdminService
             return response;
         }
 
+        // Admin update delivery type price list
         public async Task<ResponseServiceModel<List<UpdatePriceRequestDTO>>> AdminUpdatePrice(List<UpdatePriceRequestDTO> request)
         {
             var response = new ResponseServiceModel<List<UpdatePriceRequestDTO>>();
@@ -201,6 +209,7 @@ namespace API.Services.AdminService
             return response;
         }
 
+        // Admin get all delivery type price list
         public async Task<ResponseServiceModel<List<GetPriceListDTO>>> AdminGetPriceList()
         {
             var response = new ResponseServiceModel<List<GetPriceListDTO>>();

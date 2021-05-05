@@ -19,6 +19,7 @@ interface ViewpackageInfoProps {
   setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 
+// View package
 const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
   const { Option } = Select;
   const [newPackageStatus, setNewPackageStatus] = useState<string>("");

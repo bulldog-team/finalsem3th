@@ -29,6 +29,7 @@ interface IChangePasswordForm {
   confirmPassword: string;
 }
 
+// User menu component
 const UserMenu: FC<UserMenuProps> = (props) => {
   const { id, index, icon, active, tabIndex, toggleRightMenu } = props;
 

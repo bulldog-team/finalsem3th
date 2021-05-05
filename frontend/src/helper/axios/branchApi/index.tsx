@@ -11,6 +11,7 @@ interface IBranchApi {
   getBranchData: () => Promise<AxiosResponse<BranchInfoType[]>>;
 }
 
+// Branch api
 const BranchApi: IBranchApi = {
   getBranchData: async () => {
     const url = `${process.env.REACT_APP_API_URL}/branch/info`;

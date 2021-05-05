@@ -67,6 +67,7 @@ const UserInfo = () => {
     },
   };
 
+  // Create new user
   const handleSubmitForm: SubmitHandler<UserInfoForm> = async (
     data: UserInfoForm
   ) => {

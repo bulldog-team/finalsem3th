@@ -13,6 +13,7 @@ const getRefreshToken = async (userData: IUserData): Promise<string | null> => {
   return null;
 };
 
+// handle axios interceptors
 axiosClient.interceptors.request.use(
   async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
     const acToken: string | null = localStorageService.getToken();

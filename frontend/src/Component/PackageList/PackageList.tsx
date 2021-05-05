@@ -12,6 +12,7 @@ type PackageListDataSource = PackageListType & {
   key: number;
 };
 
+// View all packages in list
 const PackageList = () => {
   const [packageList, setPackageList] = useState<PackageListDataSource[]>();
   const [isViewModalOpen, setIsViewModalOpen] = useState<boolean>(false);

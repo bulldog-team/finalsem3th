@@ -75,6 +75,7 @@ interface IPackageApi {
   ) => Promise<AxiosResponse<ICreatePackageFormRepsone>>;
 }
 
+// Package api
 const packageApi: IPackageApi = {
   getPriceList: () => {
     const url = `${process.env.REACT_APP_API_URL}/admin/type`;

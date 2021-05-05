@@ -19,6 +19,7 @@ interface IloginProps {
   setRedirectToReferrer: Dispatch<SetStateAction<boolean>>;
 }
 
+// Login Page
 const LoginPage: FC<IloginProps> = () => {
   const LoginSchema: yup.SchemaOf<ILoginForm> = yup.object({
     username: yup.string().required("This field is required"),

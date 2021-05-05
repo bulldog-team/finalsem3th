@@ -6,6 +6,7 @@ export interface IStepProps {
   current: string;
 }
 
+// Step component
 const DeliveryStep: FC<IStepProps> = (props) => {
   const { current } = props;
   const { Step } = Steps;

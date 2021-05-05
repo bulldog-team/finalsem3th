@@ -32,6 +32,7 @@ interface IField {
   defaultValue?: any;
 }
 
+// Custom input field
 const CustomField: FC<IField> = (propsField: IField) => {
   const {
     label,

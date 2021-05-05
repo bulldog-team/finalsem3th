@@ -19,6 +19,7 @@ export interface ICreateUserForm {
   email: string;
 }
 
+// Create a new user component
 const CreateUserModal: FC<CreateUserModalProps> = (props) => {
   const { isCreateModalOpen, setIsCreateModalOpen, setUpdate } = props;
 
@@ -58,7 +59,7 @@ const CreateUserModal: FC<CreateUserModalProps> = (props) => {
   ) => {
     console.log(typeof data);
     try {
-      const response = await UserApi.adminCreateUser(data);
+      await UserApi.adminCreateUser(data);
       setIsCreateModalOpen(false);
       setUpdate((pre) => !pre);
       reset();

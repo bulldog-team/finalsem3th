@@ -23,6 +23,7 @@ namespace API.Services.BranchService
             _config = config;
         }
 
+        // Get branch data
         public async Task<ResponseServiceModel<ICollection<BranchModel>>> GetBranchData()
         {
             var response = new ResponseServiceModel<ICollection<BranchModel>>();

@@ -3,6 +3,7 @@ using API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+// Data Context
 namespace BackEnd.Data
 {
     public class DataContext : DbContext

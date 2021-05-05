@@ -9,6 +9,7 @@ import packageApi, {
 import CustomField from "../Field/Field";
 import Heading from "../Heading/Heading";
 
+// Admin can edit the price for each delivery type
 const PackagePriceList = () => {
   const [listPrice, setListPrice] = useState<DeliveryType[]>([]);
 

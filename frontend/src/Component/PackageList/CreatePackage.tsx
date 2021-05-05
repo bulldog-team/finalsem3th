@@ -33,6 +33,7 @@ type DeliveryTypeOptions = {
   price: number;
 };
 
+// Create new package
 const CreatePackage: FC<NewPackageProps> = (props) => {
   const { isCreateModalOpen, setIsCreateModalOpen, setUpdate } = props;
 

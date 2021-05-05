@@ -34,8 +34,10 @@ namespace API.Services.PackageService
             _config = config;
         }
 
+        // Get UserId in JWT Token
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+        // Get distance from Google Maps Matrix API
         private int GetDistance(string original, string target)
         {
             try
@@ -62,6 +64,7 @@ namespace API.Services.PackageService
             }
         }
 
+        // Create a new package
         public async Task<ResponseServiceModel<InitPackageResponse>> InitPackage(InitPackageDTO request)
         {
             var response = new ResponseServiceModel<InitPackageResponse>();
@@ -127,6 +130,7 @@ namespace API.Services.PackageService
             return response;
         }
 
+        // Get all pakages in list
         public async Task<ResponseServiceModel<List<GetPackageListDTO>>> GetPackageList()
         {
             var response = new ResponseServiceModel<List<GetPackageListDTO>>();
@@ -145,6 +149,7 @@ namespace API.Services.PackageService
             return response;
         }
 
+        // Get all packages im list
         public async Task<ResponseServiceModel<UserGetPackageDTO>> UserGetPackageInfo(int packageId)
         {
             var response = new ResponseServiceModel<UserGetPackageDTO>();
@@ -180,6 +185,7 @@ namespace API.Services.PackageService
 
         }
 
+        // Get all delivery type
         public async Task<ResponseServiceModel<List<DeliveryTypeModel>>> GetDeliveryType()
         {
             var response = new ResponseServiceModel<List<DeliveryTypeModel>>();
@@ -188,6 +194,7 @@ namespace API.Services.PackageService
             return response;
         }
 
+        // User update package in details
         public async Task<ResponseServiceModel<string>> UserUpdatePackageStatus(int packageId, UserUpdatePackageStatus request)
         {
             var response = new ResponseServiceModel<string>();
@@ -220,6 +227,7 @@ namespace API.Services.PackageService
             return response;
         }
 
+        // Update payment status
         public async Task<ResponseServiceModel<string>> UserUpdatePaymentPackage(int packageId)
         {
             var response = new ResponseServiceModel<string>();
@@ -230,6 +238,7 @@ namespace API.Services.PackageService
 
         }
 
+        // Search package
         public ResponseServiceModel<ICollection<SearchingPackageResponseDTO>> SearchPackage(PackageResource request)
         {
             var response = new ResponseServiceModel<ICollection<SearchingPackageResponseDTO>>();

@@ -15,6 +15,8 @@ namespace API.Controllers
         {
             _branchService = branchService;
         }
+
+        // Get branch data
         [Authorize(Roles = "Admin, User")]
         [HttpGet("info")]
         public async Task<IActionResult> GetBranchData()

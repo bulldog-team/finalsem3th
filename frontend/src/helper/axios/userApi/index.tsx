@@ -77,6 +77,7 @@ interface IUserApi {
   ) => Promise<AxiosResponse<UpdatePasswordResponseType>>;
 }
 
+// User api
 const UserApi: IUserApi = {
   userUpdateUserInfo: async (form) => {
     const userId = localStorageService.getUserId();

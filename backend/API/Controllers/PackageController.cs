@@ -15,6 +15,8 @@ namespace API.Controllers
         {
             _packageService = packageService;
         }
+
+        // Create a new package
         [Authorize]
         [HttpPost("init")]
         public async Task<IActionResult> InitPackage(InitPackageDTO request)
@@ -27,6 +29,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Get all packages
         [Authorize]
         [HttpGet("init")]
         public async Task<IActionResult> GetPackageList()
@@ -35,6 +38,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Get package information base on packageId
         [Authorize]
         [HttpGet("info/{packageId}")]
         public async Task<IActionResult> UserGetPackageInfo(int packageId)
@@ -47,6 +51,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Update packge status
         [Authorize]
         [HttpPost("info/{packageId}")]
         public async Task<IActionResult> UserUpdatePackageStatus(UserUpdatePackageStatus request, int packageId)
@@ -55,6 +60,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Update payment status
         [Authorize]
         [HttpPut("info/{packageId}")]
         public async Task<IActionResult> UserUpdatePaymentPackage(int packageId)
@@ -63,6 +69,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Get all delivery type
         [Authorize]
         [HttpGet("delivery-type")]
         public async Task<IActionResult> GetDeliveryType()
@@ -71,6 +78,7 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        // Search packages
         [HttpGet("search")]
         public IActionResult Searching([FromQuery] PackageResource request)
         {

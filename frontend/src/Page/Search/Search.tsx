@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Button, Collapse, Divider, Form, List, Typography } from "antd";
+import { Button, Collapse, Form, List, Typography } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomField from "../../Component/Field/Field";
 import searchApi, { SearchResponse } from "../../helper/axios/searchApi";
@@ -11,6 +11,7 @@ export interface ISearchForm {
   pincode: string;
 }
 
+// Search Component
 const Search: FC = () => {
   const { Title } = Typography;
   const { Panel } = Collapse;
