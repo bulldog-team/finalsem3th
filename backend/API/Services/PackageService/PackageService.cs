@@ -286,5 +286,22 @@ namespace API.Services.PackageService
             }).ToList();
             return response;
         }
+
+        public async Task<ResponseServiceModel<string>> AdminDeletePackage(int packageId)
+        {
+            var response = new ResponseServiceModel<string>();
+            var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
+            if (package != null)
+            {
+                _context.PackageModels.Remove(package);
+                response.Data = "Ok";
+                await _context.SaveChangesAsync();
+                return response;
+            }
+            response.Success = false;
+            response.Message = "Something wrongs!";
+            return response;
+
+        }
     }
 }

@@ -73,6 +73,8 @@ interface IPackageApi {
   createPackage: (
     data: ICreatePackageForm
   ) => Promise<AxiosResponse<ICreatePackageFormRepsone>>;
+
+  adminDeletePackage: (packageId: number) => Promise<AxiosResponse<string>>;
 }
 
 // Package api
@@ -112,6 +114,11 @@ const packageApi: IPackageApi = {
   createPackage: (data) => {
     const url = `${process.env.REACT_APP_API_URL}/package/init`;
     return axiosClient.post(url, data);
+  },
+
+  adminDeletePackage: (packageId) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
+    return axiosClient.delete(url);
   },
 };
 

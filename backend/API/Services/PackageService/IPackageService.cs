@@ -18,6 +18,8 @@ namespace API.Services.PackageService
 
         Task<ResponseServiceModel<string>> UserUpdatePaymentPackage(int packageId);
 
+        Task<ResponseServiceModel<string>> AdminDeletePackage(int packageId);
+
         ResponseServiceModel<ICollection<SearchingPackageResponseDTO>> SearchPackage(PackageResource resource);
     }
 }

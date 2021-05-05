@@ -69,6 +69,18 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("info/{packageId}")]
+        public async Task<IActionResult> AdminDeletePackage(int packageId)
+        {
+            var response = await _packageService.AdminDeletePackage(packageId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
         // Get all delivery type
         [Authorize]
         [HttpGet("delivery-type")]

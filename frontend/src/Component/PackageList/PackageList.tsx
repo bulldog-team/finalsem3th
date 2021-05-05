@@ -1,5 +1,5 @@
 import { Button, message, Popconfirm, Row, Space, Table, Tooltip } from "antd";
-import { ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { ExportOutlined, PlusOutlined, RestOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
 import packageApi, { PackageListType } from "../../helper/axios/packageApi";
@@ -7,6 +7,7 @@ import Heading from "../Heading/Heading";
 import moment from "moment";
 import ViewPackageInfo from "./ViewPackageInfo";
 import CreatePackage from "./CreatePackage";
+import { localStorageService } from "../../helper/localStorage/localStorageService";
 
 type PackageListDataSource = PackageListType & {
   key: number;
@@ -20,7 +21,20 @@ const PackageList = () => {
   const [update, setUpdate] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
+  const getRole = localStorageService.getRole();
+  const isAdmin = getRole?.includes("Admin");
+
   const { Column } = Table;
+
+  const handleDeletePackage = async (record: PackageListDataSource) => {
+    try {
+      await packageApi.adminDeletePackage(record.packageId);
+      message.success("This package has been deleted succesfull");
+      setUpdate((pre) => !pre);
+    } catch (error) {
+      message.error(error.response.data, 5);
+    }
+  };
 
   useEffect(() => {
     const fetchDaTa = async () => {
@@ -133,6 +147,16 @@ const PackageList = () => {
                         }}
                       />
                     </Tooltip>
+                    {isAdmin && (
+                      <Tooltip title="Delete">
+                        <Popconfirm
+                          title="Are you sure to delete this user?"
+                          onConfirm={() => handleDeletePackage(record)}
+                        >
+                          <RestOutlined className="ant-icon icon-danger userList__btn" />
+                        </Popconfirm>
+                      </Tooltip>
+                    )}
                   </Space>
                 );
               }}
