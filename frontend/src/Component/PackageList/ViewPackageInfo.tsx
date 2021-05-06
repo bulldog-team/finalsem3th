@@ -22,22 +22,25 @@ interface ViewpackageInfoProps {
 // View package
 const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
   const { Option } = Select;
+  const { isViewModalOpen, setIsViewModalOpen, packageId, setUpdate } = props;
   const [newPackageStatus, setNewPackageStatus] = useState<string>("");
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-
-  const { isViewModalOpen, setIsViewModalOpen, packageId, setUpdate } = props;
+  const [paymentType, setPaymentType] = useState<string>("Paypal");
 
   const [packageInfo, setPackageInfo] = useState<PackageInfo>();
 
   const handleOk = async () => {
-    console.log(newPackageStatus);
-    console.log(packageId);
-    const data: UserUpdateStatusType = {
-      txtStatus: newPackageStatus,
-    };
-    const response = await packageApi.userUpdatePackageStatus(packageId, data);
+    if (packageInfo?.isPaid === true) {
+      const data: UserUpdateStatusType = {
+        txtStatus: newPackageStatus,
+      };
+      await packageApi.userUpdatePackageStatus(packageId, data);
+    }
+    if (paymentType === "Cash") {
+      const response = await packageApi.userUpdateCashPayment(packageId);
+      console.log(response);
+    }
     setIsViewModalOpen(false);
-    console.log(response);
   };
 
   const handleCancel = () => {
@@ -97,15 +100,23 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
         <Descriptions.Item label="Receiver's address">
           {packageInfo?.receiveAddress}
         </Descriptions.Item>
-        <Descriptions.Item label="Package status">
-          {packageInfo?.status}
+        <Descriptions.Item label="Price">
+          {packageInfo?.totalPrice}
         </Descriptions.Item>
         <Descriptions.Item label="Pin code">
           {packageInfo?.pincode}
         </Descriptions.Item>
 
-        <Descriptions.Item label="Price">
-          {packageInfo?.totalPrice}
+        <Descriptions.Item label="Payment Type">
+          <Select
+            value={paymentType}
+            style={{ width: 120 }}
+            disabled={packageInfo.isPaid}
+            onChange={(value) => setPaymentType(value)}
+          >
+            <Option value="Cash">Cash</Option>
+            <Option value="Paypal">Paypal</Option>
+          </Select>
         </Descriptions.Item>
         <Descriptions.Item label="Payment Status">
           {packageInfo?.isPaid ? "Paid" : "Not yet"}
@@ -114,7 +125,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           <Select
             value={newPackageStatus}
             style={{ width: 120 }}
-            disabled={!isUpdate}
+            disabled={!packageInfo.isPaid}
             onChange={(value) => {
               setNewPackageStatus(value);
             }}
@@ -125,7 +136,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
           </Select>
         </Descriptions.Item>
         <Descriptions.Item label="">
-          {packageInfo && !packageInfo.isPaid && (
+          {packageInfo && !packageInfo.isPaid && paymentType === "Paypal" && (
             <PayPalButton
               amount={packageInfo.totalPrice}
               shippingPreference="NO_SHIPPING"

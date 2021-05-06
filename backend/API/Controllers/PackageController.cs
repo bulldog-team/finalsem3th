@@ -60,6 +60,18 @@ namespace API.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPut("payment/{packageId}")]
+        public async Task<IActionResult> UserUpdateCashPayment(int packageId)
+        {
+            var response = await _packageService.UserUpdateCashPayment(packageId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
         // Update payment status
         [Authorize]
         [HttpPut("info/{packageId}")]
@@ -67,6 +79,30 @@ namespace API.Controllers
         {
             var response = await _packageService.UserUpdatePaymentPackage(packageId);
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPatch("info/{packageId}")]
+        public async Task<IActionResult> UserUpdatePackageInfo(int packageId, InitPackageDTO request)
+        {
+            var response = await _packageService.UserUpdatePackageInfo(packageId, request);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("info/{packageId}")]
+        public async Task<IActionResult> AdminDeletePackage(int packageId)
+        {
+            var response = await _packageService.AdminDeletePackage(packageId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
         }
 
         // Get all delivery type

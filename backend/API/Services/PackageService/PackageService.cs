@@ -143,13 +143,14 @@ namespace API.Services.PackageService
                 ReceiveName = c.ReceiveName,
                 SenderName = c.SenderName,
                 TotalPrice = c.TotalPrice,
-                Type = c.DeliveryType.TypeName
+                Type = c.DeliveryType.TypeName,
+                PackageStatus = c.PackageStatus.Status
             }).ToListAsync();
             response.Data = packageList;
             return response;
         }
 
-        // Get all packages im list
+        // Get package information in details
         public async Task<ResponseServiceModel<UserGetPackageDTO>> UserGetPackageInfo(int packageId)
         {
             var response = new ResponseServiceModel<UserGetPackageDTO>();
@@ -169,7 +170,7 @@ namespace API.Services.PackageService
                 SenderName = c.SenderName,
                 Status = c.PackageStatus.Status,
                 TotalPrice = c.TotalPrice,
-                Weight = c.Weight
+                Weight = c.Weight,
 
             }).FirstOrDefaultAsync(c => c.PackageId == packageId);
 
@@ -285,6 +286,94 @@ namespace API.Services.PackageService
                 UserId = c.UserId
             }).ToList();
             return response;
+        }
+
+        public async Task<ResponseServiceModel<string>> AdminDeletePackage(int packageId)
+        {
+            var response = new ResponseServiceModel<string>();
+            var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
+            if (package != null)
+            {
+                _context.PackageModels.Remove(package);
+                response.Data = "Ok";
+                await _context.SaveChangesAsync();
+                return response;
+            }
+            response.Success = false;
+            response.Message = "Something wrongs!";
+            return response;
+
+        }
+
+        public async Task<ResponseServiceModel<string>> UserUpdatePackageInfo(int packageId, InitPackageDTO request)
+        {
+            var response = new ResponseServiceModel<string>();
+            var package = await _context.PackageModels.Include(c => c.PackageStatus).FirstOrDefaultAsync(c => c.PackageId == packageId);
+            var userId = GetUserId();
+            var deliveryType = await _context.DeliveryTypeModels.FirstOrDefaultAsync(c => c.TypeName == request.DeliveryType);
+
+            var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (package.PackageStatus.Status == "Sending" || package.PackageStatus.Status == "Received")
+            {
+                response.Success = false;
+                response.Message = "Something wrongs!";
+                return response;
+            }
+
+            if (package != null && user != null && deliveryType != null)
+            {
+                package.DateSent = request.DateSent;
+                package.SenderName = request.SenderName;
+                package.SenderAddress = request.SenderAddress;
+                package.ReceiveAddress = request.ReceiveAddress;
+                package.ReceiveName = request.ReceiveName;
+                package.DeliveryType = deliveryType;
+                package.Pincode = request.Pincode;
+                package.Weight = request.Weight;
+                try
+                {
+                    var distance = GetDistance(request.SenderAddress, request.ReceiveAddress);
+                    if (distance == -1) throw new ArgumentException("Error");
+                    package.Distance = distance;
+                    package.TotalPrice = Convert.ToInt32((distance * deliveryType.UnitPrice + package.Weight * deliveryType.UnitPrice * 2
+                    ) / 1000);
+                }
+                catch (Exception ex)
+                {
+                    response.Message = "Someting wrongs!" + ex.Message;
+                    response.Success = false;
+                    return response;
+                }
+
+                await _context.SaveChangesAsync();
+                response.Data = "Ok";
+                return (response);
+            }
+            response.Success = false;
+            response.Message = "Something wrongs!";
+            return (response);
+        }
+
+        public async Task<ResponseServiceModel<string>> UserUpdateCashPayment(int packageId)
+        {
+            var response = new ResponseServiceModel<string>();
+            var package = await _context.PackageModels.FirstOrDefaultAsync(c => c.PackageId == packageId);
+            package.IsPaid = true;
+
+            if (package != null)
+            {
+                var userId = GetUserId();
+                var user = await _context.UserModels.FirstOrDefaultAsync(c => c.UserId == userId);
+                package.User = user;
+                await _context.SaveChangesAsync();
+                response.Data = "Ok";
+                return response;
+            }
+            response.Success = false;
+            response.Message = "Something wrongs!";
+            return response;
+
         }
     }
 }

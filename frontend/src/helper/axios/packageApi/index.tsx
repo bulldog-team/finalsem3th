@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 
 import axiosClient from "../axiosClient";
 import { ICreatePackageForm } from "../../../Component/PackageList/CreatePackage";
+import { IEditForm } from "../../../Component/PackageList/EditPackage";
 
 export type DeliveryType = {
   typeId: number;
@@ -22,6 +23,7 @@ export type PackageListType = {
   totalPrice: number;
   isPaid: boolean;
   type: string;
+  packageStatus: string;
 };
 
 export type PackageInfo = {
@@ -70,9 +72,18 @@ interface IPackageApi {
 
   userUpdatePayment: (packageId: number) => Promise<AxiosResponse<string>>;
 
+  userUpdatePackageInfo: (
+    packageId: number,
+    request: IEditForm
+  ) => Promise<AxiosResponse<string>>;
+
+  userUpdateCashPayment: (packageId: number) => Promise<AxiosResponse<string>>;
+
   createPackage: (
     data: ICreatePackageForm
   ) => Promise<AxiosResponse<ICreatePackageFormRepsone>>;
+
+  adminDeletePackage: (packageId: number) => Promise<AxiosResponse<string>>;
 }
 
 // Package api
@@ -109,9 +120,23 @@ const packageApi: IPackageApi = {
     return axiosClient.put(url);
   },
 
+  userUpdatePackageInfo: (packageId, request) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
+    return axiosClient.patch(url, request);
+  },
+  userUpdateCashPayment: (packageId) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/payment/${packageId}`;
+    return axiosClient.put(url);
+  },
+
   createPackage: (data) => {
     const url = `${process.env.REACT_APP_API_URL}/package/init`;
     return axiosClient.post(url, data);
+  },
+
+  adminDeletePackage: (packageId) => {
+    const url = `${process.env.REACT_APP_API_URL}/package/info/${packageId}`;
+    return axiosClient.delete(url);
   },
 };
 
