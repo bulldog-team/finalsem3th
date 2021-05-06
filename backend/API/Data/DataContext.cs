@@ -76,7 +76,8 @@ namespace BackEnd.Data
                     Gender = GenderType.Male,
                     UserId = 1,
                     Dob = new DateTime(1963, 10, 14),
-                    ImgName = "default_img.png"
+                    ImgName = "default_img.png",
+                    IsAdminAccept = true
                 },
                 new UserInfo
                 {

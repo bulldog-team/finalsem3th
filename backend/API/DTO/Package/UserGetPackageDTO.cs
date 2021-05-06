@@ -16,6 +16,8 @@ namespace API.DTO.Package
         public DateTime DateSent { get; set; }
         public Nullable<DateTime> DateReceived { get; set; } = null;
 
+        public string paymentType { get; set; }
+
         public int TotalPrice { get; set; }
         public int Distance { get; set; }
 

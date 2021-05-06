@@ -6,4 +6,8 @@
   &__btn:hover {
     cursor: pointer;
   }
+
+  &__btn--disable :hover {
+    cursor: not-allowed;
+  }
 }

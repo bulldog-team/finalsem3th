@@ -14,6 +14,7 @@ namespace API.DTO.Package
         public bool IsPaid { get; set; }
 
         public string Type { get; set; }
+        public string PackageStatus { get; set; }
 
     }
 }

@@ -1,5 +1,10 @@
 import { Button, message, Popconfirm, Row, Space, Table, Tooltip } from "antd";
-import { ExportOutlined, PlusOutlined, RestOutlined } from "@ant-design/icons";
+import {
+  ExportOutlined,
+  PlusOutlined,
+  RestOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
 import packageApi, { PackageListType } from "../../helper/axios/packageApi";
@@ -8,6 +13,7 @@ import moment from "moment";
 import ViewPackageInfo from "./ViewPackageInfo";
 import CreatePackage from "./CreatePackage";
 import { localStorageService } from "../../helper/localStorage/localStorageService";
+import EditPackageModal from "./EditPackage";
 
 type PackageListDataSource = PackageListType & {
   key: number;
@@ -20,6 +26,7 @@ const PackageList = () => {
   const [packageId, setPackageId] = useState<number>();
   const [update, setUpdate] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [isEditModal, setIsEditModal] = useState<boolean>();
 
   const getRole = localStorageService.getRole();
   const isAdmin = getRole?.includes("Admin");
@@ -55,6 +62,14 @@ const PackageList = () => {
 
   return (
     <>
+      {isEditModal && packageId && (
+        <EditPackageModal
+          isEditModal={isEditModal}
+          packageId={packageId}
+          setIsEditModal={setIsEditModal}
+          setUpdate={setUpdate}
+        />
+      )}
       {isViewModalOpen && packageId && (
         <ViewPackageInfo
           isViewModalOpen={isViewModalOpen}
@@ -138,7 +153,25 @@ const PackageList = () => {
               render={(_, record: PackageListDataSource) => {
                 return (
                   <Space size="middle">
-                    <Tooltip title="View">
+                    {record.packageStatus === "Picked up" ? (
+                      <Tooltip title="Edit">
+                        <EditOutlined
+                          className="ant-icon icon-warning packageList__btn"
+                          onClick={() => {
+                            setIsEditModal(true);
+                            setPackageId(record.packageId);
+                            console.log(record.packageStatus);
+                          }}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <EditOutlined
+                        className="ant-icon icon-disable packageList__btn--disable"
+                        disabled
+                      />
+                    )}
+
+                    <Tooltip title="Payment">
                       <ExportOutlined
                         className="ant-icon icon-primary packageList__btn"
                         onClick={() => {
