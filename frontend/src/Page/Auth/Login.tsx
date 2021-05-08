@@ -1,4 +1,4 @@
-import { Button, Form, message } from "antd";
+import { Button, Form, message, Row } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,6 +9,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 import CustomField from "../../Component/Field/Field";
 import * as actionCreator from "../../store/action/index";
 import { AppState } from "../../store/store";
+import { Link } from "react-router-dom";
 
 type ILoginForm = {
   username: string;
@@ -87,6 +88,9 @@ const LoginPage: FC<IloginProps> = () => {
           Login
         </Button>
       </Form>
+      <Row justify="center">
+        <Link to="/search">Switch to Search Page</Link>
+      </Row>
     </div>
   );
 };
