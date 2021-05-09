@@ -40,6 +40,7 @@ const ViewPackageInfo: FC<ViewpackageInfoProps> = (props) => {
       const response = await packageApi.userUpdateCashPayment(packageId);
       console.log(response);
     }
+    setUpdate((pre) => !pre);
     setIsViewModalOpen(false);
   };
 
