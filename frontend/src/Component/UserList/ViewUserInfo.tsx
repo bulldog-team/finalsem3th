@@ -1,4 +1,4 @@
-import { Button, Col, Descriptions, Image, Modal, Row } from "antd";
+import { Button, Descriptions, Image, Modal, Row } from "antd";
 import moment from "moment";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import UserApi, { UserInfoType } from "../../helper/axios/userApi";
